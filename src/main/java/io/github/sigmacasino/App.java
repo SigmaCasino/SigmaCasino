@@ -1,11 +1,12 @@
 package io.github.sigmacasino;
 
-/**
- * Hello world!
- *
- */
+import static spark.Spark.get;
+import static spark.Spark.port;
+
 public class App {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        port(6969);
+
+        get("/", (request, response) -> "Hello World!");
     }
 }
