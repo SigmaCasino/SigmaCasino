@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Afacad Flux", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: "slnt" 0;
+}
+
+:root{
+    --color-action: #b91c1c;
+    --color-action-2: #db2777;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem;
+    padding-bottom: 10rem;
+}
+
+.header-shadow{
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 40%, transparent);
+}
+
+.logo-container{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-container:hover .logo{
+    transform: rotate(-10deg) translateY(-4px);
+}
+
+.logo{
+    height: 40px;
+    width: 40px;
+    transition: transform 0.2s;
+}
+
+header ul{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+header li{
+    list-style: none;
+    display: inline;
+    font-size: 20px;
+}
+
+.button-action{
+    border: solid 2px var(--color-action);
+    color: var(--color-action);
+    font-weight: 900;
+    background: -webkit-linear-gradient(var(--color-action), var(--color-action-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+    border-radius: 16px;
+}
+
+header .button-action{
+    padding: 8px 24px;
+    white-space: nowrap;
+}
+
+.button-action-full{
+    border: solid 2px white;
+    background: linear-gradient(to right, var(--color-action), var(--color-action-2));
+    color: white;
+    border-radius: 16px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.main-button{
+    font-size: 40px;
+    padding: 8px 24px;
+}
+
+.text-action{
+    background: -webkit-linear-gradient(var(--color-action), var(--color-action-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+}

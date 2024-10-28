@@ -1,0 +1,68 @@
+.main-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 200px;
+    position: relative;
+}
+
+h2{
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 20;
+}
+
+.roulette-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.spin-button{
+    position: relative;
+    border-radius: 10px;
+    font-weight: bold;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: auto 2px;
+    cursor: pointer;
+}
+.spin-button-enabled{
+    background-color: #4CAF50;
+}
+.spin-button-disabled{
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+.roulette{
+    transition: transform 5s;
+}
+
+.pointer-2{
+    position: absolute;
+    top: 40px; 
+    width: 40px; 
+    height: 30px; 
+    background-color: rgb(71, 66, 66); 
+    left: 50%; 
+    transform: translateX(-50%);
+    clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+}
+.pointer{
+    position: absolute;
+    top: 40px; 
+    width: 44px; 
+    height: 34px; 
+    background-color: white; 
+    left: 50%; 
+    transform: translateX(-50%);
+    clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+}
