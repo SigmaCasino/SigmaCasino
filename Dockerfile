@@ -19,8 +19,9 @@ COPY --from=overmind /overmind/overmind /sigmacasino/overmind
 COPY Procfile /sigmacasino/Procfile
 RUN apk add --no-cache \
     bash \
-    openjdk17 \
+    openjdk17-jre-headless \
     tmux
 VOLUME /sigmacasino/db
 EXPOSE 5432 6969
-CMD ["/sigmacasino/overmind", "start"]
+WORKDIR /sigmacasino
+CMD ["./overmind", "start"]
