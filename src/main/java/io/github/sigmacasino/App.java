@@ -4,13 +4,19 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Spark;
 
 public class App {
     private static final String[] MAIN_ROUTES = { "index", "games", "login", "register" };
     private static final String[] GAMES_ROUTES = { "horse_racing", "roulette" };
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    private LocalDatabase db;
+
     private void run() {
+        db = new LocalDatabase(5_432, "sigmacasino", System.getenv("POSTGRES_PASSWORD"), "sigmacasino");
         initializeSpark();
         addMainHTMLRoutes();
     }
@@ -33,18 +39,19 @@ public class App {
         for (var route : routes) {
             String path = "/" + pathPrefix + route;
             Spark.get(path, (req, res) -> {
-                String html = loadFileContentsFromResources("/templates" + path + ".html");
+                String html = readResource("templates" + path + ".html");
                 res.type("text/html");
                 return html;
             });
         }
     }
 
-    public static String loadFileContentsFromResources(String fileName) {
-        InputStream inputStream = App.class.getResourceAsStream(fileName);
+    public String readResource(String fileName) {
+        InputStream inputStream = getClass().getResourceAsStream("/" + fileName);
 
         if (inputStream == null) {
-            throw new RuntimeException("Wrong resource path!");
+            logger.error("Failed to read resource file: {}", fileName);
+            return "";
         }
 
         Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name());
