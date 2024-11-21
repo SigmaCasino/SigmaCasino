@@ -3,7 +3,6 @@ package io.github.sigmacasino;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Spark;
@@ -17,6 +16,7 @@ public class App {
 
     private void run() {
         db = new LocalDatabase(5_432, "sigmacasino", System.getenv("POSTGRES_PASSWORD"), "sigmacasino");
+        db.runScript(readResource("database_init.sql"));
         initializeSpark();
         addMainHTMLRoutes();
     }
@@ -60,7 +60,12 @@ public class App {
         return html;
     }
 
+    public LocalDatabase getDatabase() {
+        return db;
+    }
+
     public static void main(String[] args) {
+        Thread.currentThread().setName("Main thread");
         new App().run();
     }
 }

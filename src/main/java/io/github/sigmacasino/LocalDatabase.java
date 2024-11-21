@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,18 +42,32 @@ public class LocalDatabase implements AutoCloseable {
     }
 
     private void connect(String password) {
-        try {
-            String url = String.format("jdbc:postgresql://localhost:%d/%s", port, database);
-            Properties props = new Properties();
-            props.setProperty("user", user);
-            props.setProperty("password", password);
-            props.setProperty("ssl", "true");
-            connection = DriverManager.getConnection(url, props);
-            logger.info("Successfully connected to {}.", url);
-        } catch (SQLException ex) {
-            logger.error(
-                "Failed to connect to the PostgreSQL database! Using mock adapter, no queries will succeed.", ex
-            );
+        String url = String.format("jdbc:postgresql://localhost:%d/%s", port, database);
+        Properties props = new Properties();
+        props.setProperty("user", user);
+        props.setProperty("password", password);
+
+        int retries = 5;
+        int backoff = 1;
+        SQLException lastException = null;
+        while (connection == null && retries-- > 0) {
+            try {
+                connection = DriverManager.getConnection(url, props);
+            } catch (SQLException ex) {
+                logger.warn("Failed to connect to the PostgreSQL database! Retrying in {}s.", backoff);
+                lastException = ex;
+            }
+            try {
+                Thread.sleep(backoff * 1000L);
+            } catch (InterruptedException ex) {
+                break;
+            }
+            backoff *= 2;
+        }
+        if (connection != null) {
+            logger.info("Successfully connected to {}", url);
+        } else {
+            logger.error("Failed to connect to the PostgreSQL database! No queries will succeed.", lastException);
         }
     }
 
@@ -70,7 +85,33 @@ public class LocalDatabase implements AutoCloseable {
     }
 
     public void runScript(String script) {
-        // TODO
+        var lines = script.split("\n");
+        var currentQuery = new StringBuilder();
+        var queries = new ArrayList<String>();
+        for (var line : lines) {
+            int comment = line.indexOf("--");
+            if (comment != -1) {
+                line = line.substring(0, comment);
+            }
+            line = line.trim();
+            currentQuery.append(' ');
+            currentQuery.append(line);
+            if (line.endsWith(";")) {
+                var s = currentQuery.toString().trim();
+                queries.add(s);
+                logger.debug("Adding query to batch statement: {}", s);
+                currentQuery = new StringBuilder();
+            }
+        }
+        try (var stmt = connection.createStatement()) {
+            for (var query : queries) {
+                stmt.addBatch(query);
+            }
+            stmt.executeBatch();
+            logger.info("Database script was run successfully.");
+        } catch (SQLException ex) {
+            logger.error("Failed to run query: {}", currentQuery, ex);
+        }
     }
 
     @Override
