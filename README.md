@@ -37,3 +37,30 @@ $ mvn exec:java
 - Username: *sigmacasino*
 - Database: *sigmacasino*
 - Password: whatever you want, but it has to be exported as an environment variable named `POSTGRES_PASSWORD`
+
+## Deploying on [*fly.io*](https://fly.io)
+
+- First, create a new app:
+```sh
+$ fly launch --no-deploy
+```
+
+- Add a necessary secret:
+```sh
+$ fly secrets set POSTGRES_PASSWORD=<password>
+```
+
+- Allocate an IP address:
+```sh
+$ fly ips allocate-v4 --shared
+```
+
+- And finally, create a new release:
+```sh
+$ fly deploy
+```
+
+- To manage the database manually, you can use:
+```sh
+$ fly ssh console --pty -C "psql -U sigmacasino"
+```

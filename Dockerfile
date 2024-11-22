@@ -13,7 +13,7 @@ RUN go build -o overmind
 FROM postgres:17-alpine
 ENV POSTGRES_DB=sigmacasino
 ENV POSTGRES_USER=sigmacasino
-ENV PGDATA=/sigmacasino/db
+ENV PGDATA=/sigmacasino/db/data
 COPY --from=maven /sigmacasino/target/sigmacasino.jar /sigmacasino/sigmacasino.jar
 COPY --from=overmind /overmind/overmind /sigmacasino/overmind
 COPY Procfile /sigmacasino/Procfile
@@ -24,4 +24,5 @@ RUN apk add --no-cache \
 VOLUME /sigmacasino/db
 EXPOSE 5432 6969
 WORKDIR /sigmacasino
-CMD ["./overmind", "start"]
+USER root
+CMD ["bash", "-c", "mkdir -p /sigmacasino/db/data && chown -R postgres:postgres /sigmacasino/db && ./overmind start"]

@@ -1,0 +1,23 @@
+app = 'sigmacasino'
+primary_region = 'waw'
+
+kill_timeout = 30
+
+[[mounts]]
+  source = 'db'
+  destination = '/sigmacasino/db'
+  initial_size = "1GB"
+
+[http_service]
+  internal_port = 6969
+  force_https = true
+  checks = []
+
+[[vm]]
+  size = 'shared-cpu-1x'
+  cpus = 1
+  memory = "256MB"
+
+[[restart]]
+  policy = "on-failure"
+  retries = 3
