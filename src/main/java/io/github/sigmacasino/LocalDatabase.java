@@ -85,6 +85,10 @@ public class LocalDatabase implements AutoCloseable {
     }
 
     public void runScript(String script) {
+        if (connection == null) {
+            logger.warn("Cannot run the SQL script, because there is no database connection.");
+            return;
+        }
         var lines = script.split("\n");
         var currentQuery = new StringBuilder();
         var queries = new ArrayList<String>();
