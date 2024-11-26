@@ -44,7 +44,13 @@
       <artifactId>jinjava</artifactId>
       <version>2.7.3</version>
     </dependency>
+    <dependency>
+      <groupId>com.stripe</groupId>
+      <artifactId>stripe-java</artifactId>
+      <version>28.1.0</version>
+    </dependency>
   </dependencies>
+
 
   <build>
     <finalName>sigmacasino</finalName>

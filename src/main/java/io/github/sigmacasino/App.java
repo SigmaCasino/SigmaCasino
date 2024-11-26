@@ -1,6 +1,7 @@
 package io.github.sigmacasino;
 
 import com.hubspot.jinjava.Jinjava;
+import com.stripe.Stripe;
 import io.github.sigmacasino.routes.*;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -15,6 +16,9 @@ public class App {
     private HTTPRoute[] routes = {
         new Root(this),
         new Index(this),
+        new StripeDeposit(this),
+        new StripeResult(this),
+        new StripeCheckout(this)
     };
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -25,6 +29,7 @@ public class App {
     private void run() {
         initializeDatabase();
         initializeSpark();
+        initializeStripe();
         addRoutes();
     }
 
@@ -41,6 +46,10 @@ public class App {
     private void initializeSpark() {
         Spark.staticFiles.location("/static");
         Spark.port(6_969);
+    }
+
+    private void initializeStripe() {
+        Stripe.apiKey = System.getenv("STRIPE_KEY");
     }
 
     private void addRoutes() {
