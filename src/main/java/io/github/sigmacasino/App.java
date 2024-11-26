@@ -11,9 +11,7 @@ import org.slf4j.LoggerFactory;
 import spark.Spark;
 
 public class App {
-    // private static final String[] MAIN_ROUTES = { "index", "games", "login", "register" };
-    // private static final String[] GAMES_ROUTES = { "horse_racing", "roulette" };
-    private String domain = System.getenv("FLY_PUBLIC_IP");
+    private String domain = System.getenv("PUBLIC_IP");
     private int port = 6969;
 
     private HTTPRoute[] routes = {

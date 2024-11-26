@@ -3,6 +3,9 @@ primary_region = 'waw'
 
 kill_timeout = 30
 
+[env]
+  PUBLIC_IP = 'sigmacasino.fly.dev'
+
 [[mounts]]
   source = 'db'
   destination = '/sigmacasino/db'
