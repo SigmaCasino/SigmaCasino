@@ -13,12 +13,11 @@ public class StripeDeposit extends PostRoute {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        String YOUR_DOMAIN = "http://localhost:6969";
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .setSuccessUrl(YOUR_DOMAIN + "/stripe_result?success=true")
-                        .setCancelUrl(YOUR_DOMAIN + "/stripe_result?success=false")
+                        .setSuccessUrl(app.getDomain() + "/stripe_result?success=true")
+                        .setCancelUrl(app.getDomain() + "/stripe_result?success=false")
                         .addLineItem(
                                 SessionCreateParams.LineItem.builder()
                                         .setQuantity(2L)

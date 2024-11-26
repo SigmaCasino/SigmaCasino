@@ -13,6 +13,9 @@ import spark.Spark;
 public class App {
     // private static final String[] MAIN_ROUTES = { "index", "games", "login", "register" };
     // private static final String[] GAMES_ROUTES = { "horse_racing", "roulette" };
+    private String domain = System.getenv("FLY_PUBLIC_IP");
+    private int port = 6969;
+
     private HTTPRoute[] routes = {
         new Root(this),
         new Index(this),
@@ -45,11 +48,14 @@ public class App {
 
     private void initializeSpark() {
         Spark.staticFiles.location("/static");
-        Spark.port(6_969);
+        Spark.port(port);
     }
 
     private void initializeStripe() {
         Stripe.apiKey = System.getenv("STRIPE_KEY");
+        if (domain == null) {
+            domain = "localhost:" + port;
+        }
     }
 
     private void addRoutes() {
@@ -79,6 +85,10 @@ public class App {
 
     public Jinjava getJinjava() {
         return jinjava;
+    }
+
+    public String getDomain() {
+        return "http://" + domain;
     }
 
     public static void main(String[] args) {
