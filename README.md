@@ -14,7 +14,7 @@ $ docker build . -t sigmacasino
 
 - Run with exposed ports:
 ```sh
-$ docker run -e POSTGRES_PASSWORD=<password> -it -p 5432:5432 -p 6969:6969 sigmacasino
+$ docker run -e POSTGRES_PASSWORD=<password> -e STRIPE_KEY=<key> -it -p 5432:5432 -p 6969:6969 sigmacasino
 ```
 
 - Go to http://localhost:6969/ in your browser to try the casino out.
@@ -28,6 +28,7 @@ $ psql -U sigmacasino -h localhost -p 5432
 
 ### With Maven
 You can run just the backend part of the project by utilizing Maven exec plugin.
+This assumes you've already set the environment variables: `POSTGRES_PASSWORD` and `STRIPE_KEY`.
 
 ```sh
 $ mvn exec:java
@@ -36,7 +37,7 @@ $ mvn exec:java
 **REMEMBER**: You also have to run a PostgreSQL server in the background with the following parameters:
 - Username: *sigmacasino*
 - Database: *sigmacasino*
-- Password: whatever you want, but it has to be exported as an environment variable named `POSTGRES_PASSWORD`
+- Password: whatever you want, but it has to be matching `POSTGRES_PASSWORD`
 
 ## Deploying on [*fly.io*](https://fly.io)
 
@@ -45,9 +46,10 @@ $ mvn exec:java
 $ fly launch --no-deploy
 ```
 
-- Add a necessary secret:
+- Add necessary secrets:
 ```sh
 $ fly secrets set POSTGRES_PASSWORD=<password>
+$ fly secrets set STRIPE_KEY=<key>
 ```
 
 - Allocate an IP address:

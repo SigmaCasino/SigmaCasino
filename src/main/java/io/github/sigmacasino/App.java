@@ -1,6 +1,7 @@
 package io.github.sigmacasino;
 
 import com.hubspot.jinjava.Jinjava;
+import com.stripe.Stripe;
 import io.github.sigmacasino.routes.*;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -10,11 +11,15 @@ import org.slf4j.LoggerFactory;
 import spark.Spark;
 
 public class App {
-    // private static final String[] MAIN_ROUTES = { "index", "games", "login", "register" };
-    // private static final String[] GAMES_ROUTES = { "horse_racing", "roulette" };
+    private String domain = System.getenv("PUBLIC_IP");
+    private int port = 6969;
+
     private HTTPRoute[] routes = {
         new Root(this),
         new Index(this),
+        new StripeDeposit(this),
+        new StripeResult(this),
+        new StripeCheckout(this)
     };
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -25,6 +30,7 @@ public class App {
     private void run() {
         initializeDatabase();
         initializeSpark();
+        initializeStripe();
         addRoutes();
     }
 
@@ -40,7 +46,18 @@ public class App {
 
     private void initializeSpark() {
         Spark.staticFiles.location("/static");
-        Spark.port(6_969);
+        Spark.port(port);
+    }
+
+    /**
+     * Initializes the Stripe API with the secret key generated in the Dashboard.
+     * Also ensures that domain is set to a valid value for the Stripe API.
+     */
+    private void initializeStripe() {
+        Stripe.apiKey = System.getenv("STRIPE_KEY");
+        if (domain == null) {
+            domain = "localhost:" + port;
+        }
     }
 
     private void addRoutes() {
@@ -70,6 +87,10 @@ public class App {
 
     public Jinjava getJinjava() {
         return jinjava;
+    }
+
+    public String getDomain() {
+        return "http://" + domain;
     }
 
     public static void main(String[] args) {
