@@ -49,6 +49,10 @@ public class App {
         Spark.port(port);
     }
 
+    /**
+     * Initializes the Stripe API with the secret key generated in the Dashboard.
+     * Also ensures that domain is set to a valid value for the Stripe API.
+     */
     private void initializeStripe() {
         Stripe.apiKey = System.getenv("STRIPE_KEY");
         if (domain == null) {
