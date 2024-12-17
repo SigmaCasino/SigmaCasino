@@ -6,6 +6,9 @@ import io.github.sigmacasino.routes.*;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+
+import io.github.sigmacasino.routes.account.StripeDeposit;
+import io.github.sigmacasino.routes.account.StripeResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Spark;
