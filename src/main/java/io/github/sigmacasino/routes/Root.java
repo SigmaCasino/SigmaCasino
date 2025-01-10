@@ -2,8 +2,6 @@ package io.github.sigmacasino.routes;
 
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.HTMLTemplateRoute;
-
-import java.util.HashMap;
 import java.util.Map;
 import spark.Request;
 
@@ -19,6 +17,6 @@ public class Root extends HTMLTemplateRoute {
 
     @Override
     public Map<String, Object> populateContext(Request request) {
-        return new HashMap<>();  // TODO add username (and balance?)
+        return Map.of();
     }
 }

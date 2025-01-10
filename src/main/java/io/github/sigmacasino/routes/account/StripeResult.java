@@ -1,10 +1,8 @@
 package io.github.sigmacasino.routes.account;
 
 import io.github.sigmacasino.App;
-import io.github.sigmacasino.GetRoute;
 import io.github.sigmacasino.HTMLTemplateRoute;
 import spark.Request;
-import spark.Response;
 
 import java.util.Map;
 

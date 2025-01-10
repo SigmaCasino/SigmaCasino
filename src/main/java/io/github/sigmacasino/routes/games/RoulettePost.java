@@ -13,6 +13,6 @@ public class RoulettePost extends PostRoute {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        return null;
+        return null;  // TODO zarejestrować nową grę do DB i przekierować użytkownika na replay
     }
 }

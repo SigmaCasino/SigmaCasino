@@ -21,8 +21,7 @@ public class App {
         new Root(this),
         new Index(this),
         new StripeDeposit(this),
-        new StripeResult(this),
-        new StripeCheckout(this)
+        new StripeResult(this)
     };
 
     private Logger logger = LoggerFactory.getLogger(getClass());

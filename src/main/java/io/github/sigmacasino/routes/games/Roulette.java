@@ -19,6 +19,6 @@ public class Roulette extends HTMLTemplateRoute {
 
     @Override
     public Map<String, Object> populateContext(Request request) {
-        return Map.of();
+        return Map.of();  // TODO jęśli replay, to pobrać dane z DB i wrzucić jakoś sensownie do tej mapy
     }
 }

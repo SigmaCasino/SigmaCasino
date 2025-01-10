@@ -42,6 +42,6 @@ public class StripeWithdraw extends PostRoute {
         Session session = Session.create(params);
 
         response.redirect(session.getUrl(), 303);
-        return "";
+        return ""; // TODO zmienić całkiem
     }
 }
