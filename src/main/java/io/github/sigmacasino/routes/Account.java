@@ -5,18 +5,18 @@ import io.github.sigmacasino.HTMLTemplateRoute;
 import java.util.Map;
 import spark.Request;
 
-public class Root extends HTMLTemplateRoute {
-    public Root(App app) {
-        super(app, "/");
+public class Account extends HTMLTemplateRoute {
+    public Account(App app) {
+        super(app, "/account");
     }
 
     @Override
     public String getHTMLTemplatePath(Request request) {
-        return "index.html";
+        return "account.html";
     }
 
     @Override
     public Map<String, Object> populateContext(Request request) {
-        return Map.of();
+        return Map.of(); // TODO pobierać poprzednie gry i transakcje z DB
     }
 }

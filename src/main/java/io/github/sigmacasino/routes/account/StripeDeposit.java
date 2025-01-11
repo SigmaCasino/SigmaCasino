@@ -1,4 +1,4 @@
-package io.github.sigmacasino.routes;
+package io.github.sigmacasino.routes.account;
 
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
@@ -14,7 +14,7 @@ import spark.Response;
  */
 public class StripeDeposit extends PostRoute {
     public StripeDeposit(App app) {
-        super(app, "/stripe_checkout");
+        super(app, "/account/deposit");
     }
 
     /**
@@ -29,8 +29,8 @@ public class StripeDeposit extends PostRoute {
         SessionCreateParams params =
             SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl(app.getDomain() + "/stripe_result?success=true")
-                .setCancelUrl(app.getDomain() + "/stripe_result?success=false")
+                .setSuccessUrl(app.getDomain() + "/account/stripe_result?success=true")
+                .setCancelUrl(app.getDomain() + "/account/stripe_result?success=false")
                 .addLineItem(
                     SessionCreateParams.LineItem.builder()
                         .setQuantity(2L)
