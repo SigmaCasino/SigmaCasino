@@ -7,6 +7,10 @@ import spark.Request;
 import java.util.Map;
 
 public class ResetPassword extends HTMLTemplateRoute {
+    public static final Map<String, String> ERRORS = Map.of(
+            "invalid_user", "Invalid user credentials",
+            "registered", "User registered successfully - now use your info to log in"
+    );
 
     public ResetPassword(App app) {
         super(app, "/account/reset_password");
