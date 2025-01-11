@@ -24,7 +24,7 @@ public class RegisterPost extends PostRoute {
             response.redirect("/register?error=username_length");
             return Register.ERRORS.get("username_length");
         }
-        if (!email.contains("@") || !email.contains(".") || email.length() < 5) {
+        if (!email.contains("@") || !email.contains(".") || email.length() < 5 || email.length() > 100) {
             response.redirect("/register?error=email_invalid");
             return Register.ERRORS.get("email_invalid");
         }
@@ -55,7 +55,7 @@ public class RegisterPost extends PostRoute {
         insertUser.executeUpdate();
         System.out.println(username + salt + email + hash);
 
-        response.redirect("/login");
+        response.redirect("/login?error=registered");
         return null;
     }
 

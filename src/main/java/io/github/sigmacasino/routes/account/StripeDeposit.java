@@ -42,6 +42,6 @@ public class StripeDeposit extends PostRoute {
         Session session = Session.create(params);
 
         response.redirect(session.getUrl(), 303);
-        return "";  // TODO ja
+        return "";
     }
 }
