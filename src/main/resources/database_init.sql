@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS horses (
     date timestamp without time zone NOT NULL,
     bet numeric(10,2) NOT NULL,
     guess integer NOT NULL,
-    times double precision[4] NOT NULL,
+    times integer[4] NOT NULL,
     bezier_curves double precision[4] NOT NULL
 );
 
