@@ -47,7 +47,7 @@ public class LocalDatabase implements AutoCloseable {
         props.setProperty("user", user);
         props.setProperty("password", password);
 
-        int retries = 2;
+        int retries = 5;
         int backoff = 1;
         SQLException lastException = null;
         while (connection == null && retries-- > 0) {

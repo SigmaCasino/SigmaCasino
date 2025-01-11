@@ -3,25 +3,24 @@ package io.github.sigmacasino;
 import com.hubspot.jinjava.Jinjava;
 import com.stripe.Stripe;
 import io.github.sigmacasino.routes.*;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
-
 import io.github.sigmacasino.routes.account.StripeDeposit;
 import io.github.sigmacasino.routes.account.StripeResult;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Spark;
 
 public class App {
     private String domain = System.getenv("PUBLIC_IP");
-    private int port = 6969;
+    private int port = 6_969;
 
     private HTTPRoute[] routes = {
-        new Root(this),
-        new Index(this),
-        new StripeDeposit(this),
-        new StripeResult(this)
+        new Root(this),         new Index(this), new Login(this),         new LoginPost(this),   new Register(this),
+        new RegisterPost(this), new Games(this), new StripeDeposit(this), new StripeResult(this)
     };
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -29,7 +28,15 @@ public class App {
 
     private Jinjava jinjava = new Jinjava();
 
+    private MessageDigest passwordHasher;
+
     private void run() {
+        try {
+            passwordHasher = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            logger.error("Failed to obtain SHA-256 hasher!", e);
+            return;
+        }
         initializeDatabase();
         initializeSpark();
         initializeStripe();
@@ -93,6 +100,16 @@ public class App {
 
     public String getDomain() {
         return "http://" + domain;
+    }
+
+    public String hashPassword(String password, String salt) {
+        password = salt + password;
+        var bytes = passwordHasher.digest(password.getBytes(StandardCharsets.UTF_8));
+        var sb = new StringBuilder();
+        for (var b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
     }
 
     public static void main(String[] args) {
