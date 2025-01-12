@@ -7,17 +7,35 @@ import spark.Request;
 
 import java.sql.SQLException;
 import java.util.Map;
-
+/**
+ * Handles the "/games/horses" route, fetching horse race data based on a replay ID
+ * and populating the HTML template with the race details or an error flag.
+ */
 public class Horses extends HTMLTemplateRoute {
+    /**
+     * Initializes the route handler with the app instance and sets the route path.
+     *
+     * @param app The main application instance.
+     */
     public Horses(App app) {
         super(app, "/games/horses");
     }
-
+    /**
+     * Returns the path to the HTML template for the horse racing page.
+     *
+     * @param request The HTTP request.
+     * @return The template path.
+     */
     @Override
     public String getHTMLTemplatePath(Request request) {
         return "games/horse_racing.html";
     }
-
+    /**
+     * Populates the template context with race data or an error flag based on the replay ID.
+     *
+     * @param request The HTTP request containing the query parameter.
+     * @return A map with race data or an error flag.
+     */
     @Override
     public Map<String, Object> populateContext(Request request) {
 

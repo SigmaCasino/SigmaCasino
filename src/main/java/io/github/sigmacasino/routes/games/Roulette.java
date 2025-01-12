@@ -6,21 +6,39 @@ import spark.Request;
 
 import java.sql.SQLException;
 import java.util.Map;
-
+/**
+ * Handles the "/games/roulette" route, fetching roulette game data based on a replay ID
+ * and populating the HTML template with the game details or an error flag.
+ */
 public class Roulette extends HTMLTemplateRoute {
 
+    /**
+     * Initializes the route handler with the app instance and sets the route path.
+     *
+     * @param app The main application instance.
+     */
     public Roulette(App app) {
         super(app, "/games/roulette");
     }
-
+    /**
+     * Returns the path to the HTML template for the roulette game page.
+     *
+     * @param request The HTTP request.
+     * @return The template path.
+     */
     @Override
     public String getHTMLTemplatePath(Request request) {
         return "games/roulette.html";
     }
-
+    /**
+     * Populates the template context with roulette game data or an error flag based on the replay ID.
+     *
+     * @param request The HTTP request containing the query parameter.
+     * @return A map with game data or an error flag.
+     */
     @Override
     public Map<String, Object> populateContext(Request request) {
-         // TODO jęśli replay, to pobrać dane z DB i wrzucić jakoś sensownie do tej mapy
+
 
         String roulette_id = (request.queryParams("replay"));
 

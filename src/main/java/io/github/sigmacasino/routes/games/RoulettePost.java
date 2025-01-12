@@ -7,11 +7,19 @@ import spark.Response;
 
 import java.security.SecureRandom;
 import java.util.*;
-
+/**
+ * Handles the "/games/roulette" POST request, processing user bets, updating the user's balance,
+ * and registering a new roulette game result. Redirects the user to the replay page with the game results.
+ */
 public class RoulettePost extends PostRoute {
     private Map<Integer, String> rouletteItems = new HashMap<>();
+    /**
+     * Initializes the route handler with the app instance and sets the route path.
+     * Also initializes the roulette items map with predefined colors for each number.
+     *
+     * @param app The main application instance.
+     */
     public RoulettePost(App app) {
-
         super(app, "/games/roulette");
         rouletteItems.put(0, "green");
         rouletteItems.put(32, "red");
@@ -53,7 +61,16 @@ public class RoulettePost extends PostRoute {
     }
 
 
-
+    /**
+     * Handles the POST request for the roulette game. It validates the user's balance,
+     * simulates the roulette spin, stores the result in the database, and updates the user's balance.
+     * Finally, it redirects the user to the replay page with the game result.
+     *
+     * @param request The HTTP request containing the game parameters.
+     * @param response The HTTP response used to redirect the user.
+     * @return Null, as the user is redirected to the replay page.
+     * @throws Exception If any errors occur during the request handling.
+     */
     @Override
     public Object handle(Request request, Response response) throws Exception {
 

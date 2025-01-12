@@ -11,13 +11,29 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
+/**
+ * Handles the "/games/horses" POST request, managing user bets, updating the user's balance,
+ * and registering a new horse racing game. It also redirects to the replay page with the game results.
+ */
 public class HorsesPost extends PostRoute {
-
+    /**
+     * Initializes the route handler with the app instance and sets the route path.
+     *
+     * @param app The main application instance.
+     */
     public HorsesPost(App app) {
         super(app, "/games/horses");
     }
-
+    /**
+     * Handles the POST request for the horse racing game. It validates user balance, generates
+     * random race data, stores the result in the database, and updates the user's balance based
+     * on the outcome of the game. Redirects the user to the replay page with the race results.
+     *
+     * @param request The HTTP request containing the game parameters.
+     * @param response The HTTP response used to redirect the user.
+     * @return Null, as the user is redirected to the replay page.
+     * @throws Exception If any errors occur during the request handling.
+     */
     @Override
     public Object handle(Request request, Response response) throws Exception {
         var params = parseBodyParams(request);
