@@ -20,7 +20,7 @@ public class App {
 
     private HTTPRoute[] routes = {
         new Root(this),         new Index(this), new Login(this),         new LoginPost(this),   new Register(this),
-        new RegisterPost(this), new Games(this), new StripeDeposit(this), new StripeResult(this)
+        new RegisterPost(this), new Games(this), new StripeDeposit(this), new StripeResult(this), new Account(this)
     };
 
     private Logger logger = LoggerFactory.getLogger(getClass());
