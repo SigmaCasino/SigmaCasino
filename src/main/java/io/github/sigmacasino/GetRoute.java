@@ -2,6 +2,9 @@ package io.github.sigmacasino;
 
 import spark.Spark;
 
+/**
+ * A route that handles GET requests.
+ */
 public abstract class GetRoute extends HTTPRoute {
     protected GetRoute(App app, String path) {
         super(app, path);

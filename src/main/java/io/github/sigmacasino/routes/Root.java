@@ -5,6 +5,10 @@ import io.github.sigmacasino.HTMLTemplateRoute;
 import java.util.Map;
 import spark.Request;
 
+/**
+ * The root route of the application (empty path).
+ * This route serves the index.html template.
+ */
 public class Root extends HTMLTemplateRoute {
     public Root(App app) {
         super(app, "/");

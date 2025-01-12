@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Spark;
 
+/**
+ * A route that handles POST requests.
+ */
 public abstract class PostRoute extends HTTPRoute {
     private static Logger logger = LoggerFactory.getLogger(PostRoute.class);
 
@@ -21,6 +24,13 @@ public abstract class PostRoute extends HTTPRoute {
         Spark.post(path, this);
     }
 
+    /**
+     * Parses the body of a POST request into a map of key-value pairs.
+     * The body must be encoded in the application/x-www-form-urlencoded format.
+     *
+     * @param request the request to parse
+     * @return a map of key-value pairs
+     */
     public static final Map<String, String> parseBodyParams(Request request) {
         var body = request.body();
         Map<String, String> params = new HashMap<>();

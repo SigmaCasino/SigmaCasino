@@ -7,8 +7,7 @@ import spark.Request;
 import java.util.Map;
 
 /**
- * Simple demo route that shows the result of the Stripe payment.
- * It displays an unformatted text message based on the payment status.
+ * A route that shows the result of a Stripe payment to the user.
  */
 public class StripeResult extends HTMLTemplateRoute {
 
