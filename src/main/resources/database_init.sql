@@ -33,6 +33,6 @@ CREATE TABLE IF NOT EXISTS roulette (
     user_id integer NOT NULL REFERENCES users,
     date timestamp without time zone NOT NULL,
     bet numeric(10,2) NOT NULL,
-    guess integer NOT NULL,
+    guess character NOT NULL,
     result integer NOT NULL
 );

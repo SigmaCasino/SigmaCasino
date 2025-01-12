@@ -9,14 +9,10 @@ import java.security.SecureRandom;
 import java.util.*;
 
 public class RoulettePost extends PostRoute {
-
+    private Map<Integer, String> rouletteItems = new HashMap<>();
     public RoulettePost(App app) {
-        super(app, "/games/roulette");
-    }
 
-    @Override
-    public Object handle(Request request, Response response) throws Exception {
-        Map<Integer, String> rouletteItems = new HashMap<>();
+        super(app, "/games/roulette");
         rouletteItems.put(0, "green");
         rouletteItems.put(32, "red");
         rouletteItems.put(15, "black");
@@ -54,62 +50,63 @@ public class RoulettePost extends PostRoute {
         rouletteItems.put(35, "black");
         rouletteItems.put(3, "red");
         rouletteItems.put(26, "black");
+    }
+
+
+
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+
 
         Random random = new SecureRandom();
-        int number =
+        int number = (int) Math.floor(random.nextDouble() * 37);
 
         var params = parseBodyParams(request);
         String color = params.get("color");
         int stake = Integer.parseInt(params.get("stake"));
-        String string_user_id = request.session().attribute("user_id");
-        if (string_user_id == null)
+        Integer integer_user_id = request.session().attribute("user_id");
+        if (integer_user_id == null)
         {
             response.redirect("/login");
             return null;
         }
-        int user_id = Integer.parseInt(string_user_id);
+        int user_id = integer_user_id;
 
-        Integer [] times = new Integer[4];
+        var query  = app.getDatabase().prepareStatement("SELECT balance WHERE user_id = ?");
+        query.setInt(1,user_id);
+        var result = query.executeQuery();
+        result.next();
+        int user_balance = result.getInt(1);
+        if(user_balance<stake)
+        {
+            response.redirect("/account?error=balance");
+            return null;
+        }
 
-
-
-
-        var post = app.getDatabase().prepareStatement("INSERT INTO horses(user_id, date, bet, guess integer, times, bezier_curves) VALUES (?,NOW(),?,?,?,?) RETURNING horses_id");
+        var post = app.getDatabase().prepareStatement("INSERT INTO roulette(user_id, date, bet, guess, result) VALUES (?,NOW(),?,?,?) RETURNING roulette_id");
         post.setInt(1,user_id);
         post.setInt(2,stake);
-        post.setInt(3,color);
-        var unrelevant = app.getDatabase().getConnection().createArrayOf("integer",times);
-        post.setArray(4, unrelevant);
-        var unrelevant2 = app.getDatabase().getConnection().createArrayOf("double precision",cubicBezier);
-        post.setArray(5,unrelevant2);
-        int horse_id = post.executeQuery().getInt(1);
+        post.setString(3,color.substring(0,1));
+        post.setInt(4,number);
+        var garbage = post.executeQuery();
+        garbage.next();
+        int roulette_id = garbage.getInt(1);
+        boolean has_won = false;
+        if (color.equals(rouletteItems.get(number)))
+        {
+            has_won = true;
+        }
 
-        String kwerenda = has_won ? "+2*" : "-";
+        String kwerenda = has_won ? "+" : "-";
+        if (has_won && color.equals("green"))
+        {
+            kwerenda = "+30*";
+        }
         var balance_update = app.getDatabase().prepareStatement("UPDATE users SET balance = balance" + kwerenda + "? WHERE user_id = ?");
         balance_update.setInt(1,stake);
         balance_update.setInt(2,user_id);
         balance_update.executeUpdate();
-        response.redirect("/games/horses?replay="+horse_id);
-        return null; // TODO zarejestrować nową grę do DB i przekierować użytkownika na replay
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        response.redirect("/games/roulette?replay="+roulette_id);
         return null;  // TODO zarejestrować nową grę do DB i przekierować użytkownika na replay
     }
 }

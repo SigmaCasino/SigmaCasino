@@ -23,13 +23,25 @@ public class HorsesPost extends PostRoute {
         var params = parseBodyParams(request);
         int color = Integer.parseInt(params.get("color"));
         int stake = Integer.parseInt(params.get("stake"));
-        String string_user_id = request.session().attribute("user_id");
-        if (string_user_id == null)
+        Integer user_id = request.session().attribute("user_id");
+        if (user_id == null)
         {
             response.redirect("/login");
             return null;
         }
-        int user_id = Integer.parseInt(string_user_id);
+
+
+        var query  = app.getDatabase().prepareStatement("SELECT balance WHERE user_id = ?");
+        query.setInt(1,user_id);
+        var result = query.executeQuery();
+        result.next();
+        int user_balance = result.getInt(1);
+        if(user_balance<stake)
+        {
+            response.redirect("/account?error=balance");
+            return null;
+        }
+
 
         Integer [] times = new Integer[4];
         Random random = new SecureRandom();
@@ -61,7 +73,7 @@ public class HorsesPost extends PostRoute {
         {
             cubicBezier[i] = random.nextDouble();
         }
-        var post = app.getDatabase().prepareStatement("INSERT INTO horses(user_id, date, bet, guess integer, times, bezier_curves) VALUES (?,NOW(),?,?,?,?) RETURNING horses_id");
+        var post = app.getDatabase().prepareStatement("INSERT INTO horses(user_id, date, bet, guess, times, bezier_curves) VALUES (?,NOW(),?,?,?,?) RETURNING horses_id");
         post.setInt(1,user_id);
         post.setInt(2,stake);
         post.setInt(3,color);
@@ -69,8 +81,9 @@ public class HorsesPost extends PostRoute {
         post.setArray(4, unrelevant);
         var unrelevant2 = app.getDatabase().getConnection().createArrayOf("double precision",cubicBezier);
         post.setArray(5,unrelevant2);
-        int horse_id = post.executeQuery().getInt(1);
-
+        var garbage = post.executeQuery();
+        garbage.next();
+        int horse_id = garbage.getInt(1);
         String kwerenda = has_won ? "+2*" : "-";
         var balance_update = app.getDatabase().prepareStatement("UPDATE users SET balance = balance" + kwerenda + "? WHERE user_id = ?");
         balance_update.setInt(1,stake);

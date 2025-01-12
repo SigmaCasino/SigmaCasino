@@ -33,10 +33,17 @@ public class Roulette extends HTMLTemplateRoute {
                 var query_result = statement.executeQuery();
                 if (query_result.next())
                 {
+                    String litera = query_result.getString("guess");
+                    litera = switch (litera) {
+                        case "b" -> "black";
+                        case "r" -> "red";
+                        case "g" -> "green";
+                        default -> litera;
+                    };
                     return Map.of(
                             "date", query_result.getString("date"),
                             "bet",  query_result.getDouble("bet"),
-                            "guess",query_result.getInt("guess"),
+                            "guess",litera,
                             "result",query_result.getInt("times"),
                             "error", false);
                 }
