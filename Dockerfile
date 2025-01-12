@@ -2,7 +2,9 @@ FROM maven:3-amazoncorretto-17-alpine AS maven
 WORKDIR /sigmacasino
 COPY src src
 COPY pom.xml .
-RUN mvn clean package
+RUN mvn clean javadoc:javadoc && \
+    cp -r target/reports/apidocs src/main/resources/static/javadoc && \
+    mvn package
 
 FROM golang:1.23-alpine AS overmind
 RUN apk add --no-cache git; \
