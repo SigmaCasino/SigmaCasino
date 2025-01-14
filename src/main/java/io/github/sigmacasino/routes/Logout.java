@@ -25,7 +25,6 @@ public class Logout extends GetRoute {
      * @param request the HTTP request
      * @param response the HTTP response
      * @return null
-     * @throws Exception if an error occurs during request handling
      */
     @Override
     public Object handleGet(Request request, Response response) {

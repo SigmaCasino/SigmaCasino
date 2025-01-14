@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 
@@ -15,6 +17,8 @@ import spark.Response;
  * and registering a new horse racing game. It also redirects to the replay page with the game results.
  */
 public class HorsesPost extends PostRoute {
+    private Logger logger = LoggerFactory.getLogger(HorsesPost.class);
+
     /**
      * Initializes the route handler with the app instance and sets the route path.
      *
@@ -32,8 +36,7 @@ public class HorsesPost extends PostRoute {
      *
      * @param request The HTTP request containing the game parameters.
      * @param response The HTTP response used to redirect the user.
-     * @return Null, as the user is redirected to the replay page.
-     * @throws Exception If any errors occur during the request handling.
+     * @throws SQLException If any errors occur during the request handling.
      */
     @Override
     public void handlePost(Request request, Response response) throws SQLException {
@@ -42,7 +45,7 @@ public class HorsesPost extends PostRoute {
         int stake = Integer.parseInt(params.get("stake"));
         Integer user_id = request.session().attribute("user_id");
 
-        var query = app.getDatabase().prepareStatement("SELECT balance WHERE user_id = ?");
+        var query = app.getDatabase().prepareStatement("SELECT balance FROM users WHERE user_id = ?");
         query.setInt(1, user_id);
         var result = query.executeQuery();
         result.next();
@@ -95,6 +98,7 @@ public class HorsesPost extends PostRoute {
         balance_update.setInt(1, stake);
         balance_update.setInt(2, user_id);
         balance_update.executeUpdate();
+        logger.info("User {} has {} in horses (stake: {}, replay: {})", user_id, has_won ? "won" : "lost", stake, horse_id);
         response.redirect("/games/horses?replay=" + horse_id);
     }
 }

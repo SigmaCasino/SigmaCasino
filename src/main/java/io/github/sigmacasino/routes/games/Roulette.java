@@ -34,7 +34,8 @@ public class Roulette extends HTMLTemplateRoute {
      * Populates the template context with roulette game data or an error flag based on the replay ID.
      *
      * @param request The HTTP request containing the query parameter.
-     * @return A map with game data or an error flag.
+     * @param response The HTTP response used to redirect the user.
+     * @return A map with game data.
      */
     @Override
     public Map<String, Object> populateContext(Request request, Response response) throws SQLException {
@@ -57,7 +58,7 @@ public class Roulette extends HTMLTemplateRoute {
                     "date", query_result.getString("date"),
                     "bet", query_result.getDouble("bet"),
                     "guess", litera,
-                    "result", query_result.getInt("times")
+                    "result", query_result.getInt("result")
                 );
             } else {
                 response.redirect(path + "?error=wrong_replay_id");

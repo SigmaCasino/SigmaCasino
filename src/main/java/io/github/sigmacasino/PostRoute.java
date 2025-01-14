@@ -38,7 +38,6 @@ public abstract class PostRoute extends HTTPRoute {
      *
      * @param request the request
      * @param response the response
-     * @return the response body
      */
     public abstract void handlePost(Request request, Response response) throws SQLException;
 

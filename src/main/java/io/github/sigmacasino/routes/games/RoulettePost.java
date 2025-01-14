@@ -5,6 +5,8 @@ import io.github.sigmacasino.PostRoute;
 import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 
@@ -13,6 +15,10 @@ import spark.Response;
  * and registering a new roulette game result. Redirects the user to the replay page with the game results.
  */
 public class RoulettePost extends PostRoute {
+    /**
+     * The logger for the RoulettePost class.
+     */
+    private Logger logger = LoggerFactory.getLogger(RoulettePost.class);
     /**
      * A map of roulette numbers and their corresponding colors.
      */
@@ -74,8 +80,7 @@ public class RoulettePost extends PostRoute {
      *
      * @param request The HTTP request containing the game parameters.
      * @param response The HTTP response used to redirect the user.
-     * @return Null, as the user is redirected to the replay page.
-     * @throws Exception If any errors occur during the request handling.
+     * @throws SQLException If any errors occur during the request handling.
      */
     @Override
     public void handlePost(Request request, Response response) throws SQLException {
@@ -87,7 +92,7 @@ public class RoulettePost extends PostRoute {
         int stake = Integer.parseInt(params.get("stake"));
         Integer user_id = request.session().attribute("user_id");
 
-        var query = app.getDatabase().prepareStatement("SELECT balance WHERE user_id = ?");
+        var query = app.getDatabase().prepareStatement("SELECT balance FROM users WHERE user_id = ?");
         query.setInt(1, user_id);
         var result = query.executeQuery();
         result.next();
@@ -121,6 +126,7 @@ public class RoulettePost extends PostRoute {
         balance_update.setInt(1, stake);
         balance_update.setInt(2, user_id);
         balance_update.executeUpdate();
+        logger.info("User {} has {} in roulette (stake: {}, replay: {})", user_id, has_won ? "won" : "lost", stake, roulette_id);
         response.redirect("/games/roulette?replay=" + roulette_id);
     }
 }

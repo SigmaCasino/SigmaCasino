@@ -3,6 +3,10 @@ package io.github.sigmacasino.routes.account;
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.PostRoute;
 import java.sql.SQLException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import spark.Request;
 import spark.Response;
 
@@ -10,6 +14,11 @@ import spark.Response;
  * The ResetPasswordPost class handles the POST request for resetting a user's password.
  */
 public class ResetPasswordPost extends PostRoute {
+    /**
+     * The logger for the ResetPasswordPost class.
+     */
+    private Logger logger = LoggerFactory.getLogger(ResetPasswordPost.class);
+
     /**
      * Constructs a ResetPasswordPost route with the specified application.
      *
@@ -28,8 +37,7 @@ public class ResetPasswordPost extends PostRoute {
      *
      * @param request  the HTTP request
      * @param response the HTTP response
-     * @return null
-     * @throws Exception if an error occurs during password reset
+     * @throws SQLException if an error occurs during password reset
      */
     @Override
     public void handlePost(Request request, Response response) throws SQLException {
@@ -57,6 +65,7 @@ public class ResetPasswordPost extends PostRoute {
         updatePassword.setString(1, newPasswordHash);
         updatePassword.setInt(2, userId);
         updatePassword.executeUpdate();
+        logger.info("User {} changed their password", userId);
 
         response.redirect("/account");
     }

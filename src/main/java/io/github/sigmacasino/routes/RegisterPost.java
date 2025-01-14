@@ -5,6 +5,8 @@ import io.github.sigmacasino.PostRoute;
 import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.util.Random;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 
@@ -16,6 +18,10 @@ public class RegisterPost extends PostRoute {
      * A random number generator for generating salts.
      */
     private Random saltGenerator = new SecureRandom();
+    /**
+     * The logger for this class.
+     */
+    private Logger logger = LoggerFactory.getLogger(RegisterPost.class);
 
     /**
      * Constructs a RegisterPost route with the specified application.
@@ -34,8 +40,7 @@ public class RegisterPost extends PostRoute {
      *
      * @param request the HTTP request
      * @param response the HTTP response
-     * @return an object representing the result of the request handling
-     * @throws Exception if an error occurs during request handling
+     * @throws SQLException if an error occurs during request handling
      */
     @Override
     public void handlePost(Request request, Response response) throws SQLException {
@@ -76,7 +81,7 @@ public class RegisterPost extends PostRoute {
         insertUser.setString(3, email);
         insertUser.setString(4, hash);
         insertUser.executeUpdate();
-        System.out.println(username + salt + email + hash);  // TODO
+        logger.info("Registered new user: {}", username);
 
         response.redirect("/login?error=registered");
     }

@@ -36,6 +36,7 @@ public class Horses extends HTMLTemplateRoute {
      * Populates the template context with race data or an error flag based on the replay ID.
      *
      * @param request The HTTP request containing the query parameter.
+     * @param response The HTTP response used to redirect the user.
      * @return A map with race data or an error flag.
      */
     @Override

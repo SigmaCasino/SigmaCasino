@@ -24,7 +24,6 @@ public class StripeDeposit extends PostRoute {
      * Initiates a Stripe purchase session and redirects the user to the Stripe Checkout page.
      * @param request The HTTP request.
      * @param response The HTTP response.
-     * @return An empty page with a Stripe redirect.
      * @see SessionCreateParams
      */
     @Override

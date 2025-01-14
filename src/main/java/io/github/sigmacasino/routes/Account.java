@@ -38,7 +38,9 @@ public class Account extends HTMLTemplateRoute {
      * Populates the context for the account page with the user's balance and recent transactions.
      *
      * @param request the HTTP request
+     * @param response the HTTP response
      * @return a map containing the user's balance and transactions
+     * @throws SQLException if an SQL error occurs
      */
     @Override
     public Map<String, Object> populateContext(Request request, Response response) throws SQLException {
@@ -73,10 +75,8 @@ public class Account extends HTMLTemplateRoute {
                     transactionsResult.getInt("transaction_id"),
                     "date",
                     transactionsResult.getString("date"),
-                    "amount",
-                    transactionsResult.getInt("amount"),
                     "bet",
-                    transactionsResult.getInt("bet")
+                    transactionsResult.getInt(4)
                 );
                 transactionsList.add(transaction);
             }
