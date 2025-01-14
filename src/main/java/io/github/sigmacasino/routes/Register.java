@@ -10,21 +10,6 @@ import spark.Request;
  */
 public class Register extends HTMLTemplateRoute {
     /**
-     * A map of error messages that can be displayed on the registration page.
-     * The keys are error codes and the values are the corresponding error messages.
-     */
-    public static final Map<String, String> ERRORS = Map.of(
-        "username_length",
-        "Username must be between 3 and 16 characters",
-        "email_invalid",
-        "Invalid email address",
-        "password_length",
-        "Password must be at least 8 characters",
-        "user_exists",
-        "User with that username or email already exists"
-    );
-
-    /**
      * Constructs a Register route with the specified application.
      *
      * @param app the application instance
@@ -42,5 +27,19 @@ public class Register extends HTMLTemplateRoute {
     @Override
     public String getHTMLTemplatePath(Request request) {
         return "register.html";
+    }
+
+    @Override
+    public Map<String, String> getNotificationDefinitions() {
+        return Map.of(
+            "username_length",
+            "Username must be between 3 and 16 characters",
+            "email_invalid",
+            "Invalid email address",
+            "password_length",
+            "Password must be at least 8 characters",
+            "user_exists",
+            "User with that username or email already exists"
+        );
     }
 }

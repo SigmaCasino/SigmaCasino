@@ -3,6 +3,7 @@ package io.github.sigmacasino.routes;
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.PostRoute;
 import java.security.SecureRandom;
+import java.sql.SQLException;
 import java.util.Random;
 import spark.Request;
 import spark.Response;
@@ -37,22 +38,22 @@ public class RegisterPost extends PostRoute {
      * @throws Exception if an error occurs during request handling
      */
     @Override
-    public Object handle(Request request, Response response) throws Exception {
+    public void handlePost(Request request, Response response) throws SQLException {
         var params = parseBodyParams(request);
         var username = params.get("username");
         var email = params.get("email");
         var password = params.get("password");
         if (username.length() < 3 || username.length() > 16) {
             response.redirect("/register?error=username_length");
-            return Register.ERRORS.get("username_length");
+            return;
         }
         if (!email.contains("@") || !email.contains(".") || email.length() < 5 || email.length() > 100) {
             response.redirect("/register?error=email_invalid");
-            return Register.ERRORS.get("email_invalid");
+            return;
         }
         if (password.length() < 8) {
             response.redirect("/register?error=password_length");
-            return Register.ERRORS.get("password_length");
+            return;
         }
 
         var existingUserCheck =
@@ -62,7 +63,7 @@ public class RegisterPost extends PostRoute {
         var existingUserCheckResult = existingUserCheck.executeQuery();
         if (existingUserCheckResult.next()) {
             response.redirect("/register?error=user_exists");
-            return Register.ERRORS.get("user_exists");
+            return;
         }
 
         var insertUser = app.getDatabase().prepareStatement(
@@ -78,7 +79,6 @@ public class RegisterPost extends PostRoute {
         System.out.println(username + salt + email + hash);  // TODO
 
         response.redirect("/login?error=registered");
-        return null;
     }
 
     /**

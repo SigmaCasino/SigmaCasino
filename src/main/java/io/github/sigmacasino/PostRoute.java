@@ -2,27 +2,45 @@ package io.github.sigmacasino;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Request;
+import spark.Response;
 import spark.Spark;
 
 /**
  * A route that handles POST requests.
  */
 public abstract class PostRoute extends HTTPRoute {
-    private static Logger logger = LoggerFactory.getLogger(PostRoute.class);
+    private static Logger postRouteLogger = LoggerFactory.getLogger(PostRoute.class);
 
     protected PostRoute(App app, String path) {
         super(app, path);
     }
 
     @Override
+    public final Object handle(Request request, Response response) throws Exception {
+        super.handle(request, response);
+        handlePost(request, response);
+        return null;
+    }
+
+    @Override
     public final void registerSparkRoute() {
         Spark.post(path, this);
     }
+
+    /**
+     * Handles a POST request.
+     *
+     * @param request the request
+     * @param response the response
+     * @return the response body
+     */
+    public abstract void handlePost(Request request, Response response) throws SQLException;
 
     /**
      * Parses the body of a POST request into a map of key-value pairs.
@@ -39,7 +57,7 @@ public abstract class PostRoute extends HTTPRoute {
             try {
                 params.put(URLDecoder.decode(keyValue[0], "UTF-8"), URLDecoder.decode(keyValue[1], "UTF-8"));
             } catch (UnsupportedEncodingException e) {
-                logger.error("Failed to decode URL-encoded body parameter", e);
+                postRouteLogger.error("Failed to decode URL-encoded body parameter", e);
             }
         }
         return params;

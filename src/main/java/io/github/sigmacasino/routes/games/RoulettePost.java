@@ -3,6 +3,7 @@ package io.github.sigmacasino.routes.games;
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.PostRoute;
 import java.security.SecureRandom;
+import java.sql.SQLException;
 import java.util.*;
 import spark.Request;
 import spark.Response;
@@ -25,6 +26,8 @@ public class RoulettePost extends PostRoute {
      */
     public RoulettePost(App app) {
         super(app, "/games/roulette");
+        this.loginRequired = true;
+
         rouletteItems.put(0, "green");
         rouletteItems.put(32, "red");
         rouletteItems.put(15, "black");
@@ -75,19 +78,14 @@ public class RoulettePost extends PostRoute {
      * @throws Exception If any errors occur during the request handling.
      */
     @Override
-    public Object handle(Request request, Response response) throws Exception {
+    public void handlePost(Request request, Response response) throws SQLException {
         Random random = new SecureRandom();
         int number = (int) Math.floor(random.nextDouble() * 37);
 
         var params = parseBodyParams(request);
         String color = params.get("color");
         int stake = Integer.parseInt(params.get("stake"));
-        Integer integer_user_id = request.session().attribute("user_id");
-        if (integer_user_id == null) {
-            response.redirect("/login");
-            return null;
-        }
-        int user_id = integer_user_id;
+        Integer user_id = request.session().attribute("user_id");
 
         var query = app.getDatabase().prepareStatement("SELECT balance WHERE user_id = ?");
         query.setInt(1, user_id);
@@ -96,7 +94,7 @@ public class RoulettePost extends PostRoute {
         int user_balance = result.getInt(1);
         if (user_balance < stake) {
             response.redirect("/account?error=balance");
-            return null;
+            return;
         }
 
         var post = app.getDatabase().prepareStatement(
@@ -124,6 +122,5 @@ public class RoulettePost extends PostRoute {
         balance_update.setInt(2, user_id);
         balance_update.executeUpdate();
         response.redirect("/games/roulette?replay=" + roulette_id);
-        return null;
     }
 }

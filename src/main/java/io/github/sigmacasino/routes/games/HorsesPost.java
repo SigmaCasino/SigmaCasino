@@ -3,6 +3,7 @@ package io.github.sigmacasino.routes.games;
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.PostRoute;
 import java.security.SecureRandom;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -21,6 +22,7 @@ public class HorsesPost extends PostRoute {
      */
     public HorsesPost(App app) {
         super(app, "/games/horses");
+        this.loginRequired = true;
     }
 
     /**
@@ -34,15 +36,11 @@ public class HorsesPost extends PostRoute {
      * @throws Exception If any errors occur during the request handling.
      */
     @Override
-    public Object handle(Request request, Response response) throws Exception {
+    public void handlePost(Request request, Response response) throws SQLException {
         var params = parseBodyParams(request);
         int color = Integer.parseInt(params.get("color"));
         int stake = Integer.parseInt(params.get("stake"));
         Integer user_id = request.session().attribute("user_id");
-        if (user_id == null) {
-            response.redirect("/login");
-            return null;
-        }
 
         var query = app.getDatabase().prepareStatement("SELECT balance WHERE user_id = ?");
         query.setInt(1, user_id);
@@ -51,7 +49,7 @@ public class HorsesPost extends PostRoute {
         int user_balance = result.getInt(1);
         if (user_balance < stake) {
             response.redirect("/account?error=balance");
-            return null;
+            return;
         }
 
         Integer[] times = new Integer[4];
@@ -98,6 +96,5 @@ public class HorsesPost extends PostRoute {
         balance_update.setInt(2, user_id);
         balance_update.executeUpdate();
         response.redirect("/games/horses?replay=" + horse_id);
-        return null;
     }
 }

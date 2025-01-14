@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 import spark.Request;
+import spark.Response;
 
 /**
  * The Account class handles the account route, displaying the user's account information.
@@ -19,6 +20,7 @@ public class Account extends HTMLTemplateRoute {
      */
     public Account(App app) {
         super(app, "/account");
+        this.loginRequired = true;
     }
 
     /**
@@ -39,12 +41,7 @@ public class Account extends HTMLTemplateRoute {
      * @return a map containing the user's balance and transactions
      */
     @Override
-    public Map<String, Object> populateContext(Request request) {
-        if (request.session().attribute("user_id") == null) {
-            // response.redirect("/login");
-            return null;
-        }
-
+    public Map<String, Object> populateContext(Request request, Response response) throws SQLException {
         Integer userId = request.session().attribute("user_id");
 
         String balanceQuery = "SELECT balance FROM users WHERE user_id = ?";
@@ -60,10 +57,6 @@ public class Account extends HTMLTemplateRoute {
             var balanceResult = balance.executeQuery();
             balanceResult.next();
             balanceInteger = balanceResult.getInt("balance");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // response.redirect("/login");
-            return null;
         }
 
         try (var transactions = app.getDatabase().prepareStatement(transactionsQuery)) {
@@ -88,10 +81,11 @@ public class Account extends HTMLTemplateRoute {
                 transactionsList.add(transaction);
             }
             return Map.of("balance", balanceInteger, "transactions", transactionsList);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // response.redirect("/login");
-            return null;
         }
     }
+
+    @Override
+    public Map<String, String> getNotificationDefinitions() {
+        return Map.of("balance", "Your balance is insufficient for this bet.");
+    } 
 }

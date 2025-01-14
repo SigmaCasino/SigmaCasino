@@ -1,5 +1,8 @@
 package io.github.sigmacasino.routes.account;
 
+import java.sql.SQLException;
+
+import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import io.github.sigmacasino.App;
@@ -25,12 +28,12 @@ public class StripeDeposit extends PostRoute {
      * @see SessionCreateParams
      */
     @Override
-    public Object handle(Request request, Response response) throws Exception {
+    public void handlePost(Request request, Response response) throws SQLException {
         SessionCreateParams params =
             SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl(app.getDomain() + "/account/stripe_result?success=true")
-                .setCancelUrl(app.getDomain() + "/account/stripe_result?success=false")
+                .setSuccessUrl(app.getDomain() + "/account/stripe_result?payment_success=true")
+                .setCancelUrl(app.getDomain() + "/account/stripe_result?payment_success=false")
                 .addLineItem(
                     SessionCreateParams.LineItem.builder()
                         .setQuantity(2L)
@@ -39,9 +42,12 @@ public class StripeDeposit extends PostRoute {
                         .build()
                 )
                 .build();
-        Session session = Session.create(params);
+        try {
+            Session session = Session.create(params);
+            response.redirect(session.getUrl());
+        } catch (StripeException e) {
+            response.redirect("/account/stripe_result?payment_success=false");
+        }
 
-        response.redirect(session.getUrl(), 303);
-        return "";
     }
 }

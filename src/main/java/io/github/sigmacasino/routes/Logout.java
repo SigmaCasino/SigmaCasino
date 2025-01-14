@@ -28,9 +28,9 @@ public class Logout extends GetRoute {
      * @throws Exception if an error occurs during request handling
      */
     @Override
-    public Object handle(Request request, Response response) throws Exception {
+    public Object handleGet(Request request, Response response) {
         request.session().invalidate();
         response.redirect("/");
-        return null;
+        return "Logged out successfully!";
     }
 }

@@ -10,22 +10,23 @@ import spark.Request;
  */
 public class ResetPassword extends HTMLTemplateRoute {
     /**
-     * A map of error messages that can be displayed on the reset password page.
-     */
-    public static final Map<String, String> ERRORS = Map.of(
-        "invalid_user",
-        "Invalid user credentials",
-        "registered",
-        "User registered successfully - now use your info to log in"
-    );
-
-    /**
      * Constructs a ResetPassword route with the specified application.
      *
      * @param app the application instance
      */
     public ResetPassword(App app) {
         super(app, "/account/reset_password");
+        this.loginRequired = true;
+    }
+
+    @Override
+    public Map<String, String> getNotificationDefinitions() {
+        return Map.of(
+            "invalid_user",
+            "Invalid user credentials",
+            "registered",
+            "User registered successfully - now use your info to log in"
+        );
     }
 
     /**

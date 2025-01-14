@@ -2,6 +2,7 @@ package io.github.sigmacasino.routes.account;
 
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.PostRoute;
+import java.sql.SQLException;
 import spark.Request;
 import spark.Response;
 
@@ -16,6 +17,7 @@ public class ResetPasswordPost extends PostRoute {
      */
     public ResetPasswordPost(App app) {
         super(app, "/account/reset_password");
+        this.loginRequired = true;
     }
 
     /**
@@ -30,12 +32,7 @@ public class ResetPasswordPost extends PostRoute {
      * @throws Exception if an error occurs during password reset
      */
     @Override
-    public Object handle(Request request, Response response) throws Exception {
-        if (request.session().attribute("user_id") == null) {
-            response.redirect("/login");
-            return null;
-        }
-
+    public void handlePost(Request request, Response response) throws SQLException {
         Integer userId = request.session().attribute("user_id");
         var saltCheck = app.getDatabase().prepareStatement("SELECT salt, password_hash FROM users WHERE user_id = ?");
         saltCheck.setInt(1, userId);
@@ -53,7 +50,7 @@ public class ResetPasswordPost extends PostRoute {
 
         if (!oldPasswordHash.equals(saltCheckResult.getString("password_hash"))) {
             response.redirect("/account/reset_password?error=invalid_password");
-            return null;
+            return;
         }
 
         var updatePassword = app.getDatabase().prepareStatement("UPDATE users SET password_hash = ? WHERE user_id = ?");
@@ -62,6 +59,5 @@ public class ResetPasswordPost extends PostRoute {
         updatePassword.executeUpdate();
 
         response.redirect("/account");
-        return null;
     }
 }

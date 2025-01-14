@@ -5,6 +5,7 @@ import io.github.sigmacasino.HTMLTemplateRoute;
 import java.sql.SQLException;
 import java.util.Map;
 import spark.Request;
+import spark.Response;
 /**
  * Handles the "/games/roulette" route, fetching roulette game data based on a replay ID
  * and populating the HTML template with the game details or an error flag.
@@ -36,38 +37,37 @@ public class Roulette extends HTMLTemplateRoute {
      * @return A map with game data or an error flag.
      */
     @Override
-    public Map<String, Object> populateContext(Request request) {
+    public Map<String, Object> populateContext(Request request, Response response) throws SQLException {
         String roulette_id = request.queryParams("replay");
 
-        try {
-            if (roulette_id != null) {
-                int horses_id_int = Integer.parseInt(roulette_id);
-                var statement = app.getDatabase().prepareStatement("SELECT * FROM roulette WHERE roulette_id = ?");
-                statement.setInt(1, horses_id_int);
-                var query_result = statement.executeQuery();
-                if (query_result.next()) {
-                    String litera = query_result.getString("guess");
-                    litera = switch (litera) {
+        if (roulette_id != null) {
+            int horses_id_int = Integer.parseInt(roulette_id);
+            var statement = app.getDatabase().prepareStatement("SELECT * FROM roulette WHERE roulette_id = ?");
+            statement.setInt(1, horses_id_int);
+            var query_result = statement.executeQuery();
+            if (query_result.next()) {
+                String litera = query_result.getString("guess");
+                litera = switch (litera) {
                         case "b" -> "black";
                         case "r" -> "red";
                         case "g" -> "green";
                         default -> litera;
                     };
-                    return Map.of(
-                            "date", query_result.getString("date"),
-                            "bet",  query_result.getDouble("bet"),
-                            "guess",litera,
-                            "result",query_result.getInt("times"),
-                            "error", false);
-                } else {
-                    return Map.of("error", true);
-                }
+                return Map.of(
+                    "date", query_result.getString("date"),
+                    "bet", query_result.getDouble("bet"),
+                    "guess", litera,
+                    "result", query_result.getInt("times")
+                );
+            } else {
+                response.redirect(path + "?error=wrong_replay_id");
             }
-
-        } catch (SQLException e) {
-            return Map.of("error", true);
         }
+        return Map.of();
+    }
 
-        return Map.of("error", false);
+    @Override
+    public Map<String, String> getNotificationDefinitions() {
+        return Map.of("wrong_replay_id", "The replay ID provided is invalid.");
     }
 }
