@@ -5,11 +5,28 @@ import io.github.sigmacasino.PostRoute;
 import spark.Request;
 import spark.Response;
 
+/**
+ * The LoginPost class handles the POST request for processing the login form submission.
+ */
 public class LoginPost extends PostRoute {
+    /**
+     * Constructs a LoginPost route with the specified application.
+     *
+     * @param app the application instance
+     */
     public LoginPost(App app) {
         super(app, "/login");
     }
 
+    /**
+     * Handles the POST request for the login form submission. This method checks the user's credentials and logs them in if they are valid.
+     * If the user's credentials are invalid, the user is redirected to the login page with an error message.
+     *
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return an object representing the result of the request handling
+     * @throws Exception if an error occurs during request handling
+     */
     @Override
     public Object handle(Request request, Response response) throws Exception {
         var params = parseBodyParams(request);

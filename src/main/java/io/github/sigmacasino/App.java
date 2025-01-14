@@ -3,18 +3,13 @@ package io.github.sigmacasino;
 import com.hubspot.jinjava.Jinjava;
 import com.stripe.Stripe;
 import io.github.sigmacasino.routes.*;
-import io.github.sigmacasino.routes.account.StripeDeposit;
-import io.github.sigmacasino.routes.account.StripeResult;
+import io.github.sigmacasino.routes.account.*;
+import io.github.sigmacasino.routes.games.*;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
-
-import io.github.sigmacasino.routes.games.Horses;
-import io.github.sigmacasino.routes.games.HorsesPost;
-import io.github.sigmacasino.routes.games.Roulette;
-import io.github.sigmacasino.routes.games.RoulettePost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Spark;
@@ -41,11 +36,12 @@ public class App {
      * Each route is an instance of a class that extends the HTTPRoute class.
      */
     private HTTPRoute[] routes = {
-        new Root(this),         new Index(this), new Login(this),         new LoginPost(this),   new Register(this),
-        new RegisterPost(this), new Games(this), new StripeDeposit(this), new StripeResult(this),
-        new Horses(this),
-        new HorsesPost(this),
-            new Roulette(this), new RoulettePost(this)
+        new Root(this),           new Index(this),         new Login(this),
+        new LoginPost(this),      new Register(this),      new RegisterPost(this),
+        new Games(this),          new StripeDeposit(this), new StripeResult(this),
+        new StripeWithdraw(this), new Account(this),       new Horses(this),
+        new HorsesPost(this),     new Roulette(this),      new RoulettePost(this),
+        new Logout(this),         new ResetPassword(this), new ResetPasswordPost(this)
     };
 
     /**
@@ -119,7 +115,7 @@ public class App {
     /**
      * Registers all routes in the routes array with Spark.
      * Each route is registered by calling the registerSparkRoute method.
-     * 
+     *
      * @see HTTPRoute#registerSparkRoute()
      */
     private void addRoutes() {
@@ -132,7 +128,7 @@ public class App {
     /**
      * Reads a resource file from the resources directory and returns its contents as a string.
      * If the file is not found, an error message is logged and an empty string is returned.
-     * 
+     *
      * @param fileName the name of the file to read
      * @return the contents of the file as a string
      */
@@ -152,7 +148,7 @@ public class App {
 
     /**
      * Returns the database connection used by the application.
-     * 
+     *
      * @return the database connection
      */
     public LocalDatabase getDatabase() {
@@ -161,7 +157,7 @@ public class App {
 
     /**
      * Returns the Jinjava template engine used by the application.
-     * 
+     *
      * @return the Jinjava template engine
      */
     public Jinjava getJinjava() {
@@ -170,7 +166,7 @@ public class App {
 
     /**
      * Returns the domain of the application, e.g. "http://sigmacasino.fly.dev".
-     * 
+     *
      * @return the domain of the application
      */
     public String getDomain() {
@@ -198,7 +194,7 @@ public class App {
      * The main method of the application.
      * It sets the name of the main thread and creates an instance of the App class.
      * The run method is then called on the instance to initialize the application.
-     * 
+     *
      * @param args the command-line arguments, currently unused
      */
     public static void main(String[] args) {

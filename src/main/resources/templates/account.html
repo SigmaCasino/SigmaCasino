@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roulette</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/games.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="logo-container">
+        <img class="logo" src="/svg/piggy-bank-solid-black.svg" alt="">
+        <h1>
+            <a href="/index" style="color: black">
+                Sigma Casino
+            </a>
+        </h1>
+    </div>
+    <nav style="color: black">
+        <ul>
+            <li>
+                <a href="/games">
+                    Games
+                </a>
+            </li>
+            <li class="button-action">
+                <a href="/login">
+                    Sign In
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<main style="width: 100vw; padding: 0 80px">
+    <div class="main-wrapper">
+        Balance: {{ balance }}
+        <br>
+        {% for t in transactions -%}
+        {{ t }}
+        {% endfor %}
+    </div>
+</main>
+
+</body>
+</html>

@@ -7,13 +7,34 @@ import java.util.Random;
 import spark.Request;
 import spark.Response;
 
+/**
+ * The RegisterPost class handles the POST request for processing the registration form submission.
+ */
 public class RegisterPost extends PostRoute {
+    /**
+     * A random number generator for generating salts.
+     */
     private Random saltGenerator = new SecureRandom();
 
+    /**
+     * Constructs a RegisterPost route with the specified application.
+     *
+     * @param app the application instance
+     */
     public RegisterPost(App app) {
         super(app, "/register");
     }
 
+    /**
+     * Handles the POST request for the registration form submission. This method validates the input,
+     * checks for existing users, and registers a new user if the input is valid.
+     * If the input is invalid or a user already exists, the user is redirected to the registration page with an error message.
+     *
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return an object representing the result of the request handling
+     * @throws Exception if an error occurs during request handling
+     */
     @Override
     public Object handle(Request request, Response response) throws Exception {
         var params = parseBodyParams(request);
@@ -59,6 +80,12 @@ public class RegisterPost extends PostRoute {
         return null;
     }
 
+    /**
+     * Generates a random salt for password hashing.
+     * The salt is a 16-byte array encoded as a hexadecimal string.
+     *
+     * @return a string representing the generated salt
+     */
     private String generateSalt() {
         var salt = new byte[16];
         saltGenerator.nextBytes(salt);
