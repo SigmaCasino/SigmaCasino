@@ -10,6 +10,11 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
+
+import io.github.sigmacasino.routes.games.Horses;
+import io.github.sigmacasino.routes.games.HorsesPost;
+import io.github.sigmacasino.routes.games.Roulette;
+import io.github.sigmacasino.routes.games.RoulettePost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Spark;
@@ -37,7 +42,10 @@ public class App {
      */
     private HTTPRoute[] routes = {
         new Root(this),         new Index(this), new Login(this),         new LoginPost(this),   new Register(this),
-        new RegisterPost(this), new Games(this), new StripeDeposit(this), new StripeResult(this)
+        new RegisterPost(this), new Games(this), new StripeDeposit(this), new StripeResult(this),
+        new Horses(this),
+        new HorsesPost(this),
+            new Roulette(this), new RoulettePost(this)
     };
 
     /**
