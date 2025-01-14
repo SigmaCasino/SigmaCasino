@@ -2,25 +2,28 @@ package io.github.sigmacasino.routes.account;
 
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.HTMLTemplateRoute;
-import spark.Request;
-
 import java.util.Map;
+import spark.Request;
+import spark.Response;
 
 /**
- * Simple demo route that shows the result of the Stripe payment.
- * It displays an unformatted text message based on the payment status.
+ * A route that shows the result of a Stripe payment to the user.
  */
 public class StripeResult extends HTMLTemplateRoute {
-
-    public StripeResult(App app) { super(app, "/account/stripe_result"); }
+    public StripeResult(App app) {
+        super(app, "/account/stripe_result");
+    }
 
     @Override
     public String getHTMLTemplatePath(Request request) {
         return "account/stripe_result.html";
     }
 
+    /**
+     * Populates context with the payment success status.
+     */
     @Override
-    public Map<String, Object> populateContext(Request request) {
-        return Map.of();
+    public Map<String, Object> populateContext(Request request, Response response) {
+        return Map.of("payment_success", request.queryParams("payment_success"));
     }
 }

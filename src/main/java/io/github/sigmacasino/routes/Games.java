@@ -4,15 +4,16 @@ import io.github.sigmacasino.App;
 import io.github.sigmacasino.HTMLTemplateRoute;
 import spark.Request;
 
-import java.util.Map;
-
+/**
+ * The route for the games page.
+ */
 public class Games extends HTMLTemplateRoute {
-
-    public Games(App app) { super(app, "/games"); }
-
-    @Override
-    public String getHTMLTemplatePath(Request request) { return "games.html"; }
+    public Games(App app) {
+        super(app, "/games");
+    }
 
     @Override
-    public Map<String, Object> populateContext(Request request) { return Map.of(); }
+    public String getHTMLTemplatePath(Request request) {
+        return "games.html";
+    }
 }
