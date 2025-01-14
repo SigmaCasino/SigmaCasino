@@ -37,7 +37,7 @@ public class Roulette extends HTMLTemplateRoute {
      */
     @Override
     public Map<String, Object> populateContext(Request request) {
-        String roulette_id = (request.queryParams("replay"));
+        String roulette_id = request.queryParams("replay");
 
         try {
             if (roulette_id != null) {
@@ -59,9 +59,7 @@ public class Roulette extends HTMLTemplateRoute {
                             "guess",litera,
                             "result",query_result.getInt("times"),
                             "error", false);
-                }
-                else
-                {
+                } else {
                     return Map.of("error", true);
                 }
             }
@@ -69,7 +67,6 @@ public class Roulette extends HTMLTemplateRoute {
         } catch (SQLException e) {
             return Map.of("error", true);
         }
-
 
         return Map.of("error", false);
     }

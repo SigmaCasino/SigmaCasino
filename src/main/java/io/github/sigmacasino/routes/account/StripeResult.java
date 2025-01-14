@@ -2,7 +2,6 @@ package io.github.sigmacasino.routes.account;
 
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.HTMLTemplateRoute;
-import java.util.Map;
 import spark.Request;
 
 /**
@@ -16,10 +15,5 @@ public class StripeResult extends HTMLTemplateRoute {
     @Override
     public String getHTMLTemplatePath(Request request) {
         return "account/stripe_result.html";
-    }
-
-    @Override
-    public Map<String, Object> populateContext(Request request) {
-        return Map.of();
     }
 }

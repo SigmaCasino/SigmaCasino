@@ -43,15 +43,4 @@ public class Register extends HTMLTemplateRoute {
     public String getHTMLTemplatePath(Request request) {
         return "register.html";
     }
-
-    /**
-     * Populates the context for the registration page.
-     *
-     * @param request the HTTP request
-     * @return a map of context variables
-     */
-    @Override
-    public Map<String, Object> populateContext(Request request) {
-        return Map.of();
-    }
 }

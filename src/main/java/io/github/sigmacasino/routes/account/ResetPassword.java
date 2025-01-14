@@ -38,15 +38,4 @@ public class ResetPassword extends HTMLTemplateRoute {
     public String getHTMLTemplatePath(Request request) {
         return "account/reset_password.html";
     }
-
-    /**
-     * Populates the context for the reset password page.
-     *
-     * @param request the HTTP request
-     * @return a map of context variables
-     */
-    @Override
-    public Map<String, Object> populateContext(Request request) {
-        return Map.of();
-    }
 }

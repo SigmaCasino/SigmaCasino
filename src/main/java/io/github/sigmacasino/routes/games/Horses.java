@@ -39,7 +39,7 @@ public class Horses extends HTMLTemplateRoute {
      */
     @Override
     public Map<String, Object> populateContext(Request request) {
-        String horses_id = (request.queryParams("replay"));
+        String horses_id = request.queryParams("replay");
 
         try {
             if (horses_id != null) {

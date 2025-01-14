@@ -38,15 +38,4 @@ public class Login extends HTMLTemplateRoute {
     public String getHTMLTemplatePath(Request request) {
         return "login.html";
     }
-
-    /**
-     * Populates the context for the login page.
-     *
-     * @param request the HTTP request
-     * @return a map of context variables
-     */
-    @Override
-    public Map<String, Object> populateContext(Request request) {
-        return Map.of();
-    }
 }
