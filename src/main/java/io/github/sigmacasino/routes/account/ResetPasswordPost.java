@@ -56,8 +56,7 @@ public class ResetPasswordPost extends PostRoute {
             return null;
         }
 
-        var updatePassword =
-                app.getDatabase().prepareStatement("UPDATE users SET password_hash = ? WHERE user_id = ?");
+        var updatePassword = app.getDatabase().prepareStatement("UPDATE users SET password_hash = ? WHERE user_id = ?");
         updatePassword.setString(1, newPasswordHash);
         updatePassword.setInt(2, userId);
         updatePassword.executeUpdate();

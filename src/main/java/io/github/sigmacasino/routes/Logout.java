@@ -19,7 +19,8 @@ public class Logout extends GetRoute {
     }
 
     /**
-     * Handles the GET request for logging out the user. This method invalidates the user's session and redirects them to the home page.
+     * Handles the GET request for logging out the user. This method invalidates the user's session and redirects them
+     * to the home page.
      *
      * @param request the HTTP request
      * @param response the HTTP response

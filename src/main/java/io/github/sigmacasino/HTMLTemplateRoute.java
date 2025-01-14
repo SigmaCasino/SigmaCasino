@@ -29,7 +29,7 @@ public abstract class HTMLTemplateRoute extends GetRoute {
 
     /**
      * Returns the context to populate the Jinjava HTML template.
-     * 
+     *
      * @param request the request
      * @return the context as a variable-value map
      */

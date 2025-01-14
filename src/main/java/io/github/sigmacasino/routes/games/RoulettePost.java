@@ -2,17 +2,21 @@ package io.github.sigmacasino.routes.games;
 
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.PostRoute;
+import java.security.SecureRandom;
+import java.util.*;
 import spark.Request;
 import spark.Response;
 
-import java.security.SecureRandom;
-import java.util.*;
 /**
  * Handles the "/games/roulette" POST request, processing user bets, updating the user's balance,
  * and registering a new roulette game result. Redirects the user to the replay page with the game results.
  */
 public class RoulettePost extends PostRoute {
+    /**
+     * A map of roulette numbers and their corresponding colors.
+     */
     private Map<Integer, String> rouletteItems = new HashMap<>();
+
     /**
      * Initializes the route handler with the app instance and sets the route path.
      * Also initializes the roulette items map with predefined colors for each number.
@@ -60,7 +64,6 @@ public class RoulettePost extends PostRoute {
         rouletteItems.put(26, "black");
     }
 
-
     /**
      * Handles the POST request for the roulette game. It validates the user's balance,
      * simulates the roulette spin, stores the result in the database, and updates the user's balance.
@@ -73,8 +76,6 @@ public class RoulettePost extends PostRoute {
      */
     @Override
     public Object handle(Request request, Response response) throws Exception {
-
-
         Random random = new SecureRandom();
         int number = (int) Math.floor(random.nextDouble() * 37);
 
@@ -82,48 +83,47 @@ public class RoulettePost extends PostRoute {
         String color = params.get("color");
         int stake = Integer.parseInt(params.get("stake"));
         Integer integer_user_id = request.session().attribute("user_id");
-        if (integer_user_id == null)
-        {
+        if (integer_user_id == null) {
             response.redirect("/login");
             return null;
         }
         int user_id = integer_user_id;
 
-        var query  = app.getDatabase().prepareStatement("SELECT balance WHERE user_id = ?");
-        query.setInt(1,user_id);
+        var query = app.getDatabase().prepareStatement("SELECT balance WHERE user_id = ?");
+        query.setInt(1, user_id);
         var result = query.executeQuery();
         result.next();
         int user_balance = result.getInt(1);
-        if(user_balance<stake)
-        {
+        if (user_balance < stake) {
             response.redirect("/account?error=balance");
             return null;
         }
 
-        var post = app.getDatabase().prepareStatement("INSERT INTO roulette(user_id, date, bet, guess, result) VALUES (?,NOW(),?,?,?) RETURNING roulette_id");
-        post.setInt(1,user_id);
-        post.setInt(2,stake);
-        post.setString(3,color.substring(0,1));
-        post.setInt(4,number);
+        var post = app.getDatabase().prepareStatement(
+            "INSERT INTO roulette(user_id, date, bet, guess, result) VALUES (?,NOW(),?,?,?) RETURNING roulette_id"
+        );
+        post.setInt(1, user_id);
+        post.setInt(2, stake);
+        post.setString(3, color.substring(0, 1));
+        post.setInt(4, number);
         var garbage = post.executeQuery();
         garbage.next();
         int roulette_id = garbage.getInt(1);
         boolean has_won = false;
-        if (color.equals(rouletteItems.get(number)))
-        {
+        if (color.equals(rouletteItems.get(number))) {
             has_won = true;
         }
 
         String kwerenda = has_won ? "+" : "-";
-        if (has_won && color.equals("green"))
-        {
+        if (has_won && color.equals("green")) {
             kwerenda = "+30*";
         }
-        var balance_update = app.getDatabase().prepareStatement("UPDATE users SET balance = balance" + kwerenda + "? WHERE user_id = ?");
-        balance_update.setInt(1,stake);
-        balance_update.setInt(2,user_id);
+        var balance_update =
+            app.getDatabase().prepareStatement("UPDATE users SET balance = balance" + kwerenda + "? WHERE user_id = ?");
+        balance_update.setInt(1, stake);
+        balance_update.setInt(2, user_id);
         balance_update.executeUpdate();
-        response.redirect("/games/roulette?replay="+roulette_id);
-        return null;  // TODO zarejestrować nową grę do DB i przekierować użytkownika na replay
+        response.redirect("/games/roulette?replay=" + roulette_id);
+        return null;
     }
 }

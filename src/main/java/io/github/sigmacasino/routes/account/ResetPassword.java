@@ -2,9 +2,8 @@ package io.github.sigmacasino.routes.account;
 
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.HTMLTemplateRoute;
-import spark.Request;
-
 import java.util.Map;
+import spark.Request;
 
 /**
  * The ResetPassword class handles the GET request for displaying the reset password page.
@@ -14,8 +13,10 @@ public class ResetPassword extends HTMLTemplateRoute {
      * A map of error messages that can be displayed on the reset password page.
      */
     public static final Map<String, String> ERRORS = Map.of(
-            "invalid_user", "Invalid user credentials",
-            "registered", "User registered successfully - now use your info to log in"
+        "invalid_user",
+        "Invalid user credentials",
+        "registered",
+        "User registered successfully - now use your info to log in"
     );
 
     /**

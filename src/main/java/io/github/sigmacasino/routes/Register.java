@@ -14,10 +14,14 @@ public class Register extends HTMLTemplateRoute {
      * The keys are error codes and the values are the corresponding error messages.
      */
     public static final Map<String, String> ERRORS = Map.of(
-        "username_length", "Username must be between 3 and 16 characters",
-        "email_invalid", "Invalid email address",
-        "password_length", "Password must be at least 8 characters",
-        "user_exists", "User with that username or email already exists"
+        "username_length",
+        "Username must be between 3 and 16 characters",
+        "email_invalid",
+        "Invalid email address",
+        "password_length",
+        "Password must be at least 8 characters",
+        "user_exists",
+        "User with that username or email already exists"
     );
 
     /**
