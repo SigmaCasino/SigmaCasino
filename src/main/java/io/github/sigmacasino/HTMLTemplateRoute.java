@@ -34,10 +34,10 @@ public abstract class HTMLTemplateRoute extends GetRoute {
         var error = request.queryParams("error");
         var success = request.queryParams("success");
         if (error != null && notificationDefinitions.containsKey(error)) {
-            context.put("notification_type", "error");
+            context.put("notification_kind", "error");
             context.put("notification", notificationDefinitions.get(error));
         } else if (success != null && notificationDefinitions.containsKey(success)) {
-            context.put("notification_type", "success");
+            context.put("notification_kind", "success");
             context.put("notification", notificationDefinitions.get(success));
         }
 
