@@ -1,105 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulette</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/games.css">
-</head>
-<body>
+{% extends "templates/base.html" %}
+    {% block title %}Sigma Casino - Games{% endblock %}
 
-    <!-- HEADER -->
-    <header>
-        <div class="logo-container">
-            <img class="logo" src="/svg/piggy-bank-solid-black.svg" alt="">
-            <h1>
-                <a href="/index" style="color: black">
-                    Sigma Casino
+    
+    
+
+    {% block logged_as %}
+        {%- if user_id is defined -%}
+            logged in as: <span>{{ username }}</span>
+        {%- endif -%}
+    {% endblock %}
+
+
+    {% block account %}
+        {%- if user_id is defined -%}
+            <li>
+                <a href="/account">
+                    Account
                 </a>
-            </h1>
-        </div>
-        <nav style="color: black">
-            <ul>
-                <li>
-                    <a href="/games">
-                        Games
-                    </a>
-                </li>
-                <li class="button-action">
-                    <a href="/login">
-                        Sign In
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
-
-    <main style="width: 100vw; padding: 0 80px">
-        <div class="main-wrapper">
-
-            <!-- GAMES HEADER -->
-            <h2 class="games-header">
-                Games
-            </h2>
+            </li>
+            <li class="button-action">
+                <a href="/logout">
+                    Logout
+                </a>
+            </li>
+        {% else %}
+            <li class="button-action">
+                <a href="/login">
+                    Login
+                </a>
+            </li>
+        {%- endif -%}
+    {% endblock %}
 
 
-            <!-- GAMES CONTAINER -->
-            <div class="games-container">
+{% block content %}
+    <div class="w-fit mx-auto text-white mb-20">
 
-                <!-- ROULETTE LINK -->
-                <div class="game-container">
-                    <a href="/games/roulette">
-                        <h3 class="game-header">
-                            Roulette
-                        </h3>
-                    </a>
-                    <p class="game-description">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae quo explicabo corrupti odio veritatis delectus quisquam quaerat itaque quidem voluptatibus.
-                    </p>
-                    <div class="image-container">
-                        <div class="background-transition"></div>
-                        <img src="/images/roulette2.jpg" alt="">
-                    </div>
+        <!-- GAMES HEADER -->
+        <h2 class="text-6xl font-bold mb-10">
+            Games
+        </h2>
+
+
+        <!-- GAMES CONTAINER -->
+        <div class="flex flex-wrap justify-center gap-20">
+
+            <!-- ROULETTE LINK -->
+
+            <div 
+                class="px-5 py-3 rounded-[20px] shadow-full w-[300px] bg-zinc-800"
+                style="border: 2px solid var(--color-action);"
+            >
+                <a href="/games/roulette">
+                    <h3 class="text-3xl font-bold">
+                        Roulette
+                    </h3>
+                </a>
+                <p class="mt-5">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae quo explicabo corrupti odio veritatis delectus quisquam quaerat itaque quidem voluptatibus.
+                </p>
+                <div class="size-[200px] mx-auto">
+                    <div class="background-transition"></div>
+                    <img src="/images/roulette.png" alt="">
                 </div>
-
-                <!-- BLACK JACK -->
-                <div class="game-container">
-                    <a href="/games/black_jack">
-                        <h3 class="game-header">
-                            Black Jack
-                        </h3>
-                    </a>
-                    <p class="game-description">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae quo explicabo corrupti odio veritatis delectus quisquam quaerat itaque quidem voluptatibus.
-                    </p>
-                    <div class="image-container">
-                        <div class="background-transition"></div>
-                        <img src="/images/black_jack.jpg" alt="">
-                    </div>
+            </div>
+    
+    
+            <div 
+                class="px-5 py-3 rounded-[20px] shadow-full w-[300px] bg-zinc-800"
+                style="border: 2px solid var(--color-action);"
+            >
+                <a href="/games/horses">
+                    <h3 class="text-3xl font-bold">
+                        Horse Racing
+                    </h3>
+                </a>
+                <p class="mt-5">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae quo explicabo corrupti odio veritatis delectus quisquam quaerat itaque quidem voluptatibus.
+                </p>
+                <div class="size-[200px] mx-auto">
+                    <div class="background-transition"></div>
+                    <img src="/images/hs.png" alt="">
                 </div>
-                
-                <!-- HORSE RACING -->
-                <div class="game-container">
-                    <a href="/games/horses">
-                        <h3 class="game-header">
-                            Horse racing
-                        </h3>
-                    </a>
-                    <p class="game-description">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae quo explicabo corrupti odio veritatis delectus quisquam quaerat itaque quidem voluptatibus.
-                    </p>
-                    <div class="image-container">
-                        <div class="background-transition"></div>
-                        <img src="/images/horse_racing.png" alt="">
-                    </div>
-                </div>
-
-
             </div>
 
         </div>
-    </main>
-
-</body>
-</html>
+    </div>
+{% endblock %}

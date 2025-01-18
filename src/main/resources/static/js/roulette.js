@@ -43,8 +43,12 @@ const rouletteItems = [
 // Spin logic
 const spinButton = document.getElementById("spinButton");
 const roulette = document.getElementById("roulette");
+const amountInput = document.getElementById("amount-input");
+const clearAmount = document.getElementById("clear-amount");
 let currentRotation = 0;
 let isSpinning = false;
+
+
 
 // Gets angle for given number
 const getAngle = (number) => {
@@ -69,6 +73,83 @@ const enableButton = () => {
     spinButton.innerHTML = "Spin";
 }   
 
+// AMOUNT
+const amountButtonsValues = [10, 50, 100, 500];
+clearAmount.addEventListener("click", () => {
+    amountInput.value = 0;
+})
+amountButtonsValues.forEach((value) => {
+    const button = document.getElementById(`amount-button-${value}`);
+    button.addEventListener("click", () => {
+        console.log(`Selected amount: ${value}`);
+        amountInput.value = Number(amountInput.value) + value;
+    });
+
+})
+
+
+// WINNING MESSAGE
+const showWinningMessage = (amount) => {
+
+    const message = document.createElement('div');
+    
+    message.classList.add(
+        'opacity-0', 
+        'fixed', 
+        'duration-500', 
+        'size-[500px]', 
+        'z-[100]', 
+        'text-8xl', 
+        'flex', 
+        'flex-col', 
+        'items-center', 
+        'justify-center', 
+        'font-bold', 
+        'top-1/3', 
+        'left-1/2', 
+        '-translate-y-1/2', 
+        '-translate-x-1/2'
+    );
+    message.style.background = 'radial-gradient(circle, black, transparent 70%)';
+    message.innerHTML = `
+        <span class='text-white font-semibold'>You've won</span> 
+        <span class='text-action'>${amount}$</span>`;
+    
+    document.body.appendChild(message);
+
+    setTimeout(() => {
+        message.classList.remove('opacity-0'); 
+    }, 10); 
+
+    // Hide the message after 2 seconds
+    setTimeout(() => {
+        message.classList.add('opacity-0'); // Fade out
+        setTimeout(() => {
+            message.remove(); // Remove the element from the DOM after the fade-out
+        }, 500); // Match the duration of the fade-out animation
+    }, 3000);
+
+}
+
+
+// BET
+let bet;
+
+const betColors = ['red', 'black', 'green'];
+betColors.forEach((color) => {
+    let button = document.getElementById(`${color}-button`);
+    button.addEventListener("click", () => {
+        bet = color; 
+        betColors.forEach((color) => {
+            let button = document.getElementById(`${color}-button`);
+            button.querySelector('.selected').classList.add("opacity-0");
+        })
+        button.querySelector('.selected').classList.remove("opacity-0");
+    });
+})
+
+
+
 // Start game button logic
 spinButton.addEventListener("click", () => {
 
@@ -92,9 +173,17 @@ spinButton.addEventListener("click", () => {
         // Applying style
         roulette.style.transform = `rotate(${finalAngle}deg)`;
 
+ 
+
     }, 100)
+
+    if(true){
+        showWinningMessage(10000);
+    }
 
     // Enables after 5s (time for spinning)
     setTimeout(enableButton, 5000)
+
+ 
 
 });

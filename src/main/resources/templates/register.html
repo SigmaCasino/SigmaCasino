@@ -1,91 +1,54 @@
+{% extends "templates/base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulette</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/login.css">
-</head>
-<body>
-
-    <!-- HEADER -->
-    <header>
-        <div class="logo-container">
-            <img class="logo" src="/svg/piggy-bank-solid-black.svg" alt="">
-            <h1>
-                <a href="/index" style="color: black">
-                    Sigma Casino
-                </a>
-            </h1>
-        </div>
-        <nav style="color: black">
-            <ul>
-                <li>
-                    <a href="/games">
-                        Games
-                    </a>
-                </li>
-                <li class="button-action">
-                    <a href="/login">
-                        Sign In
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
-
-    <main style="width: 100vw; padding: 0 80px">
-        <div class="main-wrapper">
+    {% block title %}Sigma Casino - Register{% endblock %}
 
 
-            <div class="login-container">
-                <!-- REGISTER HEADER -->
-                <h2 class="login-header">
+    {% block notification %}
+        
+    {% endblock %}
+
+    {% block content %}
+        <div class="w-fit mx-auto mb-20">
+            <div class="box w-[600px] px-12">
+                <!-- LOGIN HEADER -->
+                <h2 class="text-6xl font-bold text-center py-10">
                     Register
                 </h2>
 
                 <!-- FORM -->
-                <form method="post" class="login-form">
+                <form method="post">
+
                     <div class="input-container">
-                        <label for="username">username</label>
-                        <input type="text" id="username" name="username" required>
+                        <label for="username">Username</label>
+                        <input type="text" class="p-2" id="username" name="username" required>
                     </div>
                     <div class="input-container">
-                        <label for="email">email</label>
-                        <input type="text" id="email" name="email" required>
+                        <label for="email">Email</label>
+                        <input type="text" class="p-2" id="email" name="email" required>
                     </div>
                     <div class="input-container">
-                        <label for="password">password</label>
-                        <input type="password" id="password" name="password" required>
+                        <label for="password">Password</label>
+                        <input type="password" class="p-2" id="password" name="password" required>
                     </div>
                     <div class="input-container">
-                        <label for="repeat_password">repeat password</label>
-                        <input type="password" id="repeat_password" name="repeat_password" required>
+                        <label for="password">Repeat password</label>
+                        <input type="password" class="p-2" id="repeat_password" name="repeat_password" required>
                     </div>
 
                     <!-- SUBMIT BUTTON -->
-                    <button type="submit" class="button-action-full">Sign up</button>
-
-                    
+                    <button type="submit" class="button-action-full w-full py-2 text-2xl">Sign up</button>
                 </form>
 
-                <div class="or">
-                    <div class="line"></div>
+                <div class="flex justify-center items-center gap-5 my-12">
+                    <div class="bg-white w-40 h-[1px]"></div>
                     <span>OR</span>
-                    <div class="line"></div>
+                    <div class="bg-white w-40 h-[1px]"></div>
                 </div>
                 
                 <!-- OTHER LOGIN OPTION -->
-                <a href="/login" class="second-button-container">
-                    <button type="submit" class="button-action">Sign in</button>
+                <a href="/login" class="flex w-full">
+                    <button type="submit" class="button-action w-full py-2 text-2xl mb-10">Sign in</button>
                 </a>
-
             </div>
-
         </div>
-    </main>
-
-</body>
-</html>
+    {% endblock %}

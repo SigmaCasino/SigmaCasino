@@ -1,64 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulette</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/home.css">
+{% extends "templates/base.html" %}
 
-</head>
-<body>
-    
-    <header class="header-shadow">
-        <div class="logo-container">
-            <img class="logo" src="/svg/piggy-bank-solid.svg" alt="">
+    {% block title %}Sigma Casino - Home Page{% endblock %}
+
+    {% block head_extensions %}
+        <link rel="stylesheet" href="/css/home.css">
+    {% endblock %}
+
+
+    {% block background %}
+    <img class="absolute top-0 left-0 w-screen h-full object-cover" src="/images/landing.jpg" alt="">
+    <div
+        class="w-full h-full absolute top-0 left-0"
+        style="background: linear-gradient(to right, rgba(0, 0, 0, 0.6) 50%, transparent 100%);""    
+    >
+    <div 
+        class="absolute top-0 left-0 w-full h-64 z-[5]"
+        style="background: linear-gradient(to bottom, black, transparent 100%)"
+    ></div>
+    {% endblock %}
+
+    {% block header %}
+    <header 
+        class="fixed top-0 w-screen z-[50] flex justify-between p-10 pb-12 items-center text-white"    
+    >
+        {%- if user_id is defined -%}
+            <div class="absolute top-2 right-10 text-sm">
+                logged in as: <span>{{ username }}</span>
+            </div>
+        {%- endif -%}
+
+        <div class="flex items-center gap-5 group">
+            <img class="size-10 duration-200 group-hover:rotate-[-10deg] group-hover:-translate-y-2" src="svg/piggy-bank-solid.svg" alt="">
             <h1>
-                <a href="/index" style="color: white">
+                <a href="/index" class="text-3xl font-bold">
                     Sigma Casino
                 </a>
             </h1>
         </div>
         <nav>
-            <ul>
+            <ul class="flex justify-between items-center gap-5 text-xl font-bold">
                 <li>
-                    <a href="/games" style="color: white">
+                    <a href="/games">
                         Games
                     </a>
                 </li>
-                <li class="button-action">
-                    <a href="/login">
-                        Sign In
-                    </a>
-                </li>
+                {%- if user_id is defined -%}
+                    <li>
+                        <a href="/account">
+                            Account
+                        </a>
+                    </li>
+                    <li class="button-action">
+                        <a href="/login">
+                            Logout
+                        </a>
+                    </li> 
+                {%- else -%}
+                    <li class="button-action">
+                        <a href="/login">
+                            Sign In
+                        </a>
+                    </li>
+                {%- endif -%}
             </ul>
         </nav>
     </header>
+    {% endblock %}
 
-    <main>
-        <div class="main-container">
-
-            <img class="main-image" src="/images/landing.jpg" alt="">
-        
-            <div class="black-overlay"></div>
-
-
-            <div class="intro-text-container">
-                <h1>Play your<br> favorite games<br> and <span class="text-action">WIN BIG!</span></h1>
-                <p>Don't miss your lucky day!</p>
+    {% block content %}
+        <div class="relative w-screen h-screen top-0 left-0 overflow-hidden flex flex-col justify-evenly p-10">
+            <div class="relative">
+                <h1 class="text-8xl font-semibold tracking-widest appear-right">
+                    Play your<br>
+                    favorite games<br>
+                    and <span class="text-action font-bold">WIN BIG!</span>
+                </h1>
+                <p class="text-4xl mt-10 appear">Don't miss your lucky day!</p>
             </div>
-    
+
             <button class="button-action-full main-button">
-                <a href="/games" style="color: white">
+                <a href="/games">
                     Play Now
                 </a>
             </button>
-        
         </div>
-    
-    </main>
-
-
+    {% endblock %}
 
 </body>
 </html>

@@ -28,7 +28,7 @@ public abstract class HTMLTemplateRoute extends GetRoute {
         var template = app.readResource("templates/" + getHTMLTemplatePath(request));
         response.type("text/html");
         var context = new HashMap<String, Object>();
-        request.attributes().stream().forEach(k -> context.put(k, request.attribute(k)));
+        request.session().attributes().stream().forEach(k -> context.put(k, request.session().attribute(k)));
         context.putAll(populateContext(request, response));
 
         var error = request.queryParams("error");

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>{% block title required %}{% endblock %}</title>
+    {% block head_extensions %}
+    {% endblock  %}
+</head>
+
+<body class="max-w-[100vw] overflow-x-hidden">
+    
+
+    <div class="fixed -translate-y-40 duration-500 top-10 left-1/2 text-white -translate-x-1/2 pr-6 box z-[1000] flex items-center overflow-hidden" id="message-container">
+        <div class="px-6 py-3 bg-green-500 font-bold text-xl">
+            <i class="fas fa-circle-check mr-3"></i>
+            <!-- {{ notification }} -->
+        </div>
+        <p class="px-6" id="message">
+            <!-- {{ notification_type }} -->
+        </p>
+    </div>
+
+
+    {% block header %}
+    <header 
+        class="relative fixed top-0 w-full z-10 flex justify-between p-10 pb-12 items-center text-white mb-10"    
+    >
+        <div class="absolute top-2 right-10 text-sm">
+            {% block logged_as %}
+                <!-- logged in as: <span>{{ username }}</span> -->
+            {% endblock %}
+        </div>
+
+        <div class="flex items-center gap-5 group">
+            <img class="size-10 duration-200 group-hover:rotate-[-10deg] group-hover:-translate-y-2" src="/svg/piggy-bank-solid.svg" alt="">
+            <h1>
+                <a href="/index" class="text-3xl font-bold">
+                    Sigma Casino
+                </a>
+            </h1>
+        </div>
+        <nav>
+            <ul class="flex justify-between items-center gap-5 text-xl font-bold">
+                <li>
+                    <a href="/games">
+                        Games
+                    </a>
+                </li>
+
+                {% block account %}
+                <li class="button-action">
+                    <a href="/login">
+                        Sign In
+                    </a>
+                </li>
+                {% endblock %}
+
+                <!-- IF USER LOGGED IN-->
+                
+                <!-- 
+                <li>
+                    <a href="/account">
+                        Account
+                    </a>
+                </li>
+                <li class="button-action">
+                    <a href="/login">
+                        Logout
+                    </a>
+                </li> 
+                -->
+
+            </ul>
+        </nav>
+    </header>
+
+    {% endblock %}
+
+
+    {% block background %}
+    <!-- BACKGROUND -->
+    <div 
+        class="fixed top-0 left-0 w-full h-full"
+        style="background: linear-gradient(to bottom right, #27272a 70%, #b91c1c);"
+    >
+        <div class="w-full h-full relative">
+            <div 
+                class="absolute top-1/3 -translate-x-1/2 -translate-y-1/2 left-0 size-[1500px]"
+                style="background: radial-gradient( circle, #b91c1c 0%, transparent 70%);"
+            ></div>
+        </div>
+    </div>
+    <div 
+        class="absolute top-0 left-0 w-full h-52"
+        style="background: linear-gradient(to bottom, #27272a, transparent 100%)"
+    ></div>
+    {% endblock %}
+
+    <main 
+        class="text-white w-full relative z-[20]"
+    >
+        {% block content %}{% endblock %}
+    </main>
+    
+    {% block footer %}
+        <footer id="footer" class="fixed text-xs left-2 bottom-2 text-white z-10">
+            &copy; Copyright 2025 Sigma Casino.
+        </footer>
+    {% endblock %}
+
+
+    <script src="/js/message.js"></script>
+    {% block scripts %}
+
+    {% endblock %}
+
+
+</body>
+
+
+</html>
+
