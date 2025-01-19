@@ -48,6 +48,7 @@ public class RegisterPost extends PostRoute {
         var username = params.get("username");
         var email = params.get("email");
         var password = params.get("password");
+        var password_repeat = params.get("repeat_password");
         if (username.length() < 3 || username.length() > 16) {
             response.redirect("/register?error=username_length");
             return;
@@ -58,6 +59,10 @@ public class RegisterPost extends PostRoute {
         }
         if (password.length() < 8) {
             response.redirect("/register?error=password_length");
+            return;
+        }
+        if (!password.equals(password_repeat)) {
+            response.redirect("/register?error=password_match");
             return;
         }
 
@@ -83,7 +88,7 @@ public class RegisterPost extends PostRoute {
         insertUser.executeUpdate();
         logger.info("Registered new user: {}", username);
 
-        response.redirect("/login?error=registered");
+        response.redirect("/login?success=registered");
     }
 
     /**

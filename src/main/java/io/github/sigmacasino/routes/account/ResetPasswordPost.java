@@ -41,6 +41,23 @@ public class ResetPasswordPost extends PostRoute {
      */
     @Override
     public void handlePost(Request request, Response response) throws SQLException {
+        var params = parseBodyParams(request);
+        var newPassword = params.get("new_password");
+        var oldPassword = params.get("old_password");
+        var password_repeat = params.get("repeat_password");
+        if (oldPassword.length() < 8) {
+            response.redirect("/account/reset_password?error=invalid_password");
+            return;
+        }
+        if (newPassword.length() < 8) {
+            response.redirect("/account/reset_password?error=invalid_new_password");
+            return;
+        }
+        if (!newPassword.equals(password_repeat)) {
+            response.redirect("/account/reset_password?error=password_match");
+            return;
+        }
+
         Integer userId = request.session().attribute("user_id");
         var saltCheck = app.getDatabase().prepareStatement("SELECT salt, password_hash FROM users WHERE user_id = ?");
         saltCheck.setInt(1, userId);
@@ -48,10 +65,6 @@ public class ResetPasswordPost extends PostRoute {
         var saltCheckResult = saltCheck.executeQuery();
         saltCheckResult.next();
         var salt = saltCheckResult.getString("salt");
-
-        var params = parseBodyParams(request);
-        var newPassword = params.get("new_password");
-        var oldPassword = params.get("old_password");
 
         var newPasswordHash = app.hashPassword(newPassword, salt);
         var oldPasswordHash = app.hashPassword(oldPassword, salt);
@@ -67,6 +80,6 @@ public class ResetPasswordPost extends PostRoute {
         updatePassword.executeUpdate();
         logger.info("User {} changed their password", userId);
 
-        response.redirect("/account");
+        response.redirect("/account?success=password_changed");
     }
 }
