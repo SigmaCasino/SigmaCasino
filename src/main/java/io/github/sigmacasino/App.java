@@ -81,7 +81,7 @@ public class App {
     /**
      * Initializes the database connection using the environment variables.
      * If the POSTGRES_PASSWORD environment variable is not set, the password will default to an empty string.
-     * The database is initialized by running the "database_init.sql" script.
+     * The tables are created if necessary by running the "database_init.sql" script.
      */
     private void initializeDatabase() {
         var password = System.getenv("POSTGRES_PASSWORD");

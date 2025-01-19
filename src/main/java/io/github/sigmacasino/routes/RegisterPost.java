@@ -35,8 +35,8 @@ public class RegisterPost extends PostRoute {
     /**
      * Handles the POST request for the registration form submission. This method validates the input,
      * checks for existing users, and registers a new user if the input is valid.
-     * If the input is invalid or a user already exists, the user is redirected to the registration page with an error
-     * message.
+     * If the input is invalid or a user already exists,
+     * the user is redirected to the registration page with an error message.
      *
      * @param request the HTTP request
      * @param response the HTTP response

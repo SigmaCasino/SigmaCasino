@@ -1,12 +1,10 @@
 package io.github.sigmacasino.routes;
 
-import java.sql.SQLException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.PostRoute;
+import java.sql.SQLException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 
@@ -30,8 +28,9 @@ public class LoginPost extends PostRoute {
 
     /**
      * Handles the POST request for the login form submission. This method checks the user's credentials and logs them
-     * in if they are valid. If the user's credentials are invalid, the user is redirected to the login page with an
-     * error message.
+     * in if they are valid. If the user's credentials are invalid, the user is redirected back to the login page with
+     * an error message. If the credentials are valid, the session is updated with the user's identifier and username
+     * attributes.
      *
      * @param request the HTTP request
      * @param response the HTTP response
@@ -67,7 +66,7 @@ public class LoginPost extends PostRoute {
 
         logger.info("User {} logged in", userCheckResult.getString("username"));
         request.session().attribute("user_id", userCheckResult.getInt("user_id"));
-        request.session().maxInactiveInterval(3600);
+        request.session().maxInactiveInterval(3_600);
         request.session().attribute("username", userCheckResult.getString("username"));
         response.redirect("/games");
     }

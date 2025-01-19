@@ -30,8 +30,10 @@ public class Roulette extends HTMLTemplateRoute {
     public String getHTMLTemplatePath(Request request) {
         return "games/roulette.html";
     }
+
     /**
-     * Populates the template context with roulette game data or an error flag based on the replay ID.
+     * Populates the template context with roulette game data (date, bet amount, guess, result)
+     * or redirects the user on error with a correct flag in the URL.
      *
      * @param request The HTTP request containing the query parameter.
      * @param response The HTTP response used to redirect the user.
@@ -49,11 +51,11 @@ public class Roulette extends HTMLTemplateRoute {
             if (query_result.next()) {
                 String litera = query_result.getString("guess");
                 litera = switch (litera) {
-                        case "b" -> "black";
-                        case "r" -> "red";
-                        case "g" -> "green";
-                        default -> litera;
-                    };
+                    case "b" -> "black";
+                    case "r" -> "red";
+                    case "g" -> "green";
+                    default -> litera;
+                };
                 return Map.of(
                     "date", query_result.getString("date"),
                     "bet", query_result.getDouble("bet"),

@@ -15,12 +15,24 @@ import spark.Spark;
  * A route that handles POST requests.
  */
 public abstract class PostRoute extends HTTPRoute {
+    /**
+     * The logger for the PostRoute class.
+     */
     private static Logger postRouteLogger = LoggerFactory.getLogger(PostRoute.class);
 
+    /**
+     * Constructs a new PostRoute.
+     * @param app app instance, passed to the super contructor
+     * @param path the path of the route, passed to the super contructor
+     */
     protected PostRoute(App app, String path) {
         super(app, path);
     }
 
+    /**
+     * Runs super.handle() and then calls handlePost().
+     * @return empty string
+     */
     @Override
     public final Object handle(Request request, Response response) throws Exception {
         super.handle(request, response);
