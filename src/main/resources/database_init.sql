@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- Stripe deposits and withdrawals.
 CREATE TABLE IF NOT EXISTS deposits_withdrawals (
     transaction_id serial NOT NULL PRIMARY KEY,
+    stripe_id character varying(100) NOT NULL,
     user_id integer NOT NULL REFERENCES users,
     date timestamp without time zone NOT NULL,
     amount numeric(10,2) NOT NULL

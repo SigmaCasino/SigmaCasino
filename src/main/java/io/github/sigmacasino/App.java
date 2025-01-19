@@ -41,7 +41,8 @@ public class App {
         new Games(this),          new StripeDeposit(this), new StripeResult(this),
         new StripeWithdraw(this), new Account(this),       new Horses(this),
         new HorsesPost(this),     new Roulette(this),      new RoulettePost(this),
-        new Logout(this),         new ResetPassword(this), new ResetPasswordPost(this)
+        new Logout(this),         new ResetPassword(this), new ResetPasswordPost(this),
+        new StripeWebhook(this)
     };
 
     /**

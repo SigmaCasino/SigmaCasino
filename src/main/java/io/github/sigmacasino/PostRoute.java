@@ -25,7 +25,7 @@ public abstract class PostRoute extends HTTPRoute {
     public final Object handle(Request request, Response response) throws Exception {
         super.handle(request, response);
         handlePost(request, response);
-        return null;
+        return "";
     }
 
     @Override

@@ -22,3 +22,4 @@
 fly.toml
 
 *.md
+*.env

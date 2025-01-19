@@ -42,6 +42,19 @@
         {% for t in transactions -%}
         {{ t }}
         {% endfor %}
+        <div class="product">
+            <div class="description">
+                <h1>Wpłata na kasyno</h1>
+                <h2>2 PLN</h2>
+            </div>
+        </div>
+        <form action="/account/deposit" method="POST">
+            <div class="input-container">
+                <label for="amount">ile chcesz wpłacić</label>
+                <input type="integer" id="amount" name="amount" required>
+            </div>
+            <button type="submit" id="checkout-button">Checkout</button>
+        </form>
     </div>
 </main>
 
