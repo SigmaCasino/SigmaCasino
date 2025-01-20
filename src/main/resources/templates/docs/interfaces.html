@@ -32,9 +32,12 @@
                 <pre>
 SELECT balance FROM users WHERE user_id = ?;
 SELECT * FROM (
-    SELECT 'transaction' as operation, transaction_id, date, amount FROM deposits_withdrawals WHERE user_id = ?
-    UNION SELECT 'horses' as operation, horses_id, date, bet FROM horses WHERE user_id = ?
-    UNION SELECT 'roulette' as operation, roulette_id, date, bet FROM roulette WHERE user_id = ?
+    SELECT 'transaction' as operation, transaction_id, date, amount
+    FROM deposits_withdrawals WHERE user_id = ?
+    UNION SELECT 'horses' as operation, horses_id, date, bet
+    FROM horses WHERE user_id = ?
+    UNION SELECT 'roulette' as operation, roulette_id, date, bet
+    FROM roulette WHERE user_id = ?
 ) ORDER BY date DESC LIMIT 50;
                 </pre>
             </li>
@@ -63,7 +66,8 @@ UPDATE users SET password_hash = ? WHERE user_id = ?;
                 <pre>
 SELECT * FROM horses WHERE horses_id = ?;
 SELECT balance FROM users WHERE user_id = ?;
-INSERT INTO horses(user_id, date, bet, guess, times, bezier_curves) VALUES (?,NOW(),?,?,?,?) RETURNING horses_id;
+INSERT INTO horses (user_id, date, bet, guess, times, bezier_curves)
+VALUES (?,NOW(),?,?,?,?) RETURNING horses_id;
 UPDATE users SET balance = balance + ? WHERE user_id = ?;
                 </pre>
             </li>
@@ -72,21 +76,24 @@ UPDATE users SET balance = balance + ? WHERE user_id = ?;
                 <pre>
 SELECT * FROM roulette WHERE roulette_id = ?;
 SELECT balance FROM users WHERE user_id = ?;
-INSERT INTO roulette(user_id, date, bet, guess, result) VALUES (?,NOW(),?,?,?) RETURNING roulette_id;
+INSERT INTO roulette (user_id, date, bet, guess, result)
+VALUES (?,NOW(),?,?,?) RETURNING roulette_id;
 UPDATE users SET balance = balance + ? WHERE user_id = ?;
                 </pre>
             </li>
             <li>
                 <h4>/account/deposit</h4>
                 <pre>
-INSERT INTO deposits_withdrawals (user_id, stripe_id, date, amount) VALUES (?, ?, NOW(), ?);
+INSERT INTO deposits_withdrawals (user_id, stripe_id, date, amount)
+VALUES (?, ?, NOW(), ?);
 UPDATE users SET balance = balance + ? WHERE user_id = ?;
                 </pre>
             </li>
             <li>
                 <h4>/account/withdraw</h4>
                 <pre>
-INSERT INTO deposits_withdrawals (user_id, stripe_id, date, amount) VALUES (?, ?, NOW(), ?);
+INSERT INTO deposits_withdrawals (user_id, stripe_id, date, amount)
+VALUES (?, ?, NOW(), ?);
 UPDATE users SET balance = balance + ? WHERE user_id = ?;
                 </pre>
             </li>
@@ -96,7 +103,7 @@ UPDATE users SET balance = balance + ? WHERE user_id = ?;
             Interfejs Stripe został zaimplementowany zgodnie z dokumentacją dostępną na stronie <a
                 href="https://docs.stripe.com/">Stripe API</a>. Do wykonywania żądań wykorzystano oficjalną bibliotekę
             Stripe do języka Java. Opis wykorzystywanych funkcjonalności został również uwzględniony w wygenerowanych
-            <a href="/javadoc/io/github/sigmacasino/routes/account/package-summary.html">JavaDocs oraz na <a
+            <a href="/javadoc/io/github/sigmacasino/routes/account/package-summary.html">JavaDocs</a> oraz na <a
                     href="/docs/uml">diagramach sekwencji UML</a>.
         </p>
     </div>
