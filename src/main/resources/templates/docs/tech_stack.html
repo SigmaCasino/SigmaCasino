@@ -1,0 +1,61 @@
+{% extends "templates/base.html" %}
+
+{% block head_extensions %}
+<link rel="stylesheet" href="/css/docs.css">
+{% endblock %}
+
+{% block title %}Sigma Casino - Dokumentacja{% endblock %}
+
+{% block content %}
+
+<div class="container mx-auto mt-10 text-white">
+
+    <!-- HEADER -->
+    <div class="text-6xl font-bold mb-10">
+        STOS TECHNOLOGICZNY
+    </div>
+
+
+    <!-- DOCS -->
+    <div class="container box px-8 py-6 docs mb-20">
+        <h3>Lista wykorzystywanych technologii:</h3>
+        <ul>
+            <li>
+                GitHub: Narzędzie do zarządzania kodem źródłowym i współpracy zespołowej. Umożliwia łatwe śledzenie
+                zmian w kodzie, zarządzanie wersjami i rozwiązywanie konfliktów.
+            </li>
+            <li>
+                Java: Język programowania używany do tworzenia aplikacji backendowych. Wybrany ze względu na dużą
+                skalowalność, wydajność oraz szeroką społeczność wsparcia.
+            </li>
+            <li>
+                Spark: Framework do przetwarzania danych w dużych zbiorach. Używany do analizy danych i optymalizacji
+                procesów backendowych.
+            </li>
+            <li>
+                Jinja: Silnik szablonów używany w integracji z backendem, umożliwiający dynamiczne generowanie treści
+                HTML.
+            </li>
+            <li>
+                TailwindCSS: Framework CSS, który pozwala szybko tworzyć responsywne i estetyczne interfejsy
+                użytkownika. Wybrany ze względu na elastyczność i łatwość w dostosowywaniu.
+            </li>
+            <li>
+                Stripe: Platforma do obsługi płatności online. Używana do obsługi transakcji w kasynie online,
+                zapewniając bezpieczne i szybkie płatności.
+            </li>
+            <li>
+                HTML/CSS/JavaScript: Technologie frontendowe, które umożliwiają tworzenie interaktywnych interfejsów
+                użytkownika.
+            </li>
+            <li>
+                PostgreSQL: Relacyjna baza danych wybrana ze względu na niezawodność i wsparcie dla dużych zbiorów
+                danych. Zapewnia skalowalność i bezpieczeństwo przechowywania danych.
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+
+{% endblock %}
