@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS horses (
     bet numeric(10,2) NOT NULL,
     guess integer NOT NULL,
     times integer[4] NOT NULL,
-    bezier_curves double precision[4] NOT NULL
+    bezier_curves double precision[16] NOT NULL
 );
 
 -- Roulette game bets and replays.

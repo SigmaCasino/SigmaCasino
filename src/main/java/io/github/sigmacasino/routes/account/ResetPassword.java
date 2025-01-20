@@ -37,6 +37,6 @@ public class ResetPassword extends HTMLTemplateRoute {
      */
     @Override
     public String getHTMLTemplatePath(Request request) {
-        return "account/reset_password.html";
+        return "reset_password.html";
     }
 }
