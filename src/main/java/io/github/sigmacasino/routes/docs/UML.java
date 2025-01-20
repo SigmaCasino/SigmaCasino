@@ -1,14 +1,14 @@
-package io.github.sigmacasino.routes;
+package io.github.sigmacasino.routes.docs;
 
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.HTMLTemplateRoute;
 import spark.Request;
 
 /**
- * The route for the games page.
+ * The route for the UML diagrams page.
  */
-public class DocsUML extends HTMLTemplateRoute {
-    public DocsUML(App app) {
+public class UML extends HTMLTemplateRoute {
+    public UML(App app) {
         super(app, "/docs/uml");
     }
 

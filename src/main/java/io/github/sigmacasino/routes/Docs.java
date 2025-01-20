@@ -5,7 +5,7 @@ import io.github.sigmacasino.HTMLTemplateRoute;
 import spark.Request;
 
 /**
- * The route for the games page.
+ * The route for the docs main page.
  */
 public class Docs extends HTMLTemplateRoute {
     public Docs(App app) {

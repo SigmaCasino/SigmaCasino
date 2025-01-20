@@ -1,14 +1,14 @@
-package io.github.sigmacasino.routes;
+package io.github.sigmacasino.routes.docs;
 
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.HTMLTemplateRoute;
 import spark.Request;
 
 /**
- * The route for the games page.
+ * The route for the interfaces documentation page.
  */
-public class DocsInterfaces extends HTMLTemplateRoute {
-    public DocsInterfaces(App app) {
+public class Interfaces extends HTMLTemplateRoute {
+    public Interfaces(App app) {
         super(app, "/docs/interfaces");
     }
 

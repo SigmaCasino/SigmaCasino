@@ -4,6 +4,7 @@ import com.hubspot.jinjava.Jinjava;
 import com.stripe.Stripe;
 import io.github.sigmacasino.routes.*;
 import io.github.sigmacasino.routes.account.*;
+import io.github.sigmacasino.routes.docs.*;
 import io.github.sigmacasino.routes.games.*;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -36,13 +37,33 @@ public class App {
      * Each route is an instance of a class that extends the HTTPRoute class.
      */
     private HTTPRoute[] routes = {
-        new Root(this),           new Index(this),         new Login(this),
-        new LoginPost(this),      new Register(this),      new RegisterPost(this),
-        new Games(this),          new StripeDeposit(this), new StripeResult(this),
-        new StripeWithdraw(this), new Account(this),       new Horses(this),
-        new HorsesPost(this),     new Roulette(this),      new RoulettePost(this),
-        new Logout(this),         new ResetPassword(this), new ResetPasswordPost(this),
-        new Docs(this), new DocsInterfaces(this), new DocsRequirements(this), new DocsStructure(this), new DoscSystemArchitecture(this), new DocsTechStack(this), new DocsTests(this), new DocsUML(this), new DocsUR(this) 
+        new Root(this),
+        new Index(this),
+        new Login(this),
+        new LoginPost(this),
+        new Register(this),
+        new RegisterPost(this),
+        new Games(this),
+        new StripeDeposit(this),
+        new StripeResult(this),
+        new StripeWithdraw(this),
+        new Account(this),
+        new Horses(this),
+        new HorsesPost(this),
+        new Roulette(this),
+        new RoulettePost(this),
+        new Logout(this),
+        new ResetPassword(this),
+        new ResetPasswordPost(this),
+        new Docs(this),
+        new Interfaces(this),
+        new Requirements(this),
+        new Structure(this),
+        new SystemArchitecture(this),
+        new TechStack(this),
+        new Tests(this),
+        new UML(this),
+        new ER(this)
     };
 
     /**

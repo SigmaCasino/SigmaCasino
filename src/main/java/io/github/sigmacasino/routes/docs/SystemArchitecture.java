@@ -1,4 +1,4 @@
-package io.github.sigmacasino.routes;
+package io.github.sigmacasino.routes.docs;
 
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.HTMLTemplateRoute;
@@ -7,8 +7,8 @@ import spark.Request;
 /**
  * The route for the games page.
  */
-public class DoscSystemArchitecture extends HTMLTemplateRoute {
-    public DoscSystemArchitecture(App app) {
+public class SystemArchitecture extends HTMLTemplateRoute {
+    public SystemArchitecture(App app) {
         super(app, "/docs/system_architecture");
     }
 

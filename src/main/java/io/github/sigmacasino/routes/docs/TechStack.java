@@ -1,14 +1,14 @@
-package io.github.sigmacasino.routes;
+package io.github.sigmacasino.routes.docs;
 
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.HTMLTemplateRoute;
 import spark.Request;
 
 /**
- * The route for the games page.
+ * The route for the tech stack documentation page.
  */
-public class DocsTechStack extends HTMLTemplateRoute {
-    public DocsTechStack(App app) {
+public class TechStack extends HTMLTemplateRoute {
+    public TechStack(App app) {
         super(app, "/docs/tech_stack");
     }
 
