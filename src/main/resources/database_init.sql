@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
     salt character(32) NOT NULL,  -- password salt, 16 bytes in hex
     password_hash character(64) NOT NULL,  -- SHA-256 in hex
     email character varying(100) NOT NULL,
-    balance numeric(10,2) NOT NULL DEFAULT 100.00
+    balance numeric(10,2) NOT NULL DEFAULT 10.00
 );
 
 -- Stripe deposits and withdrawals.

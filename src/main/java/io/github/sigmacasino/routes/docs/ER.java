@@ -9,11 +9,11 @@ import spark.Request;
  */
 public class ER extends HTMLTemplateRoute {
     public ER(App app) {
-        super(app, "/docs/ur");
+        super(app, "/docs/er");
     }
 
     @Override
     public String getHTMLTemplatePath(Request request) {
-        return "docs/ur.html";
+        return "docs/er.html";
     }
 }
