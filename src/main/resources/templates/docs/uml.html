@@ -1,0 +1,41 @@
+{% extends "templates/base.html" %}
+
+{% block head_extensions %}
+<link rel="stylesheet" href="/css/docs.css">
+{% endblock  %}
+
+{% block title %}Sigma Casino - Dokumentacja{% endblock  %}
+
+{% block content %}
+
+<div class="container mx-auto mt-10 text-white">
+
+  <!-- HEADER -->
+  <div class="text-6xl font-bold mb-10">
+    DIAGRAMY UML
+  </div>
+
+
+  <!-- DOCS -->
+  <div class="container box px-8 py-6 docs mb-20">
+
+    <h2>Przypadki użycia</h2>
+
+    <img src="/docs/use_cases.png" alt="use case'y">
+
+    <h2>Diagramy sekwencji</h2>
+
+    <img src="/docs/diagram_sekwencji_1.png" alt="diagram sekwencji">
+
+    <img src="/docs/diagram_sekwencji_2.png" alt="diagram sekwencji">
+
+    <img src="/docs/diagram_sekwencji_3.png" alt="diagram sekwencji">
+
+    <img src="/docs/diagram_sekwencji_4.png" alt="diagram sekwencji">
+
+  </div>
+
+</div>
+
+
+{% endblock %}
