@@ -63,7 +63,8 @@ public class App {
         new TechStack(this),
         new Tests(this),
         new UML(this),
-        new ER(this)
+        new ER(this),
+        new RiskAnalysis(this)
     };
 
     /**

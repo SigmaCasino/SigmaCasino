@@ -90,7 +90,3 @@
     text-align: left;
     padding: 8px;
 }
-
-.docs tr:nth-child(even) {
-    background-color: #4e4e4e;
-}

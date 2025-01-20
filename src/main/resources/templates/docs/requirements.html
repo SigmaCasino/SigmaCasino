@@ -1,0 +1,108 @@
+{% extends "templates/base.html" %}
+
+{% block head_extensions %}
+<link rel="stylesheet" href="/css/docs.css">
+{% endblock %}
+
+{% block title %}Sigma Casino - Dokumentacja{% endblock %}
+
+{% block content %}
+
+<div class="container mx-auto mt-10 text-white">
+
+    <!-- HEADER -->
+    <div class="text-6xl font-bold mb-10">
+        WYMAGANIA PROJEKTU
+    </div>
+
+
+    <!-- DOCS -->
+    <div class="container box px-8 py-6 docs mb-20">
+        <h1>Wymagania funkcjonalne</h1>
+
+        <h2>Rejestracja i logowanie użytkowników</h2>
+        <ul>
+            <li>Aplikacja umożliwia rejestrację nowych użytkowników oraz logowanie do istniejących kont.</li>
+            <li>Formularz rejestracyjny znajduje się w pliku: register.html.</li>
+            <li>Weryfikacja danych użytkownika odbywa się za pomocą adresu e-mail.</li>
+        </ul>
+
+        <h2>Obsługa wpłat i wypłat za pomocą Stripe</h2>
+        <ul>
+            <li>Aplikacja umożliwia realizację wpłat i wypłat za pomocą usługi Stripe.</li>
+            <li>Formularz do realizacji wpłat znajduje się w pliku: deposit.html.</li>
+            <li>Obsługa płatności Stripe jest zintegrowana z API aplikacji.</li>
+        </ul>
+
+        <h2>Gry kasynowe (ruletka)</h2>
+        <ul>
+            <li>Aplikacja oferuje grę w ruletkę.</li>
+            <li>Mechanika ruletki została zaimplementowana w klasie: RoulettePost.java.</li>
+            <li>Ruletka działa na zasadach losowości generowanej za pomocą RNG.</li>
+        </ul>
+
+        <h2>Gry kasynowe (wyścigi konne)</h2>
+        <ul>
+            <li>Aplikacja oferuje symulację wyścigów konnych.</li>
+            <li>Mechanika gry została zaimplementowana w klasie: HorseRacingPost.java.</li>
+            <li>Wyniki wyścigów są generowane losowo z uwzględnieniem statystyk koni.</li>
+        </ul>
+
+        <h2>Strona konta użytkownika</h2>
+        <ul>
+            <li>Użytkownicy mają dostęp do strony swojego konta, gdzie mogą sprawdzić historię wpłat, wypłat i gier.
+            </li>
+            <li>Implementacja strony konta znajduje się w klasie: Account.java.</li>
+            <li>Strona jest dostępna po zalogowaniu pod adresem URL: /account.</li>
+        </ul>
+
+        <h2>Zmiana hasła</h2>
+        <ul>
+            <li>Aplikacja umożliwia użytkownikom zmianę hasła.</li>
+            <li>Formularz do zmiany hasła znajduje się w pliku: change_password.html.</li>
+            <li>Implementacja zmiany hasła znajduje się w klasie: ResetPasswordPost.java.</li>
+        </ul>
+
+        <h2>Strona dokumentacji wymagań</h2>
+        <ul>
+            <li>Aplikacja posiada stronę dokumentacyjną wymagań użytkownika.</li>
+            <li>Obsługa tej strony znajduje się w klasie: Requirements.java.</li>
+            <li>Strona jest dostępna pod adresem URL: /requirements.</li>
+        </ul>
+
+        <h1>Wymagania niefunkcjonalne</h1>
+
+        <h2>Uruchamianie za pomocą Docker</h2>
+        <ul>
+            <li>Aplikacja ma być uruchamiana w kontenerze Docker.</li>
+            <li>Docker konfiguruje trwałą bazę danych PostgreSQL oraz uruchamia aplikację jako jeden obraz.</li>
+            <li>Plik Dockerfile zawiera pełną konfigurację, a szczegóły implementacji znajdują się w pliku README.md.
+            </li>
+        </ul>
+
+        <h2>Konfiguracja środowiska za pomocą Maven</h2>
+        <ul>
+            <li>Aplikacja jest konfigurowana i uruchamiana za pomocą narzędzia Maven.</li>
+            <li>Środowisko wymaga ustawienia zmiennych środowiskowych, takich jak DB_URL i STRIPE_API_KEY.</li>
+            <li>Instrukcje konfiguracji Maven znajdują się w pliku README.md.</li>
+        </ul>
+
+        <h2>Wdrażanie na platformie fly.io</h2>
+        <ul>
+            <li>Aplikacja jest wdrażana na platformie fly.io.</li>
+            <li>Plik fly.toml zawiera konfigurację wdrożenia.</li>
+            <li>Szczegółowe instrukcje wdrożenia znajdują się w pliku README.md.</li>
+        </ul>
+
+        <h2>Baza danych PostgreSQL</h2>
+        <ul>
+            <li>Aplikacja korzysta z PostgreSQL jako bazy danych.</li>
+            <li>Konfiguracja bazy danych znajduje się w pliku Dockerfile.</li>
+            <li>Połączenie z bazą danych jest realizowane za pomocą zmiennych środowiskowych.</li>
+        </ul>
+    </div>
+
+</div>
+
+
+{% endblock %}
