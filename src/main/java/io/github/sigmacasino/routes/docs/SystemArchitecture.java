@@ -9,11 +9,11 @@ import spark.Request;
  */
 public class SystemArchitecture extends HTMLTemplateRoute {
     public SystemArchitecture(App app) {
-        super(app, "/docs/system_architecture");
+        super(app, "/docs/architecture");
     }
 
     @Override
     public String getHTMLTemplatePath(Request request) {
-        return "docs/system_architecture.html";
+        return "docs/architecture.html";
     }
 }

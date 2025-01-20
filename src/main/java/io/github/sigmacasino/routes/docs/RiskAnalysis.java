@@ -9,11 +9,11 @@ import spark.Request;
  */
 public class RiskAnalysis extends HTMLTemplateRoute {
     public RiskAnalysis(App app) {
-        super(app, "/docs/docs_analysis");
+        super(app, "/docs/risk_analysis");
     }
 
     @Override
     public String getHTMLTemplatePath(Request request) {
-        return "docs/docs_analysis.html";
+        return "docs/risk_analysis.html";
     }
 }
