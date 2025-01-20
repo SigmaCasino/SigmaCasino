@@ -43,7 +43,8 @@ public abstract class HTTPRoute implements spark.Route {
      * @param request The request object.
      * @param response The response object.
      * @return The response object.
-     * @throws Exception
+     * @throws Exception If an error occurs while handling the request.
+     * @see spark.Route#handle(Request, Response)
      */
     @Override
     public Object handle(Request request, Response response) throws Exception {

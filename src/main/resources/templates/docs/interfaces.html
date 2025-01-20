@@ -1,0 +1,114 @@
+{% extends "templates/base.html" %}
+
+{% block head_extensions %}
+<link rel="stylesheet" href="/css/docs.css">
+{% endblock %}
+
+{% block title %}Sigma Casino - Dokumentacja{% endblock %}
+
+{% block content %}
+
+<div class="container mx-auto mt-10 text-white">
+
+    <!-- HEADER -->
+    <div class="text-6xl font-bold mb-10">
+        OPIS INTERFEJSÓW
+    </div>
+
+
+    <!-- DOCS -->
+    <div class="container box px-8 py-6 docs mb-20">
+        <h2>Interfejs HTTP</h2>
+        <p>Dokumentacja interfejsu HTTP (API) Sigma Casino została stworzona z wykorzystaniem narzędzia OpenAPI. Można
+            ją przeglądać
+            wczytując plik konfiguracyjny <a href="/openapi.yaml">openapi.yaml</a> w narzędziu <a
+                href="https://editor.swagger.io/">Swagger Editor</a>.</p>
+        <h2>Interfejs JDBC</h2>
+        <p>Poniższa lista dokumentuje wszelkie kwerendy wywoływane przez aplikację za pomocą JDBC wraz ze ścieżkami, do
+            których przynależą:</p>
+        <ul>
+            <li>
+                <h4>/account</h4>
+                <pre>
+SELECT balance FROM users WHERE user_id = ?;
+SELECT * FROM (
+    SELECT 'transaction' as operation, transaction_id, date, amount
+    FROM deposits_withdrawals WHERE user_id = ?
+    UNION SELECT 'horses' as operation, horses_id, date, bet
+    FROM horses WHERE user_id = ?
+    UNION SELECT 'roulette' as operation, roulette_id, date, bet
+    FROM roulette WHERE user_id = ?
+) ORDER BY date DESC LIMIT 50;
+                </pre>
+            </li>
+            <li>
+                <h4>/login</h4>
+                <pre>
+SELECT user_id, username, salt, password_hash FROM users WHERE email = ?;
+                </pre>
+            </li>
+            <li>
+                <h4>/register</h4>
+                <pre>
+SELECT user_id FROM users WHERE username = ? OR email = ?;
+INSERT INTO users (username, salt, email, password_hash) VALUES (?, ?, ?, ?);
+                </pre>
+            </li>
+            <li>
+                <h4>/account/reset_password</h4>
+                <pre>
+SELECT salt, password_hash FROM users WHERE user_id = ?;
+UPDATE users SET password_hash = ? WHERE user_id = ?;
+                </pre>
+            </li>
+            <li>
+                <h4>/games/horses</h4>
+                <pre>
+SELECT * FROM horses WHERE horses_id = ?;
+SELECT balance FROM users WHERE user_id = ?;
+INSERT INTO horses (user_id, date, bet, guess, times, bezier_curves)
+VALUES (?,NOW(),?,?,?,?) RETURNING horses_id;
+UPDATE users SET balance = balance + ? WHERE user_id = ?;
+                </pre>
+            </li>
+            <li>
+                <h4>/games/roulette</h4>
+                <pre>
+SELECT * FROM roulette WHERE roulette_id = ?;
+SELECT balance FROM users WHERE user_id = ?;
+INSERT INTO roulette (user_id, date, bet, guess, result)
+VALUES (?,NOW(),?,?,?) RETURNING roulette_id;
+UPDATE users SET balance = balance + ? WHERE user_id = ?;
+                </pre>
+            </li>
+            <li>
+                <h4>/account/deposit</h4>
+                <pre>
+INSERT INTO deposits_withdrawals (user_id, stripe_id, date, amount)
+VALUES (?, ?, NOW(), ?);
+UPDATE users SET balance = balance + ? WHERE user_id = ?;
+                </pre>
+            </li>
+            <li>
+                <h4>/account/withdraw</h4>
+                <pre>
+INSERT INTO deposits_withdrawals (user_id, stripe_id, date, amount)
+VALUES (?, ?, NOW(), ?);
+UPDATE users SET balance = balance + ? WHERE user_id = ?;
+                </pre>
+            </li>
+        </ul>
+        <h2>Interfejs płatności Stripe</h2>
+        <p>
+            Interfejs Stripe został zaimplementowany zgodnie z dokumentacją dostępną na stronie <a
+                href="https://docs.stripe.com/">Stripe API</a>. Do wykonywania żądań wykorzystano oficjalną bibliotekę
+            Stripe do języka Java. Opis wykorzystywanych funkcjonalności został również uwzględniony w wygenerowanych
+            <a href="/javadoc/io/github/sigmacasino/routes/account/package-summary.html">JavaDocs</a> oraz na <a
+                    href="/docs/uml">diagramach sekwencji UML</a>.
+        </p>
+    </div>
+
+</div>
+
+
+{% endblock %}

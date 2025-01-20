@@ -63,7 +63,8 @@ public class App {
         new TechStack(this),
         new Tests(this),
         new UML(this),
-        new ER(this)
+        new ER(this),
+        new RiskAnalysis(this)
     };
 
     /**
@@ -84,16 +85,22 @@ public class App {
     private MessageDigest passwordHasher;
 
     /**
-     * Initializes the application by setting up the database, Spark, Stripe, and routes.
-     * This method should be called once at the beginning of the application's lifecycle.
+     * The constructor of the App class.
+     * It initializes the password hasher with the SHA-256 algorithm.
      */
-    public void run() {
+    public App() {
         try {
             passwordHasher = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
             logger.error("Failed to obtain SHA-256 hasher!", e);
-            return;
         }
+    }
+
+    /**
+     * Initializes the application by setting up the database, Spark, Stripe, and routes.
+     * This method should be called once at the beginning of the application's lifecycle.
+     */
+    public void run() {
         initializeDatabase();
         initializeSpark();
         initializeStripe();
@@ -103,7 +110,7 @@ public class App {
     /**
      * Initializes the database connection using the environment variables.
      * If the POSTGRES_PASSWORD environment variable is not set, the password will default to an empty string.
-     * The database is initialized by running the "database_init.sql" script.
+     * The tables are created if necessary by running the "database_init.sql" script.
      */
     private void initializeDatabase() {
         var password = System.getenv("POSTGRES_PASSWORD");
@@ -210,6 +217,15 @@ public class App {
             sb.append(String.format("%02x", b));
         }
         return sb.toString();
+    }
+
+    /**
+     * Checks if an email is valid by ensuring it contains an "@" and a "." and is between 5 and 100 characters long.
+     * @param email the email to check
+     * @return true if the email is valid, false otherwise
+     */
+    public boolean checkValidEmail(String email) {
+        return email.contains("@") && email.contains(".") && email.length() >= 5 && email.length() <= 100;
     }
 
     /**

@@ -17,6 +17,9 @@ import spark.Response;
  * and registering a new horse racing game. It also redirects to the replay page with the game results.
  */
 public class HorsesPost extends PostRoute {
+    /**
+     * The logger used to log the user's horse racing games.
+     */
     private Logger logger = LoggerFactory.getLogger(HorsesPost.class);
 
     /**
@@ -30,9 +33,9 @@ public class HorsesPost extends PostRoute {
     }
 
     /**
-     * Handles the POST request for the horse racing game. It validates user balance, generates
-     * random race data, stores the result in the database, and updates the user's balance based
-     * on the outcome of the game. Redirects the user to the replay page with the race results.
+     * Handles the POST request for the horse racing game. It validates user balance, generates random race data
+     * according to the database schema, stores the result in the database, and updates the user's balance based on the
+     * outcome of the game. Redirects the user to the replay page with the race results.
      *
      * @param request The HTTP request containing the game parameters.
      * @param response The HTTP response used to redirect the user.
@@ -98,7 +101,9 @@ public class HorsesPost extends PostRoute {
         balance_update.setInt(1, stake);
         balance_update.setInt(2, user_id);
         balance_update.executeUpdate();
-        logger.info("User {} has {} in horses (stake: {}, replay: {})", user_id, has_won ? "won" : "lost", stake, horse_id);
+        logger.info(
+            "User {} has {} in horses (stake: {}, replay: {})", user_id, has_won ? "won" : "lost", stake, horse_id
+        );
         response.redirect("/games/horses?replay=" + horse_id);
     }
 }

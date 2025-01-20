@@ -90,7 +90,8 @@ public class LocalDatabase implements AutoCloseable {
 
     /**
      * Connects to the PostgreSQL database using the given password via JDBC.
-     * If the connection fails, it will retry 5 times with an exponential backoff.
+     * If the connection fails, it will retry 5 times with an exponential backoff,
+     * starting from 1s and doubling for each failure.
      * If the connection is successful, it will log the success.
      *
      * @param password the password to connect to the PostgreSQL database
@@ -130,6 +131,7 @@ public class LocalDatabase implements AutoCloseable {
      *
      * @param sqlTemplate the SQL template to prepare a statement for
      * @return the prepared statement for the given SQL template
+     * @see Connection#prepareStatement(String)
      */
     public PreparedStatement prepareStatement(String sqlTemplate) {
         if (connection != null) {
@@ -146,8 +148,7 @@ public class LocalDatabase implements AutoCloseable {
 
     /**
      * Runs the given SQL script by splitting it into individual queries and executing them in a
-     * batch statement.
-     * It filters out comments and empty lines.
+     * batch statement. It filters out comments and empty lines.
      *
      * @param script the SQL script contents
      */

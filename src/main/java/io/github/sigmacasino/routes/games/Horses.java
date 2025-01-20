@@ -34,7 +34,8 @@ public class Horses extends HTMLTemplateRoute {
     }
 
     /**
-     * Populates the template context with race data or an error flag based on the replay ID.
+     * Populates the template context with race data (date, bet amount, user's guess, horse times, and Bezier curves)
+     * or redirects the user on error with a correct flag in the URL.
      *
      * @param request The HTTP request containing the query parameter.
      * @param response The HTTP response used to redirect the user.

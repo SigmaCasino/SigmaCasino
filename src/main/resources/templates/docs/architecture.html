@@ -1,0 +1,90 @@
+{% extends "templates/base.html" %}
+
+{% block head_extensions %}
+<link rel="stylesheet" href="/css/docs.css">
+{% endblock  %}
+
+{% block title %}Sigma Casino - Dokumentacja{% endblock  %}
+
+{% block content %}
+
+<div class="container mx-auto mt-10 text-white">
+
+    <!-- HEADER -->
+    <div class="text-6xl font-bold mb-10">
+        ARCHITEKTURA SYSTEMU
+    </div>
+
+
+    <!-- DOCS -->
+    <div class="container box px-8 py-6 docs mb-20">
+
+        <h2>Diagram architektury</h2>
+
+        <img src="/images/diagram_architektury.png" alt="diagram architektury">
+
+        <h2>Opis architektury</h2>
+        <ul>
+            <li>
+                Przeglądarka użytkownika:
+                <ul>
+                    <li>Użytkownik wchodzi na stronę aplikacji za pomocą przeglądarki internetowej.</li>
+                    <li>Przeglądarka komunikuje się z częścią frontendową aplikacji, napisaną w języku JavaScript.</li>
+                    <li>Zapytania użytkownika są kierowane przez system DNS, który mapuje nazwę domeny na odpowiedni adres IP serwera hostującego frontend.</li>
+                </ul>
+            </li>
+            <li>
+                Frontend (JavaScript):
+                <ul>
+                    <li>Frontend aplikacji jest odpowiedzialny za prezentację interfejsu użytkownika.</li>
+                    <li>Interfejs użytkownika jest generowany dynamicznie na podstawie danych zwracanych przez backend.</li>
+                    <li>Frontend komunikuje się z backendem za pomocą zapytań HTTP.</li>
+                </ul>
+            </li>
+            <li>
+                Backend (Java i Spark):
+                <ul>
+                    <li>Warstwa serwerowa aplikacji, napisana w języku Java i korzystająca z frameworka Spark, który umożliwia obsługę żądań HTTP.</li>
+                    <li>Backend przetwarza dane, wykonuje logikę biznesową i komunikuje się z bazą danych.</li>
+                    <li>Obsługuje także integrację z zewnętrzną usługą płatności (Stripe).</li>
+                </ul>
+            </li>
+            <li>
+                Baza danych (PostgreSQL):
+                <ul>
+                    <li>Przechowuje dane aplikacji, takie jak informacje o użytkownikach, transakcjach itp.</li>
+                    <li>Backend komunikuje się z bazą danych za pomocą języka SQL, aby pobierać i zapisywać dane.</li>
+                    <li>Baza danych działa w środowisku Docker, co zapewnia łatwość wdrażania i zarządzania.</li>
+                </ul>
+            </li>
+            <li>
+                Integracja z usługą płatności (Stripe):
+                <ul>
+                    <li>Backend obsługuje płatności za pomocą zewnętrznego dostawcy płatności Stripe.</li>
+                    <li>Dane dotyczące płatności są przesyłane z backendu do Stripe, który zajmuje się realizacją transakcji.</li>
+                </ul>
+            <li>
+                Docker:
+                <ul>
+                    <li>Środowisko, w którym uruchamiane są komponenty backendu i bazy danych.</li>
+                    <li>Zapewnia izolację oraz łatwość wdrażania i skalowania aplikacji.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>Przepływ danych w systemie</h2>
+
+        <ul>
+            <li>Użytkownik wysyła żądanie do aplikacji poprzez przeglądarkę → żądanie trafia do frontendu.</li>
+            <li>Frontend przekazuje żądanie do backendu w celu przetworzenia.</li>
+            <li>Backend komunikuje się z bazą danych, pobiera lub zapisuje dane.</li>
+            <li>W przypadku operacji płatniczych backend przesyła dane do Stripe.</li>
+            <li>Wyniki są zwracane do frontendu i prezentowane użytkownikowi.</li>
+        </ul>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

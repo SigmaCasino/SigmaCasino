@@ -35,8 +35,8 @@ public class RegisterPost extends PostRoute {
     /**
      * Handles the POST request for the registration form submission. This method validates the input,
      * checks for existing users, and registers a new user if the input is valid.
-     * If the input is invalid or a user already exists, the user is redirected to the registration page with an error
-     * message.
+     * If the input is invalid or a user already exists,
+     * the user is redirected to the registration page with an error message.
      *
      * @param request the HTTP request
      * @param response the HTTP response
@@ -48,11 +48,11 @@ public class RegisterPost extends PostRoute {
         var username = params.get("username");
         var email = params.get("email");
         var password = params.get("password");
-        if (username.length() < 3 || username.length() > 16) {
+        if (!checkValidUsername(username)) {
             response.redirect("/register?error=username_length");
             return;
         }
-        if (!email.contains("@") || !email.contains(".") || email.length() < 5 || email.length() > 100) {
+        if (!app.checkValidEmail(email)) {
             response.redirect("/register?error=email_invalid");
             return;
         }
@@ -92,7 +92,7 @@ public class RegisterPost extends PostRoute {
      *
      * @return a string representing the generated salt
      */
-    private String generateSalt() {
+    public String generateSalt() {
         var salt = new byte[16];
         saltGenerator.nextBytes(salt);
         StringBuilder sb = new StringBuilder();
@@ -100,5 +100,16 @@ public class RegisterPost extends PostRoute {
             sb.append(String.format("%02x", b));
         }
         return sb.toString();
+    }
+
+    /**
+     * Checks if the username is valid.
+     * A valid username must be between 3 and 16 characters long.
+     *
+     * @param username the username to check
+     * @return true if the username is valid, false otherwise
+     */
+    public boolean checkValidUsername(String username) {
+        return username.length() >= 3 && username.length() <= 16;
     }
 }
