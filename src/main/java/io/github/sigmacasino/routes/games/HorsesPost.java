@@ -78,8 +78,8 @@ public class HorsesPost extends PostRoute {
         boolean has_won = false;
         if (i_min_time.contains(color)) has_won = true;
 
-        Double[] cubicBezier = new Double[4];
-        for (int i = 0; i < 4; i++) {
+        Double[] cubicBezier = new Double[16];
+        for (int i = 0; i < 16; i++) {
             cubicBezier[i] = random.nextDouble();
         }
         var post = app.getDatabase().prepareStatement(

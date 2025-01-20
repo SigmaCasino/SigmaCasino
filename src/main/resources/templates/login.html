@@ -1,79 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulette</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/login.css">
-</head>
-<body>
+{% extends "templates/base.html" %}
 
-    <!-- HEADER -->
-    <header>
-        <div class="logo-container">
-            <img class="logo" src="/svg/piggy-bank-solid-black.svg" alt="">
-            <h1>
-                <a href="/index" style="color: black">
-                    Sigma Casino
-                </a>
-            </h1>
-        </div>
-        <nav style="color: black">
-            <ul>
-                <li>
-                    <a href="/games">
-                        Games
-                    </a>
-                </li>
-                <li class="button-action">
-                    <a href="/login">
-                        Sign In
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
+    {% block title %}Sigma Casino - Log In{% endblock %}
 
-    <main style="width: 100vw; padding: 0 80px">
-        <div class="main-wrapper">
+    {% block content %}
+        <div class="w-fit mx-auto mb-20">
 
-            <div class="login-container">
+            <div class="box w-[600px] px-12">
                 <!-- LOGIN HEADER -->
-                <h2 class="login-header">
+                <h2 class="text-6xl font-bold text-center py-10">
                     Login
                 </h2>
 
                 <!-- FORM -->
-                <form method="post" class="login-form">
+                <form method="post">
                     <div class="input-container">
-                        <label for="email">email</label>
-                        <input type="text" id="email" name="email" required>
+                        <label for="email">Email</label>
+                        <input type="email" class="p-2" id="email" name="email" required>
                     </div>
                     <div class="input-container">
-                        <label for="password">password</label>
-                        <input type="password" id="password" name="password" required>
+                        <label for="password">Password</label>
+                        <input type="password" class="p-2" id="password" name="password" required>
                     </div>
 
                     <!-- SUBMIT BUTTON -->
-                    <button type="submit" class="button-action-full">Sign in</button>
+                    <button type="submit" class="button-action-full w-full py-2 text-2xl">Sign in</button>
                 </form>
 
-                <div class="or">
-                    <div class="line"></div>
+                <div class="flex justify-center items-center gap-5 my-12">
+                    <div class="bg-white w-40 h-[1px]"></div>
                     <span>OR</span>
-                    <div class="line"></div>
+                    <div class="bg-white w-40 h-[1px]"></div>
                 </div>
                 
                 <!-- OTHER LOGIN OPTION -->
-                <a href="/register" class="second-button-container">
-                    <button type="submit" class="button-action">Sign up</button>
+                <a href="/register" class="flex w-full">
+                    <button type="submit" class="button-action w-full py-2 text-2xl mb-10">Sign up</button>
                 </a>
 
             </div>
 
         </div>
-    </main>
-
-</body>
-</html>
+    {% endblock %}
