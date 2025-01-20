@@ -2,18 +2,15 @@ package io.github.sigmacasino;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import io.github.sigmacasino.routes.RegisterPost;
 import org.junit.jupiter.api.Test;
 
-import java.security.SecureRandom;
-import java.util.Random;
+import io.github.sigmacasino.routes.RegisterPost;
 
-public class HelperMethodsTests {
-
-    App app = new App();
+class SecurityMethodsTests {
+    private App app = new App();
 
     @Test
-    public void testHashPassword() {
+    void testHashPassword() {
         var password = "password123";
         var salt = "randomSalt";
         var hash = app.hashPassword(password, salt);
@@ -22,10 +19,10 @@ public class HelperMethodsTests {
     }
 
     @Test
-    public void testGenerateSalt() {
-        var salt = (new SecitityUtilis()).generateSalt();
+    void testGenerateSalt() {
+        var salt = new RegisterPost(app).generateSalt();
         assertNotNull(salt);
-        assertEquals(16, salt.length());
+        assertEquals(32, salt.length());
     }
 }
 

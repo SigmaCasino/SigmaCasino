@@ -4,39 +4,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-public class ValidationTests {
+import io.github.sigmacasino.routes.RegisterPost;
 
-    App app = new App();
+class ValidationTests {
+    private App app = new App();
 
     @Test
-    public void testEmailValidation() {
-        try {
-            var users = app.getDatabase().prepareStatement(
-                    "SELECT email FROM users"
-            );
-            var usersResult = users.executeQuery();
-            while (usersResult.next()) {
-                var email = usersResult.getString("email");
-                assertTrue(email.contains("@") || email.contains(".") || !email.length() < 5 || !email.length() > 100);
-            }
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-        }
+    void testEmailValidation() {
+        assertTrue(app.checkValidEmail("123@gmail.com"));
+        assertFalse(app.checkValidEmail("123gmail.com"));
+        assertFalse(app.checkValidEmail("123@gmailcom"));
+        assertFalse(app.checkValidEmail("12"));
     }
 
     @Test
-    public void testUsernameLengthValidation() {
-        try {
-            var users = app.getDatabase().prepareStatement(
-                    "SELECT username FROM users"
-            );
-            var usersResult = users.executeQuery();
-            while (usersResult.next()) {
-                var username = usersResult.getString("username");
-                assertTrue(username.length() > 3 || username.length() < 16);
-            }
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-        }
+    void testUsernameLengthValidation() {
+        var registerPost = new RegisterPost(app);
+        assertTrue(registerPost.checkValidUsername("12345678"));
+        assertFalse(registerPost.checkValidUsername("12"));
+        assertFalse(registerPost.checkValidUsername("loooooooooooooooong"));
     }
 }
