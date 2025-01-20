@@ -7,35 +7,6 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     {% endblock %}
 
-    <!-- HEADER -->
-    {% block logged_as %}
-        {%- if user_id is defined -%}
-            logged in as: <span>{{ username }}</span>
-        {%- endif -%}
-    {% endblock %}
-
-
-    {% block account %}
-        {%- if user_id is defined -%}
-            <li>
-                <a href="/account">
-                    Account
-                </a>
-            </li>
-            <li class="button-action">
-                <a href="/logout">
-                    Logout
-                </a>
-            </li>
-        {% else %}
-            <li class="button-action">
-                <a href="/login">
-                    Login
-                </a>
-            </li>
-        {%- endif -%}
-    {% endblock %}
-
 
     {% block content %}
     <div class="flex flex-col items-center relative text-white -mt-20">
@@ -51,7 +22,7 @@
         <!-- START BUTTON -->
         <form 
             class="bg-zinc-800 border-2 z-20 shadow-full w-[900px] rounded-[40px] py-5 mt-10 px-10 flex flex-col gap-10"
-        
+            method="post"
         >
             <div class="flex justify-between items-center">
                 <div class="flex flex-col items-cente">
@@ -89,7 +60,7 @@
                     <div class="input-container mb-0 mx-auto flex items-end gap-2">
                         <div>
                             <label for="">Amount</label>
-                            <input id="amount-input" class="text-center text-xl w-28 py-2" type="number">
+                            <input id="amount-input" name="stake" class="text-center text-xl w-28 py-2" type="number" required>
                         </div>
                         <button 
                             id="clear-amount"
@@ -104,6 +75,13 @@
                 
                 <div class="flex flex-col items-center">
                     <h3 class="text-2xl font-bold text-center">Bet:</h3>
+
+                    <select type="select" name="color" id="bet-input" class="hidden" required>
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option value="3"></option>
+                        <option value="4"></option>
+                    </select>
 
                     <div class="flex gap-2">
                         <button 
@@ -176,7 +154,7 @@
             </div>
 
             <button 
-                type="button" 
+                type="submit" 
                 id="startButton" 
                 class="button-action-full px-10 py-2 text-4xl tracking-widest"
             >
@@ -188,5 +166,13 @@
     {% endblock %}
 
     {% block scripts %}
+        <script>
+            const date = "{{ date }}";
+            const betAmount = "{{ bet }}";
+            const guess = "{{ guess }}";
+            const times = "{{ times }}";
+            const bezierCurves = "{{ bezier_curves }}";
+        </script>
+
         <script src="/js/horse_racing.js"></script>
     {% endblock %}

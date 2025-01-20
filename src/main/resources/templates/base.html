@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>{% block title required %}{% endblock %}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     {% block head_extensions %}
     {% endblock  %}
 </head>
@@ -14,10 +15,18 @@
     
 
     <div class="fixed -translate-y-40 duration-500 top-10 left-1/2 text-white -translate-x-1/2 pr-6 box z-[1000] flex items-center overflow-hidden" id="message-container">
-        <div class="px-6 py-3 bg-green-500 font-bold text-xl">
-            <i class="fas fa-circle-check mr-3"></i>
-            {{ notification_kind }}
-        </div>
+        {% if notification_kind == 'error' %}
+            <div class="px-6 py-3 bg-red-500 font-bold text-xl">
+                <i class="fas fa-circle-check mr-3"></i>
+                {{ notification_kind }}
+            </div>
+            {% else %}
+            <div class="px-6 py-3 bg-green-500 font-bold text-xl">
+                <i class="fas fa-circle-check mr-3"></i>
+                {{ notification_kind }}
+            </div>
+        {% endif %}
+
         <p class="px-6" id="message">
             {{ notification }}
         </p>
@@ -29,9 +38,9 @@
         class="relative fixed top-0 w-full z-10 flex justify-between p-10 pb-12 items-center text-white mb-10"    
     >
         <div class="absolute top-2 right-10 text-sm">
-            {% block logged_as %}
-                <!-- logged in as: <span>{{ username }}</span> -->
-            {% endblock %}
+            {% if user_id is defined %}
+                logged in as: <span>{{ username }}</span>
+            {% endif %}
         </div>
 
         <div class="flex items-center gap-5 group">
@@ -50,28 +59,19 @@
                     </a>
                 </li>
 
-                {% block account %}
-                <li class="button-action">
-                    <a href="/login">
-                        Sign In
-                    </a>
-                </li>
-                {% endblock %}
-
-                <!-- IF USER LOGGED IN-->
-                
-                <!-- 
-                <li>
-                    <a href="/account">
-                        Account
-                    </a>
-                </li>
-                <li class="button-action">
-                    <a href="/login">
-                        Logout
-                    </a>
-                </li> 
-                -->
+                {%- if user_id is defined -%}
+                    <li>
+                        <a href="/account">
+                            Account
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="button-action">
+                        <a href="/login">
+                            Sign in
+                        </a>
+                    </li>
+                {%- endif -%}                
 
             </ul>
         </nav>
@@ -106,8 +106,13 @@
     </main>
     
     {% block footer %}
-        <footer id="footer" class="fixed text-xs left-2 bottom-2 text-white z-10">
-            &copy; Copyright 2025 Sigma Casino.
+        <footer id="footer" class="fixed text-xs left-2 bottom-2 text-white z-[40] flex justify-between items-center w-screen">
+            <p>
+                &copy; Copyright 2025 Sigma Casino.
+            </p>
+            <p>
+                <a href="/docs">Docs</a>
+            </p>
         </footer>
     {% endblock %}
 

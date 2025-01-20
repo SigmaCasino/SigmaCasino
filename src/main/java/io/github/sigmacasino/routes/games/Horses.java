@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
+import java.util.List;
 
 /**
  * Handles the "/games/horses" route, fetching horse race data based on a replay ID
@@ -57,9 +58,9 @@ public class Horses extends HTMLTemplateRoute {
                     "guess",
                     query_result.getInt("guess"),
                     "times",
-                    query_result.getArray("times").getArray(),
+                    List.of((Integer[]) query_result.getArray("times").getArray()),
                     "bezier_curves",
-                    query_result.getArray("bezier_curves").getArray()
+                    List.of((Double[]) query_result.getArray("bezier_curves").getArray())
                 );
             } else {
                 response.redirect(path + "?error=wrong_replay_id");

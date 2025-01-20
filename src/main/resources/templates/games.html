@@ -1,37 +1,6 @@
 {% extends "templates/base.html" %}
     {% block title %}Sigma Casino - Games{% endblock %}
 
-    
-    
-
-    {% block logged_as %}
-        {%- if user_id is defined -%}
-            logged in as: <span>{{ username }}</span>
-        {%- endif -%}
-    {% endblock %}
-
-
-    {% block account %}
-        {%- if user_id is defined -%}
-            <li>
-                <a href="/account">
-                    Account
-                </a>
-            </li>
-            <li class="button-action">
-                <a href="/logout">
-                    Logout
-                </a>
-            </li>
-        {% else %}
-            <li class="button-action">
-                <a href="/login">
-                    Login
-                </a>
-            </li>
-        {%- endif -%}
-    {% endblock %}
-
 
 {% block content %}
     <div class="w-fit mx-auto text-white mb-20">

@@ -83,7 +83,7 @@ public class RegisterPost extends PostRoute {
         insertUser.executeUpdate();
         logger.info("Registered new user: {}", username);
 
-        response.redirect("/login?error=registered");
+        response.redirect("/login?success=registered");
     }
 
     /**

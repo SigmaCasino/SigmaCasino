@@ -4,6 +4,7 @@ const startButton = document.getElementById('startButton');
 const amountInput = document.getElementById("amount-input");
 const clearAmount = document.getElementById("clear-amount");
 
+
 // horse racing variables
 let horsesTimes;
 const horseColors = ['#ef4444', '#22d3ee', '#16a34a', '#9333ea'];
@@ -25,19 +26,24 @@ amountButtonsValues.forEach((value) => {
 
 
 // BET
-let bet;
 const betNumers = [1,2,3,4];
 betNumers.forEach((number) => {
     let button = document.getElementById(`button-${number}`);
     button.addEventListener("click", () => {
-        bet = number; 
-        betNumers.forEach((number) => {
-            let button = document.getElementById(`button-${number}`);
-            button.querySelector('.selected').classList.add("opacity-0");
-        })
-        button.querySelector('.selected').classList.remove("opacity-0");
+        removeSelected();
+        selectHorse(number);
     });
 })
+const removeSelected = () => {
+    betNumers.forEach((number) => {
+        let button = document.getElementById(`button-${number}`);
+        button.querySelector('.selected').classList.add("opacity-0");
+    })
+}
+const selectHorse = (number) => {
+    let button = document.getElementById(`button-${number}`);
+    button.querySelector('.selected').classList.remove("opacity-0");
+}
 
 // Create horse tracks
 for (let i = 0; i < 4; i++) {
@@ -66,31 +72,12 @@ for (let i = 0; i < 4; i++) {
     gameContainer.appendChild(horseTrack);
 }
 
-// Temporary function to generate times for each horse
-const generateTimes = () => {
-    const times = [];
-    for (let i = 0; i < 4; i++) {
-        const time = Math.floor(Math.random() * 15000) + 5000; // Random time between 1 and 5 seconds
-        times.push(time);
-    }
-    return times;
-}
-
-// Makes horse movement not linear
-generateCubicBezier = () => {
-    let cubicBezier = [];
-    for(i=0; i<4; i++){
-        cubicBezier.push(Math.random());
-    }
-    return cubicBezier;
-}
 
 // Applies styles
-setDurationProperties = (trackContainer, time) => {
+setDurationProperties = (trackContainer, time, bezierCurves) => {
     let trackEl = trackContainer.querySelector('.horse-track-indicator');
     let horseEl = trackContainer.querySelector('.horse');
-    let cubicBezier = generateCubicBezier();
-    let randomTransition = `right ${time / 1000}s cubic-bezier(${cubicBezier[0]}, ${cubicBezier[1]}, ${cubicBezier[2]}, ${cubicBezier[3]})`;
+    let randomTransition = `right ${time / 1000}s cubic-bezier(${bezierCurves[0]}, ${bezierCurves[1]}, ${bezierCurves[2]}, ${bezierCurves[3]})`;
     horseEl.style.transition = randomTransition;
     trackEl.style.transition = randomTransition;
     console.log(trackEl);
@@ -139,115 +126,89 @@ const showWinningMessage = (amount) => {
 
 }
 
-
-const resetHorses = () => {
-    horseTracks.forEach((trackContainer, i) => {
-        trackContainer.querySelector('.horse').style.transition = 'none';
-        trackContainer.querySelector('.horse-track').style.transition = 'none';
-        trackContainer.querySelector('.horse').style.right = '100%';
-        trackContainer.querySelector('.horse-track').style.right = '100%';
-    });
+// Start button logic
+date_ = date && date.trim();
+betAmount_ = betAmount && betAmount.trim();
+guess_ = guess && guess.trim();
+try{
+    if(times) times_ = JSON.parse(times);
+    else times_ = null;
+}
+catch(e){
+    console.error('times is not a valid JSON', times);
+}
+try{
+    if(bezierCurves) bezierCurves_ = JSON.parse(bezierCurves);
+    else bezierCurves_ = null;
+}
+catch(e){
+    console.error('bezierCurves is not a valid JSON', bezierCurves);
 }
 
-// Start button logic
-startButton.addEventListener('click', () => {
+console.log(date_);
+console.log(betAmount_);
+console.log(guess_);
+console.log(times_);
+console.log(bezierCurves_);
+
+
+console.log(bezierCurves_);
+
+if(guess_){
+    selectHorse(guess_)
+}
+if(betAmount_){
+    amountInput.value = Number(betAmount_);
+}
+
+
+const disableButton = () => {
+    startButton.disabled = true;
+    startButton.classList.add('opacity-50');
+    startButton.innerHTML = 'Race started...';
+}
+const enableButton = () => {
+    startButton.disabled = false;
+    startButton.classList.remove('opacity-50');
+    startButton.innerHTML = 'START RACE'
+}
+
+
+if(date_ && betAmount_ && guess_ && times_ && bezierCurves_ && bezierCurves_.length && times_.length){
     setTimeout(()=>{
-
+    
+        disableButton();
         started=true;
-        horsesTimes = generateTimes();
+        horsesTimes = times_;
         // adjust result to be the actual result from the backend
-
+    
         console.log(
             `Horse 1: ${horsesTimes[0]}ms\nHorse 2: ${horsesTimes[1]}ms\nHorse 3: ${horsesTimes[2]}ms\nHorse 4: ${horsesTimes[3]}ms`
         )
-
+    
         const winner = horsesTimes.indexOf(Math.min(...horsesTimes)) + 1;
-
+    
         console.log('Winner: ', winner);
-
+    
         startButton.disabled = true;
         horseTracks.forEach((trackContainer, i) => {
-            setDurationProperties(trackContainer, horsesTimes[i]);
+            setDurationProperties(trackContainer, horsesTimes[i], bezierCurves_.slice(i*4, i*4+4));
         });
         document.querySelectorAll('.horse-track-indicator, .horse').forEach(el => {
             el.style.right = '0';
         });
-
+    
         // this will be from th
-        if(true){
-            showWinningMessage(10000);
-        }
-
-        setTimeout(()=>{
-            // resetHorses();
-        }, 4000)
-
-
-    }, 1000)
-
-
-    return
-
-    if (!bet || amountInput.value == 0) return;
-
-    // Replace with the actual URL of your Spark backend
-    const backendUrl = "https://your-spark-backend.com/api/place-bet";
-    
-    // Prepare the data to send
-    const requestData = {
-        bet: bet,
-        amount: parseFloat(amountInput.value), // Ensure it's sent as a number
-        userId: userId // Pass the userId (ensure this is available in your scope)
-    };
-    
-    // Optional: Add headers if necessary for your backend
-    const headers = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${userToken}` // Replace with your actual user token if using authentication
-    };
-    
-
-
-
-    // Send the request to the backend
-    fetch(backendUrl, 
-        {
-            method: "POST", // Typically use POST for sending data
-            headers: headers,
-            body: JSON.stringify(requestData) // Convert the data to JSON
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to place bet. Please try again.");
+        setTimeout(_=>{
+            if(guess_ == winner){
+                showWinningMessage(betAmount_*2);
             }
-            return response.json(); // Parse JSON response
-        })
-        .then(data => {
+            removeSelected();
+            amountInput.value = 0;
+            enableButton();
+        }, Math.max(...horsesTimes));
 
-            console.log("Bet placed successfully:", data);
+    }, 100)
+}
+    
 
-            horsesTimes = generateTimes();
-            // adjust result to be the actual result from the backend
-
-            console.log(
-                `Horse 1: ${horsesTimes[0]}ms\nHorse 2: ${horsesTimes[1]}ms\nHorse 3: ${horsesTimes[2]}ms\nHorse 4: ${horsesTimes[3]}ms`
-            )
-            console.log('Winner: ', horsesTimes.indexOf(Math.min(...horsesTimes)) + 1);
-
-            startButton.disabled = true;
-            horseTracks.forEach((trackContainer, i) => {
-                setDurationProperties(trackContainer, horsesTimes[i]);
-            });
-            document.querySelectorAll('.horse-track, .horse').forEach(el => {
-                el.style.right = '0';
-            });
-
-
-            // Handle the response, e.g., show a success message or update the UI
-        })
-        .catch(error => {
-            console.error("Error placing bet:", error);
-            // Show an error message to the user
-        });
-
-})

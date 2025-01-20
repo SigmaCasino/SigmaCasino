@@ -41,7 +41,8 @@ public class App {
         new Games(this),          new StripeDeposit(this), new StripeResult(this),
         new StripeWithdraw(this), new Account(this),       new Horses(this),
         new HorsesPost(this),     new Roulette(this),      new RoulettePost(this),
-        new Logout(this),         new ResetPassword(this), new ResetPasswordPost(this)
+        new Logout(this),         new ResetPassword(this), new ResetPasswordPost(this),
+        new Docs(this), new DocsInterfaces(this), new DocsRequirements(this), new DocsStructure(this), new DoscSystemArchitecture(this), new DocsTechStack(this), new DocsTests(this), new DocsUML(this), new DocsUR(this) 
     };
 
     /**

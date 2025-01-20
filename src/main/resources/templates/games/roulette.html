@@ -1,41 +1,12 @@
 {% extends "templates/base.html" %}
 
-    {% block title %}Sigma Casino - Home Page{% endblock %}
+    {% block title %}Sigma Casino - Roulette{% endblock %}
 
 
     {% block head_extensions %}
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     {% endblock %}
 
-
-    <!-- HEADER -->
-    {% block logged_as %}
-        {%- if user_id is defined -%}
-            logged in as: <span>{{ username }}</span>
-        {%- endif -%}
-    {% endblock %}
-
-
-    {% block account %}
-        {%- if user_id is defined -%}
-            <li>
-                <a href="/account">
-                    Account
-                </a>
-            </li>
-            <li class="button-action">
-                <a href="/logout">
-                    Logout
-                </a>
-            </li>
-        {% else %}
-            <li class="button-action">
-                <a href="/login">
-                    Login
-                </a>
-            </li>
-        {%- endif -%}
-    {% endblock %}
 
 
     {% block content %}
@@ -65,13 +36,11 @@
                 class="absolute top-10 w-10 h-[30px] left-1/2 -translate-x-1/2"
                 style="clip-path: polygon(0% 0%, 100% 0%, 50% 100%); background-color: rgb(71, 66, 66);"
             ></div>
-
         </div>
-
 
         <form 
             class="box z-20 w-[900px] py-5 px-10 flex flex-col gap-10"
-        
+            method="post"
         >
             <div class="flex justify-between items-center">
                 <div class="flex flex-col items-cente">
@@ -109,7 +78,7 @@
                     <div class="input-container mb-0 mx-auto flex items-end gap-2">
                         <div>
                             <label for="">Amount</label>
-                            <input id="amount-input" class="text-center w-28 py-2 text-xl" type="number">
+                            <input id="amount-input"  name="stake" class="text-center w-28 py-2 text-xl" type="number" required>
                         </div>
                         <button 
                             id="clear-amount"
@@ -124,6 +93,12 @@
                 
                 <div class="flex flex-col items-center">
                     <h3 class="text-2xl font-bold text-center">Bet:</h3>
+
+                    <select type="select" name="color" id="color" class="text-center w-28 py-2 text-xl hidden" required>
+                        <option value="red">RED</option>
+                        <option value="green">GREEN</option>
+                        <option value="black">BLACK</option>
+                    </select>
 
                     <div class="flex gap-2">
                         <button 
@@ -180,17 +155,28 @@
             </div>
 
             <button 
+
                 type="submit" 
                 id="spinButton" 
                 class="button-action-full px-10 py-2 text-4xl tracking-widest"
             >
                 SPIN
             </button>
+            
 
         </form>
     </div>
+
+    <div id="roulette-container" data-variable="{{ attribute_name }}" data-object='{{ attribute_name|tojson }}'></div>
+
     {% endblock %}
 
     {% block scripts %}
+        <script>
+            const date = "{{ date }}";
+            const betAmount = "{{ bet }}";
+            const guess = "{{ guess }}";
+            const result = "{{ result }}";
+        </script>
         <script src="/js/roulette.js"></script>
     {% endblock %}
