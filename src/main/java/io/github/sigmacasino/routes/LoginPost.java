@@ -41,8 +41,7 @@ public class LoginPost extends PostRoute {
         var params = parseBodyParams(request);
         var email = params.get("email");
         var password = params.get("password");
-        if (!email.contains("@") || !email.contains(".") || email.length() < 5 || email.length() > 100
-            || password.length() < 8) {
+        if (!app.checkValidEmail(email) || password.length() < 8) {
             response.redirect("/login?error=invalid_user");
             return;
         }
