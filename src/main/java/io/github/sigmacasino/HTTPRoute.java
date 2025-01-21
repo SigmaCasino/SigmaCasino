@@ -37,12 +37,12 @@ public abstract class HTTPRoute implements spark.Route {
      * Handles the request and returns the response.
      * This method is called by Spark when a request is made to the route.
      * It should be overridden by subclasses to provide the route's functionality.
-     * Additionally, it handles redirecting the user to the login page if the route
-     * requires the user to be logged in.
-     * 
+     * Additionally, this super-implementation handles redirecting the user to the login page if the route
+     * requires the user to be logged in and returns boolean which says whether the redirect should occur.
+     *
      * @param request The request object.
      * @param response The response object.
-     * @return The response object.
+     * @return The response object, which might be text, HTTP code, etc.
      * @throws Exception If an error occurs while handling the request.
      * @see spark.Route#handle(Request, Response)
      */
@@ -50,8 +50,9 @@ public abstract class HTTPRoute implements spark.Route {
     public Object handle(Request request, Response response) throws Exception {
         if (loginRequired && request.session().attribute("user_id") == null) {
             response.redirect("/login?error=must_be_logged_in");
+            return true;
         }
-        return null;
+        return false;
     }
 
     /**

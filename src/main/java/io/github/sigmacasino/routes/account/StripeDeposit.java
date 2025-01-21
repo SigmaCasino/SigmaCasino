@@ -51,6 +51,7 @@ public class StripeDeposit extends PostRoute {
                 .addLineItem(
                     SessionCreateParams.LineItem.builder().setQuantity(amount).setPrice(priceIdentifier).build()
                 )
+                .putMetadata("user_id", request.session().attribute("user_id").toString())
                 .build();
 
         try {
