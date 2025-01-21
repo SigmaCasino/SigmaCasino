@@ -1,0 +1,40 @@
+{% extends "templates/base.html" %}
+
+{% block head_extensions %}
+    <link rel="stylesheet" href="/css/docs.css">
+{% endblock  %}
+
+{% block title %}Sigma Casino - Dokumentacja{% endblock  %}
+
+{% block content %}
+
+    <div class="container mx-auto mt-10 text-white">
+
+        <!-- HEADER -->
+        <div class="text-6xl font-bold mb-10">
+            DOKUMENTACJA PROJEKTU
+        </div>
+
+
+        <!-- DOCS -->
+        <div class="container box px-8 py-6 docs mb-20">
+            <p>Poniższa lista obejmuje wszystkie zagadnienia związane z udokumentowaniem finalnego
+                etapu prac nad projektem <b>Sigma Casino</b> na <i>Inżynierię Oprogramowania</i>:</p>
+
+            <ol>
+                <li><a href="/docs/requirements">Wymagania projektu</a></li>
+                <li><a href="/docs/risk_analysis">Analiza ryzyka</a></li>
+                <li><a href="/docs/architecture">Architektura systemu</a></li>
+                <li><a href="/docs/tech_stack">Stos technologiczny</a></li>
+                <li><a href="/docs/uml">Diagramy UML</a></li>
+                <li><a href="/docs/er">Projekt bazy danych</a></li>
+                <li><a href="/docs/structure">Struktura klas</a></li>
+                <li><a href="/docs/interfaces">Opis interfejsów</a></li>
+                <li><a href="/docs/tests">Projekt testów</a></li>
+            </ol>
+        </div>
+
+    </div>
+
+
+{% endblock %}

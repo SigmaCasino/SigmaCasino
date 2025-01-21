@@ -6,9 +6,8 @@ import spark.Request;
 import spark.Response;
 
 /**
- * A post route which initiates a Stripe payment session.
- * It redirects the user to the Stripe Checkout page via the official API.
- * @see <a href="https://stripe.com/docs/api/checkout/sessions/create">Stripe API Reference</a>
+ * A post route which initiates a Stripe payout.
+ * Currently unimplemented.
  */
 public class StripeWithdraw extends PostRoute {
     public StripeWithdraw(App app) {
@@ -16,7 +15,7 @@ public class StripeWithdraw extends PostRoute {
     }
 
     /**
-     * Initiates a Stripe purchase session and redirects the user to the Stripe Checkout page.
+     * Currently redirects the user to the result page with an error.
      * @param request The HTTP request.
      * @param response The HTTP response.
      */

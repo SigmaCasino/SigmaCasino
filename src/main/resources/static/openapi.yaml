@@ -1,0 +1,383 @@
+openapi: 3.0.3
+info:
+  title: Sigma Casino API
+  description: |-
+    This is the documentation of the way browsers connect with our Spark Java backend.
+  license:
+    name: MIT License
+    url: https://github.com/SigmaCasino/SigmaCasino/blob/main/LICENSE
+  version: 0.1.0
+externalDocs:
+  description: GitHub repository
+  url: https://github.com/SigmaCasino/SigmaCasino
+tags:
+  - name: Home
+    description: Main HTML documents
+  - name: Login
+    description: Access to and creation of your account
+  - name: Account
+    description: Client account management
+  - name: Games
+    description: Currently available casino games
+paths:
+  /:
+    get:
+      tags:
+        - Home
+      summary: Returns main page
+      description: Returns the main page of the casino.
+      responses:
+        '200':
+          description: HTML code with the main page content
+  /index:
+    get:
+      tags:
+        - Home
+      summary: Redirects to main page
+      description: Redirects permanently to the main page.
+      responses:
+        '301':
+          description: Permanent redirect to **/**
+  /games:
+    get:
+      tags:
+        - Home
+      summary: Returns games list as an HTML document
+      description: Returns the list of currently available games.
+      responses:
+        '200':
+          description: HTML code with a list of games
+  /games/roulette:
+    get:
+      tags:
+        - Games
+      summary: Returns Roulette game page
+      description: |-
+        Returns the webpage for the Roulette game.
+        If *replay* parameter is present, shows a game replay.
+        If no parameters are given or the replay does not exist, a webpage with a bet form is shown.
+      responses:
+        '200':
+          description: HTML code for the Roulette game page
+      parameters:
+        - name: replay
+          in: query
+          description: Identifier of a replay which should be shown
+          schema:
+            type: integer
+            example: 123
+    post:
+      tags:
+        - Games
+      summary: Generates and returns Roulette game result
+      description: Generates a random result for the Roulette game, based on the specified color and stake.
+      requestBody:
+        description: Bet details for the Roulette game.
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RouletteBet'
+      security:
+        - session: []
+      responses:
+        '303':
+          description: Redirect to the replay page of a new bet
+        '401':
+          description: No session cookie was provided, redirect to **/login**
+        '402':
+          description: No funds on user's account
+        '400':
+          description: Wrong body data
+  /games/horses:
+    get:
+      tags:
+        - Games
+      summary: Returns Horse Racing game page
+      description: |-
+        Returns the webpage for the Horse Racing game.
+        If *replay* parameter is present, shows a game replay.
+        If no parameters are given or the replay does not exist, a webpage with a bet form is shown.
+      responses:
+        '200':
+          description: HTML code for the Horse Racing game page
+      parameters:
+        - name: replay
+          in: query
+          description: Identifier of a replay which should be shown
+          schema:
+            type: integer
+            example: 234
+    post:
+      tags:
+        - Games
+      summary: Generates and returns Horse Racing game result
+      description: Generates a random result for the Horse Racing game, based on the specified color of horse and stake.
+      requestBody:
+        description: Bet details for the Roulette game.
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/HorsesBet'
+      security:
+        - session: []
+      responses:
+        '303':
+          description: Redirect to the replay page of a new bet
+        '401':
+          description: No session cookie was provided, redirect to **/login**
+        '402':
+          description: No funds on user's account
+        '400':
+          description: Wrong body data
+  /login:
+    get:
+      tags:
+        - Login
+      summary: Returns login page
+      description: Returns login page where the user can enter their credentials.
+      responses:
+        '200':
+          description: HTML code with a login form
+    post:
+      tags:
+        - Login
+      summary: Posts user credentials to the server
+      description: Posts user credentials from the HTML form.
+      requestBody:
+        description: HTML login form contents.
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        '303':
+          description: Redirect to **/games** after successful login
+        '400':
+          description: Invalid credentials
+    parameters:
+      - name: redirect
+        in: query
+        description: Page to redirect to after successful login
+        schema:
+          type: string
+          format: path
+          example: account
+  /register:
+    get:
+      tags:
+        - Login
+      summary: Returns account registration page
+      description: Returns account registration page where the user can enter the credentials to their new account.
+      responses:
+        '200':
+          description: HTML code with a signup form
+    post:
+      tags:
+        - Login
+      summary: Posts new account credentials to the server
+      description: Posts new account credentials from the HTML form.
+      requestBody:
+        description: HTML signup form contents.
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Register'
+        required: true
+      responses:
+        '303':
+          description: Redirect to **/games** after successful registration
+        '400':
+          description: Wrong data (e.g. invalid email address)
+  /account:
+    get:
+      tags:
+        - Account
+      summary: Returns a page with account information
+      description: Returns an HTML page containing information about the user's account. This page includes a menu of actions such as depositing funds, withdrawing funds, seeing account history, and changing the password.
+      security:
+        - session: []
+      responses:
+        '200':
+          description: HTML page with account information
+        '401':
+          description: No session cookie was provided, redirect to **/login**
+  /account/reset_password:
+    get:
+      tags:
+        - Account
+      summary: Returns the password reset form
+      description: Returns an HTML page containing a form where the user must enter the current password and a new password.
+      security:
+        - session: []
+      responses:
+        '200':
+          description: HTML page with the reset password form
+        '401':
+          description: No session cookie was provided, redirect to **/login**
+    post:
+      tags:
+        - Account
+      summary: Submits user credentials for password reset
+      description: Submits user credentials from the reset password form. If successful, the user is redirected to the account page.
+      requestBody:
+        description: Contents of the reset password form in HTML.
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResetPassword'
+        required: true
+      security:
+        - session: []
+      responses:
+        '303':
+          description: Redirects to **/account** after a successful password reset
+        '400':
+          description: Invalid credentials or password requirements not met
+        '401':
+          description: No session cookie was provided, redirect to **/login**
+  /account/deposit:
+    post:
+      tags:
+        - Account
+      summary: Redirects the user to the deposit funds page
+      description: Redirects the user to the Stripe payment page for depositing funds into their account.
+      security:
+        - session: []
+      responses:
+        '303':
+          description: Redirects to the Stripe website for depositing funds
+        '401':
+          description: No session cookie was provided, redirect to **/login**
+      requestBody:
+        description: HTML login form contents.
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StripeOperation'
+        required: true
+  /account/withdraw:
+    post:
+      tags:
+        - Account
+      summary: Redirects the user to the withdraw funds page
+      description: Redirects the user to the Stripe payment page for withdrawing funds from their account.
+      security:
+        - session: []
+      responses:
+        '303':
+          description: Redirects to the Stripe website for withdrawing funds
+        '401':
+          description: No session cookie was provided, redirect to **/login**
+      requestBody:
+        description: HTML login form contents.
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StripeOperation'
+        required: true
+  /logout:
+    get:
+      tags:
+        - Account
+      summary: Logs out the current user session
+      description: Ends the current user session and logs the user out.
+      responses:
+        '303':
+          description: Redirects to the homepage (**/**) after logout
+components:
+  schemas:
+    Login:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: Client's email address
+          example: example@example.org
+        password:
+          type: string
+          description: Client's password
+          example: Pa55w0rd!
+    Register:
+      type: object
+      required:
+        - username
+        - email
+        - password
+      properties:
+        username:
+          type: string
+          description: Client's new username
+          example: example
+        email:
+          type: string
+          description: Client's email address
+          example: example@example.org
+        password:
+          type: string
+          description: Client's new password
+          example: Pa55w0rd!
+    ResetPassword:
+      type: object
+      required:
+        - old_password
+        - new_password
+      properties:
+        old_password:
+          type: string
+          description: Client's old password to be reset
+          example: Pa55w0rd!
+        new_password:
+          type: string
+          description: Client's new password
+          example: P455W0RD!
+    RouletteBet:
+      type: object
+      required:
+        - color
+        - stake
+      properties:
+        color:
+          type: string
+          description: The color on which the user is betting
+          enum: [red, black, green]
+          example: "red"
+        stake:
+          type: number
+          description: The amount of money the user is placing on the bet
+          example: 50.0
+    HorsesBet:
+      type: object
+      required:
+        - color
+        - stake
+      properties:
+        color:
+          type: integer
+          description: The color on which the user is betting
+          enum: [1, 2, 3, 4]
+          example: "blue"
+        stake:
+          type: number
+          description: The amount of money the user is placing on the bet
+          example: 150.0
+    StripeOperation:
+      type: object
+      required:
+        - amount
+      properties:
+        amount:
+          type: integer
+          description: Amount of money to use for the operation
+          example: 20
+  securitySchemes:
+    session:
+      type: apiKey
+      name: JSESSIONID
+      description: Spark session cookie from **/login** or **/register**
+      in: cookie

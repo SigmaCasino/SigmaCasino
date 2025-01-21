@@ -1,0 +1,177 @@
+{% extends "templates/base.html" %}
+
+{% block head_extensions %}
+    <link rel="stylesheet" href="/css/docs.css">
+{% endblock  %}
+
+{% block title %}Sigma Casino - Dokumentacja{% endblock  %}
+
+{% block content %}
+
+    <div class="container mx-auto mt-10 text-white">
+
+        <!-- HEADER -->
+        <div class="text-6xl font-bold mb-10">
+            PROJEKT TESTÓW
+        </div>
+
+
+        <!-- DOCS -->
+        <div class="container box px-8 py-6 docs mb-20">
+            <h2 id="testy-jednostkowe-unit-tests-">Testy jednostkowe (Unit Tests)</h2>
+            <p>Testy jednostkowe sprawdzają poszczególne metody i klasy w izolacji. W kontekście naszego kasyna, można wyróżnić następujące
+                testy jednostkowe:</p>
+            <ol>
+                <li>
+                    <p><strong>Testy walidacji danych wejściowych:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie poprawności walidacji adresu e-mail.</li>
+                        <li>Sprawdzenie poprawności walidacji długości hasła.</li>
+                        <li>Sprawdzenie poprawności walidacji długości nazwy użytkownika.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Testy metod pomocniczych:</strong></p>
+                    <ul>
+                        <li>Testowanie metody <code>hashPassword</code> w celu sprawdzenia poprawności generowania hasha.</li>
+                        <li>Testowanie metody <code>generateSalt</code> w celu sprawdzenia poprawności generowania soli (ciągu
+                            zaburzającego).</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Testy logowania i rejestracji:</strong></p>
+                    <ul>
+                        <li>Testowanie metod odpowiedzialnych za logowanie użytkownika.</li>
+                        <li>Testowanie metod odpowiedzialnych za rejestrację użytkownika.</li>
+                        <li>Testowanie metod odpowiedzialnych za resetowanie hasła.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p>Przykłady tego typu testów można znaleźć w <a href="https://github.com/SigmaCasino/SigmaCasino/tree/main/src/test/java/io/github/sigmacasino">naszym repozytorium</a>.</p>
+            <h2 id="testy-integracyjne-integration-tests-">Testy integracyjne (Integration Tests)</h2>
+            <p>Testy integracyjne sprawdzają współdziałanie różnych modułów systemu. W kontekście naszego kasyna, można wyróżnić następujące
+                testy integracyjne:</p>
+            <ol>
+                <li>
+                    <p><strong>Testy integracji z bazą danych:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie poprawności zapisu nowego użytkownika do bazy danych.</li>
+                        <li>Sprawdzenie poprawności odczytu danych użytkownika z bazy danych.</li>
+                        <li>Sprawdzenie poprawności aktualizacji hasła użytkownika w bazie danych.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Testy integracji z sesjami użytkowników:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie poprawności tworzenia sesji po zalogowaniu użytkownika.</li>
+                        <li>Sprawdzenie poprawności usuwania sesji po wylogowaniu użytkownika.</li>
+                    </ul>
+                </li>
+            </ol>
+            <h2 id="testy-funkcjonalne-functional-tests-">Testy funkcjonalne (Functional Tests)</h2>
+            <p>Testy funkcjonalne sprawdzają, czy system działa zgodnie z wymaganiami. W kontekście naszego kasyna, można wyróżnić
+                następujące testy funkcjonalne:</p>
+            <ol>
+                <li>
+                    <p><strong>Testy formularzy:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie poprawności działania formularza rejestracji.</li>
+                        <li>Sprawdzenie poprawności działania formularza logowania.</li>
+                        <li>Sprawdzenie poprawności działania formularza resetowania hasła.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Testy powiadomień:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie poprawności wyświetlania powiadomień o błędach (np. niepoprawne dane logowania).</li>
+                        <li>Sprawdzenie poprawności wyświetlania powiadomień o sukcesie (np. pomyślna rejestracja).</li>
+                    </ul>
+                </li>
+            </ol>
+            <h2 id="testy-end-to-end-e2e-tests-">Testy end-to-end (E2E Tests)</h2>
+            <p>Testy end-to-end sprawdzają cały przepływ aplikacji od początku do końca. W kontekście naszego kasyna, można wyróżnić
+                następujące testy end-to-end:</p>
+            <ol>
+                <li>
+                    <p><strong>Testy rejestracji i logowania:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie pełnego procesu rejestracji nowego użytkownika.</li>
+                        <li>Sprawdzenie pełnego procesu logowania zarejestrowanego użytkownika.</li>
+                        <li>Sprawdzenie pełnego procesu resetowania hasła.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Testy nawigacji:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie poprawności przekierowań po zalogowaniu.</li>
+                        <li>Sprawdzenie poprawności przekierowań po wylogowaniu.</li>
+                    </ul>
+                </li>
+            </ol>
+            <h2 id="testy-wydajno-ciowe-performance-tests-">Testy wydajnościowe (Performance Tests)</h2>
+            <p>Testy wydajnościowe sprawdzają, jak system radzi sobie pod obciążeniem. W kontekście naszego kasyna, można wyróżnić
+                następujące testy wydajnościowe:</p>
+            <ol>
+                <li>
+                    <p><strong>Testy obciążeniowe:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie, jak system radzi sobie z dużą liczbą jednoczesnych rejestracji.</li>
+                        <li>Sprawdzenie, jak system radzi sobie z dużą liczbą jednoczesnych logowań.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Testy czasu odpowiedzi:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie czasu odpowiedzi na zapytania do bazy danych.</li>
+                        <li>Sprawdzenie czasu odpowiedzi na żądania HTTP.</li>
+                    </ul>
+                </li>
+            </ol>
+            <h2 id="testy-bezpiecze-stwa-security-tests-">Testy bezpieczeństwa (Security Tests)</h2>
+            <p>Testy bezpieczeństwa sprawdzają, czy system jest odporny na różne rodzaje ataków. W kontekście naszego kasyna, można wyróżnić
+                następujące testy bezpieczeństwa:</p>
+            <ol>
+                <li>
+                    <p><strong>Testy podatności na SQL Injection:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie, czy aplikacja jest odporna na ataki SQL Injection.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Testy podatności na XSS:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie, czy aplikacja jest odporna na ataki Cross-Site Scripting (XSS).</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Testy podatności na CSRF:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie, czy aplikacja jest odporna na ataki Cross-Site Request Forgery (CSRF).</li>
+                    </ul>
+                </li>
+            </ol>
+            <h2 id="testy-u-yteczno-ci-usability-tests-">Testy użyteczności (Usability Tests)</h2>
+            <p>Testy użyteczności sprawdzają, czy aplikacja jest łatwa w użyciu dla użytkowników. W kontekście naszego kasyna, można
+                wyróżnić następujące testy użyteczności:</p>
+            <ol>
+                <li>
+                    <p><strong>Testy interfejsu użytkownika:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie, czy formularze są intuicyjne i łatwe w użyciu.</li>
+                        <li>Sprawdzenie, czy powiadomienia są czytelne i zrozumiałe.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>Testy dostępności:</strong></p>
+                    <ul>
+                        <li>Sprawdzenie, czy aplikacja jest dostępna dla osób z niepełnosprawnościami.</li>
+                    </ul>
+                </li>
+            </ol>
+
+        </div>
+
+    </div>
+
+
+{% endblock %}

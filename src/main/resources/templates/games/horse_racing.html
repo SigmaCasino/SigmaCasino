@@ -1,73 +1,178 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/css/horse_racing.css">
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-    <!-- HEADER -->
-    <header>
-        <div class="logo-container">
-            <img class="logo" src="/svg/piggy-bank-solid-black.svg" alt="">
-            <h1>
-                <a href="/index" style="color: black">
-                    Sigma Casino
-                </a>
-            </h1>
+{% extends "templates/base.html" %}
+
+    {% block title %}Sigma Casino - Home Page{% endblock %}
+
+    {% block head_extensions %}
+        <link rel="stylesheet" href="/css/horse_racing.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    {% endblock %}
+
+
+    {% block content %}
+    <div class="flex flex-col items-center relative text-white -mt-20">
+        <h2 class="font-bold text-6xl z-[100] mb-10 relative">
+            Horse Racing
+        </h2>
+
+
+        <!-- GAME CONTAINER -->
+        <div class="w-[900px] h-[400px] m-4 flex flex-col justify-evenly bg-zinc-800 border-2 px-20 py-4 rounded-[40px] shadow-full" id="gameContainer">
         </div>
-        <nav style="color: black">
-            <ul>
-                <li>
-                    <a href="/games">
-                        Games
-                    </a>
-                </li>
-                <li class="button-action">
-                    <a href="/login">
-                        Sign In
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
+        <!-- START BUTTON -->
+        <form 
+            class="bg-zinc-800 border-2 z-20 shadow-full w-[900px] rounded-[40px] py-5 mt-10 px-10 flex flex-col gap-10"
+            method="post"
+        >
+            <div class="flex justify-between items-center">
+                <div class="flex flex-col items-cente">
+                    <div class="flex justify-between mb-5 gap-3 *:p-2 text-lg">
+                        <button 
+                            id="amount-button-10"
+                            type="button" 
+                            class="button-action"
+                        >
+                            +10
+                        </button>
+                        <button 
+                            id="amount-button-50"
+                            type="button" 
+                            class="button-action"
+                        >
+                            +50
+                        </button>
+                        <button 
+                            id="amount-button-100"
+                            type="button" 
+                            class="button-action"
+                        >
+                            +100
+                        </button>
+                        <button 
+                            id="amount-button-500"
+                            type="button" 
+                            class="button-action"
+                        >
+                            +500
+                        </button>
+                    </div>
 
-        <div class="main-wrapper">
-            <h2>
-                Horse Racing
-            </h2>
+                    <div class="input-container mb-0 mx-auto flex items-end gap-2">
+                        <div>
+                            <label for="">Amount</label>
+                            <input id="amount-input" name="stake" class="text-center text-xl w-28 py-2" type="number" required>
+                        </div>
+                        <button 
+                            id="clear-amount"
+                            type="button" 
+                            class="button-action py-2 rounded-[16px] text-xl w-20"
+                        >
+                            Clear
+                        </button>
+                    </div>
+                </div>
 
-            <!-- GAME CONTAINER -->
-            <div class="game-container" id="gameContainer">
+                
+                <div class="flex flex-col items-center">
+                    <h3 class="text-2xl font-bold text-center">Bet:</h3>
+
+                    <select type="select" name="color" id="bet-input" class="hidden" required>
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option value="3"></option>
+                        <option value="4"></option>
+                    </select>
+
+                    <div class="flex gap-2">
+                        <button 
+                            type="button"
+                            id="button-1"
+                            class="group w-24 h-20 rounded-lg bg-red-500 flex flex-col items-center overflow-hidden justify-center relative"
+                        >
+                            <div class="selected absolute w-full h-full top-0 left-0 flex items-center justify-center bg-red-800 opacity-0 duration-200"
+                            >
+                                <i class="fas fa-circle-check text-5xl text-white"></i>
+                            </div>
+
+                            <p class="text-white font-bold -mb-2">
+                                RED
+                            </p>
+                            <p class="text-3xl font-bold text-white group-hover:text-4xl group-hover:-mt-1 duration-200">
+                                x2
+                            </p>
+                        </button>
+                        <button 
+                            type="button"
+                            id="button-2"
+                            class="w-24 h-20 rounded-lg bg-blue-500 flex flex-col items-center justify-center relative overflow-hidden"
+                        >
+                            <div class="selected absolute w-full h-full top-0 left-0 flex items-center justify-center bg-blue-800 opacity-0 duration-200"
+                            >
+                                <i class="fas fa-circle-check text-5xl text-white"></i>
+                            </div>
+                            <p class="text-white font-bold -mb-2">
+                                BLUE
+                            </p>
+                            <p class="text-3xl font-bold text-white">
+                                x2
+                            </p>
+                        </button>
+                        <button 
+                            type="button"
+                            id="button-3"
+                            class="w-24 h-20 rounded-lg bg-green-600 flex flex-col items-center justify-center relative overflow-hidden"
+                        >
+                            <div class="selected absolute w-full h-full top-0 left-0 flex items-center justify-center bg-green-600 opacity-0 duration-200"
+                            >
+                                <i class="fas fa-circle-check text-5xl text-white"></i>
+                            </div>
+                            <p class="text-white font-bold -mb-2">
+                                GREEN
+                            </p>
+                            <p class="text-3xl font-bold text-white">
+                                x2
+                            </p>
+                        </button>
+                        <button 
+                            type="button"
+                            id="button-4"
+                            class="w-24 h-20 rounded-lg bg-purple-500 flex flex-col items-center justify-center relative overflow-hidden"
+                        >
+                            <div class="selected absolute w-full h-full top-0 left-0 flex items-center justify-center bg-purple-800 opacity-0 duration-200"
+                            >
+                                <i class="fas fa-circle-check text-5xl text-white"></i>
+                            </div>
+                            <p class="text-white font-bold -mb-2">
+                                PURPLE
+                            </p>
+                            <p class="text-3xl font-bold text-white">
+                                x2
+                            </p>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <!-- START BUTTON -->
-            <button class="spin-button spin-button-enabled" id="startButton">
-                Start race
+            <button 
+                type="submit" 
+                id="startButton" 
+                class="button-action-full px-10 py-2 text-4xl tracking-widest"
+            >
+                START RACE
             </button>
-            <div class="login-container">
-                <form method="post" class="login-form">
-                    <div class="input-container">
-                        <label for="color">color</label>
-                        <input type="text" id="color" name="color" required>
-                    </div>
-                    <div class="input-container">
-                        <label for="stake">stake</label>
-                        <input type="number" id="stake" name="stake" required>
-                    </div>
 
-                    <!-- SUBMIT BUTTON -->
-                    <button type="submit" class="button-action-full">Play</button>
-                </form>
-            </div>
-        </div>
-    </main>
+        </form>
+    </div>
+    {% endblock %}
 
-    <script src="/js/horse_racing.js"></script>
+    {% block scripts %}
+        <script>
+            const date = "{{ date }}";
+            const betAmount = "{{ bet }}";
+            const guess = "{{ guess }}";
+            const times = "{{ times }}";
+            const bezierCurves = "{{ bezier_curves }}";
+        </script>
 
-</body>
-</html>
+        <script src="/js/horse_racing.js"></script>
+    {% endblock %}

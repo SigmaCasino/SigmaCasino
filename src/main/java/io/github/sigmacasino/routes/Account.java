@@ -35,7 +35,9 @@ public class Account extends HTMLTemplateRoute {
     }
 
     /**
-     * Populates the context for the account page with the user's balance and recent transactions.
+     * Populates the context for the account page with the user's balance as "balance" and recent transactions,
+     * including deposits, withdrawals and game results, as a submap containing operation type, identifier, date and
+     * amount.
      *
      * @param request the HTTP request
      * @param response the HTTP response
@@ -66,6 +68,18 @@ public class Account extends HTMLTemplateRoute {
                 transactions.setInt(i + 1, userId);
             }
             var transactionsResult = transactions.executeQuery();
+
+            // var rawDate = transactionsResult.getString("date");
+            
+            // var formattedDate = "";
+            // if(rawDate != null) {
+            //     var sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // Input format
+            //     var date = sdf.parse(rawDate);
+            //     var outputFormat = new SimpleDateFormat("MMMM d, yyyy");
+            //     var formattedDate = outputFormat.format(date);
+            // }
+ 
+
             ArrayList<Map<String, ? extends Serializable>> transactionsList = new ArrayList<>();
             while (transactionsResult.next()) {
                 var transaction = Map.of(
@@ -75,7 +89,7 @@ public class Account extends HTMLTemplateRoute {
                     transactionsResult.getInt("transaction_id"),
                     "date",
                     transactionsResult.getString("date"),
-                    "bet",
+                    "amount",
                     transactionsResult.getInt(4)
                 );
                 transactionsList.add(transaction);

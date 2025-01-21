@@ -1,0 +1,31 @@
+{% extends "templates/base.html" %}
+
+{% block head_extensions %}
+    <link rel="stylesheet" href="/css/docs.css">
+{% endblock  %}
+
+{% block title %}Sigma Casino - Dokumentacja{% endblock  %}
+
+{% block content %}
+
+    <div class="container mx-auto mt-10 text-white">
+
+        <!-- HEADER -->
+        <div class="text-6xl font-bold mb-10">
+            STRUKTURA KLAS
+        </div>
+
+
+        <!-- DOCS -->
+        <div class="container box px-8 py-6 docs mb-20">
+            <p>Opis struktury klas można przeglądać za pomocą dołączonych <a href="/javadoc/index.html">JavaDocs</a>.
+                Poniżej przedstawiono diagram klas systemu <b>Sigma Casino</b>, z wyłączeniem klas odpowiedzialnych
+                za ścieżki służące tej dokumentacji:</p>
+            
+            <img src="/images/classes.png" alt="Diagram klas systemu Sigma Casino">
+        </div>
+
+    </div>
+
+
+{% endblock %}

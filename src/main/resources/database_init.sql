@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS users (
     user_id serial NOT NULL PRIMARY KEY,
     username character varying(16) NOT NULL,
-    salt character(32) NOT NULL,  -- password salt, 16 bytes in hex
+    salt character(32) NOT NULL,  -- password salt, 32 bytes in hex
     password_hash character(64) NOT NULL,  -- SHA-256 in hex
     email character varying(100) NOT NULL,
     balance numeric(10,2) NOT NULL DEFAULT 10.00
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS horses (
     bet numeric(10,2) NOT NULL,
     guess integer NOT NULL,
     times integer[4] NOT NULL,
-    bezier_curves double precision[4] NOT NULL
+    bezier_curves double precision[16] NOT NULL
 );
 
 -- Roulette game bets and replays.

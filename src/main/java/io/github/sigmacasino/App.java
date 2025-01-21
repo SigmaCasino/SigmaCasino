@@ -4,6 +4,7 @@ import com.hubspot.jinjava.Jinjava;
 import com.stripe.Stripe;
 import io.github.sigmacasino.routes.*;
 import io.github.sigmacasino.routes.account.*;
+import io.github.sigmacasino.routes.docs.*;
 import io.github.sigmacasino.routes.games.*;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -36,12 +37,34 @@ public class App {
      * Each route is an instance of a class that extends the HTTPRoute class.
      */
     private HTTPRoute[] routes = {
-        new Root(this),           new Index(this),         new Login(this),
-        new LoginPost(this),      new Register(this),      new RegisterPost(this),
-        new Games(this),          new StripeDeposit(this), new StripeResult(this),
-        new StripeWithdraw(this), new Account(this),       new Horses(this),
-        new HorsesPost(this),     new Roulette(this),      new RoulettePost(this),
-        new Logout(this),         new ResetPassword(this), new ResetPasswordPost(this),
+        new Root(this),
+        new Index(this),
+        new Login(this),
+        new LoginPost(this),
+        new Register(this),
+        new RegisterPost(this),
+        new Games(this),
+        new StripeDeposit(this),
+        new StripeResult(this),
+        new StripeWithdraw(this),
+        new Account(this),
+        new Horses(this),
+        new HorsesPost(this),
+        new Roulette(this),
+        new RoulettePost(this),
+        new Logout(this),
+        new ResetPassword(this),
+        new ResetPasswordPost(this),
+        new Docs(this),
+        new Interfaces(this),
+        new Requirements(this),
+        new Structure(this),
+        new SystemArchitecture(this),
+        new TechStack(this),
+        new Tests(this),
+        new UML(this),
+        new ER(this),
+        new RiskAnalysis(this),
         new StripeWebhook(this)
     };
 
@@ -63,16 +86,22 @@ public class App {
     private MessageDigest passwordHasher;
 
     /**
-     * Initializes the application by setting up the database, Spark, Stripe, and routes.
-     * This method should be called once at the beginning of the application's lifecycle.
+     * The constructor of the App class.
+     * It initializes the password hasher with the SHA-256 algorithm.
      */
-    public void run() {
+    public App() {
         try {
             passwordHasher = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
             logger.error("Failed to obtain SHA-256 hasher!", e);
-            return;
         }
+    }
+
+    /**
+     * Initializes the application by setting up the database, Spark, Stripe, and routes.
+     * This method should be called once at the beginning of the application's lifecycle.
+     */
+    public void run() {
         initializeDatabase();
         initializeSpark();
         initializeStripe();
@@ -82,7 +111,7 @@ public class App {
     /**
      * Initializes the database connection using the environment variables.
      * If the POSTGRES_PASSWORD environment variable is not set, the password will default to an empty string.
-     * The database is initialized by running the "database_init.sql" script.
+     * The tables are created if necessary by running the "database_init.sql" script.
      */
     private void initializeDatabase() {
         var password = System.getenv("POSTGRES_PASSWORD");
@@ -189,6 +218,15 @@ public class App {
             sb.append(String.format("%02x", b));
         }
         return sb.toString();
+    }
+
+    /**
+     * Checks if an email is valid by ensuring it contains an "@" and a "." and is between 5 and 100 characters long.
+     * @param email the email to check
+     * @return true if the email is valid, false otherwise
+     */
+    public boolean checkValidEmail(String email) {
+        return email.contains("@") && email.contains(".") && email.length() >= 5 && email.length() <= 100;
     }
 
     /**

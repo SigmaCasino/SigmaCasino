@@ -1,0 +1,118 @@
+{% extends "templates/base.html" %}
+
+{% block head_extensions %}
+<link rel="stylesheet" href="/css/docs.css">
+{% endblock %}
+
+{% block title %}Sigma Casino - Dokumentacja{% endblock %}
+
+{% block content %}
+
+<div class="container mx-auto mt-10 text-white">
+
+    <!-- HEADER -->
+    <div class="text-6xl font-bold mb-10">
+        ANALIZA RYZYKA
+    </div>
+
+
+    <!-- DOCS -->
+    <div class="container box px-8 py-6 docs mb-20">
+        <table>
+            <thead>
+                <tr>
+                    <th>Ryzyko</th>
+                    <th>Prawdopodobieństwo</th>
+                    <th>Wpływ</th>
+                    <th>Ocena Całkowita</th>
+                    <th>Sposób Reagowania</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Ryzyka związane z technologią</strong></td>
+                </tr>
+                <tr>
+                    <td>Awarie serwerów i infrastruktury</td>
+                    <td>Średnie</td>
+                    <td>Bardzo Duży</td>
+                    <td>Wysokie</td>
+                    <td>Implementacja backupów, monitorowanie infrastruktury.</td>
+                </tr>
+                <tr>
+                    <td>Wyciek danych</td>
+                    <td>Średnie</td>
+                    <td>Bardzo Duży</td>
+                    <td>Wysokie</td>
+                    <td>Szyfrowanie danych, zabezpieczenia aplikacji.</td>
+                </tr>
+                <tr>
+                    <td>Niekompatybilność oprogramowania</td>
+                    <td>Średnie</td>
+                    <td>Duży</td>
+                    <td>Średnie</td>
+                    <td>Testowanie zgodności, aktualizowanie oprogramowania.</td>
+                </tr>
+                <tr>
+                    <td>Utrata lub uszkodzenie kodu źródłowego</td>
+                    <td>Średnie</td>
+                    <td>Duży</td>
+                    <td>Średnie</td>
+                    <td>Regularne kopie zapasowe, GitHub (kontrola wersji).</td>
+                </tr>
+                <tr>
+                    <td><strong>Ryzyka biznesowe</strong></td>
+                </tr>
+                <tr>
+                    <td>Zmiany w przepisach dotyczących hazardu online</td>
+                    <td>Średnie</td>
+                    <td>Duży</td>
+                    <td>Średnie</td>
+                    <td>Monitorowanie zmian przepisów.</td>
+                </tr>
+                <tr>
+                    <td>Problemy z płatnościami</td>
+                    <td>Średnie</td>
+                    <td>Duży</td>
+                    <td>Średnie</td>
+                    <td>Współpraca z operatorami płatności, testowanie systemów.</td>
+                </tr>
+                <tr>
+                    <td><strong>Ryzyka związane z zespołem</strong></td>
+                </tr>
+                <tr>
+                    <td>Brak odpowiednich kompetencji w zespole</td>
+                    <td>Niskie</td>
+                    <td>Średni</td>
+                    <td>Niskie</td>
+                    <td>Czytanie dokumentacji, samodzielne doszkalanie.</td>
+                </tr>
+                <tr>
+                    <td>Problemy z komunikacją wewnątrz zespołu</td>
+                    <td>Niskie</td>
+                    <td>Średni</td>
+                    <td>Niskie</td>
+                    <td>Regularne spotkania, narzędzia komunikacyjne.</td>
+                </tr>
+                <tr>
+                    <td>Opóźnienia w realizacji zadań</td>
+                    <td>Średnie</td>
+                    <td>Średni</td>
+                    <td>Średnie</td>
+                    <td>Zarządzanie projektami, realistyczne terminy.</td>
+                </tr>
+                <tr>
+                    <td>Problemy zdrowotne członków zespołu</td>
+                    <td>Niskie</td>
+                    <td>Średni</td>
+                    <td>Niskie</td>
+                    <td>Elastyczne godziny pracy, opieka zdrowotna.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+{% endblock %}

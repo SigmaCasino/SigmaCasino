@@ -1,0 +1,34 @@
+{% extends "templates/base.html" %}
+
+{% block head_extensions %}
+    <link rel="stylesheet" href="/css/docs.css">
+{% endblock  %}
+
+{% block title %}Sigma Casino - Dokumentacja{% endblock  %}
+
+{% block content %}
+
+    <div class="container mx-auto mt-10 text-white">
+
+        <!-- HEADER -->
+        <div class="text-6xl font-bold mb-10">
+            PROJEKT BAZY DANYCH
+        </div>
+
+
+        <!-- DOCS -->
+        <div class="container box px-8 py-6 docs mb-20">
+            <h2>Kod generujący bazę danych</h2>
+            <pre><code>{{ database_init }}</code></pre>
+
+            <h2>Diagram ER</h2>
+
+            <img src="/images/diagram_er.png" alt="diagram er">
+
+        
+        </div>
+
+    </div>
+
+
+{% endblock %}
