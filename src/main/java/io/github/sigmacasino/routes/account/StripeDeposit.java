@@ -38,6 +38,11 @@ public class StripeDeposit extends PostRoute {
             return;
         }
 
+        if (amount <= 0) {
+            response.redirect("/account/stripe_result?payment_success=false");
+            return;
+        }
+
         SessionCreateParams params =
             SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)

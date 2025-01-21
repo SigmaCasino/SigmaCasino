@@ -90,6 +90,10 @@ public class RoulettePost extends PostRoute {
         var params = parseBodyParams(request);
         String color = params.get("color");
         int stake = Integer.parseInt(params.get("stake"));
+        if (stake < 1) {
+            response.redirect("/account?error=balance");
+            return;
+        }
         Integer user_id = request.session().attribute("user_id");
 
         var query = app.getDatabase().prepareStatement("SELECT balance FROM users WHERE user_id = ?");

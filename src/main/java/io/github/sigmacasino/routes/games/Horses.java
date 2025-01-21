@@ -3,10 +3,10 @@ package io.github.sigmacasino.routes.games;
 import io.github.sigmacasino.App;
 import io.github.sigmacasino.HTMLTemplateRoute;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
-import java.util.List;
 
 /**
  * Handles the "/games/horses" route, fetching horse race data based on a replay ID
@@ -44,29 +44,36 @@ public class Horses extends HTMLTemplateRoute {
     @Override
     public Map<String, Object> populateContext(Request request, Response response) throws SQLException {
         String horses_id = request.queryParams("replay");
-
-        if (horses_id != null) {
-            int horses_id_int = Integer.parseInt(horses_id);
-            var statement = app.getDatabase().prepareStatement("SELECT * FROM horses WHERE horses_id = ?");
-            statement.setInt(1, horses_id_int);
-            var query_result = statement.executeQuery();
-            if (query_result.next()) {
-                return Map.of(
-                    "date",
-                    query_result.getString("date"),
-                    "bet",
-                    query_result.getDouble("bet"),
-                    "guess",
-                    query_result.getInt("guess"),
-                    "times",
-                    List.of((Integer[]) query_result.getArray("times").getArray()),
-                    "bezier_curves",
-                    List.of((Double[]) query_result.getArray("bezier_curves").getArray())
-                );
-            } else {
-                response.redirect(path + "?error=wrong_replay_id");
-            }
+        if (horses_id == null) {
+            return Map.of();
         }
+        int horses_id_int;
+        try {
+            horses_id_int = Integer.parseInt(horses_id);
+        } catch (NumberFormatException e) {
+            response.redirect(path + "?error=wrong_replay_id");
+            return Map.of();
+        }
+
+        var statement = app.getDatabase().prepareStatement("SELECT * FROM horses WHERE horses_id = ?");
+        statement.setInt(1, horses_id_int);
+        var query_result = statement.executeQuery();
+        if (query_result.next()) {
+            return Map.of(
+                "date",
+                query_result.getString("date"),
+                "bet",
+                query_result.getDouble("bet"),
+                "guess",
+                query_result.getInt("guess"),
+                "times",
+                List.of((Integer[]) query_result.getArray("times").getArray()),
+                "bezier_curves",
+                List.of((Double[]) query_result.getArray("bezier_curves").getArray())
+            );
+        }
+
+        response.redirect(path + "?error=wrong_replay_id");
         return Map.of();
     }
 

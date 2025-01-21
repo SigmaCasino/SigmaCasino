@@ -27,28 +27,28 @@
             <div class="flex flex-col items-center">
                 <h3 class="text-2xl font-bold mb-5">Deposit:</h3>
                 <ul class="grid grid-cols-2 *:w-24 gap-2">
-                    <form action="">
+                    <form action="/account/deposit" method="POST">
                         <input type="text" value="deposit" class="hidden" name="action">
                         <input type="number" name="amount" value="10" class="hidden" placeholder="Amount">
                         <button class="button-action-full text-xl px-4 py-2 w-full" type="submit">
                             10 PLN
                         </button>
                     </form>
-                    <form action="">
+                    <form action="/account/deposit" method="POST">
                         <input type="text" value="deposit" class="hidden" name="action">
                         <input type="number" name="amount" value="50" class="hidden" placeholder="Amount">
                         <button class="button-action-full text-xl px-4 py-2 w-full" type="submit">
                             50 PLN
                         </button>
                     </form>
-                    <form action="">
+                    <form action="/account/deposit" method="POST">
                         <input type="text" value="deposit" class="hidden" name="action">
                         <input type="number" name="amount" value="100" class="hidden" placeholder="Amount">
                         <button class="button-action-full text-xl px-4 py-2 w-full" type="submit">
                             100 PLN
                         </button>
                     </form>
-                    <form action="">
+                    <form action="/account/deposit" method="POST">
                         <input type="text" value="deposit" class="hidden" name="action">
                         <input type="number" name="amount" value="200" class="hidden" placeholder="Amount">
                         <button class="button-action-full text-xl px-4 py-2 w-full" type="submit">
@@ -61,28 +61,28 @@
             <div class="flex flex-col items-center">
                 <h3 class="text-2xl font-bold mb-5">Withdraw:</h3>
                 <ul class="grid grid-cols-2 *:w-24 gap-2">
-                    <form action="">
+                    <form action="/account/withdraw" method="POST">
                         <input type="text" value="withdraw" class="hidden" name="action">
                         <input type="number" name="amount" value="10" class="hidden" placeholder="Amount">
                         <button class="button-action text-xl px-4 py-2 w-full" type="submit">
                             10 PLN
                         </button>
                     </form>
-                    <form action="">
+                    <form action="/account/withdraw" method="POST">
                         <input type="text" value="withdraw" class="hidden" name="action">
                         <input type="number" name="amount" value="50" class="hidden" placeholder="Amount">
                         <button class="button-action text-xl px-4 py-2 w-full" type="submit">
                             50 PLN
                         </button>
                     </form>
-                    <form action="">
+                    <form action="/account/withdraw" method="POST">
                         <input type="text" value="withdraw" class="hidden" name="action">
                         <input type="number" name="amount" value="100" class="hidden" placeholder="Amount">
                         <button class="button-action text-xl px-4 py-2 w-full" type="submit">
                             100 PLN
                         </button>
                     </form>
-                    <form action="">
+                    <form action="/account/withdraw" method="POST">
                         <input type="text" value="withdraw" class="hidden" name="action">
                         <input type="number" name="amount" value="200" class="hidden" placeholder="Amount">
                         <button class="button-action text-xl px-4 py-2 w-full" type="submit">
@@ -112,27 +112,26 @@
                 <li class="box pr-4 rounded-[20px] flex justify-between overflow-hidden items-center">
                     <div class="flex gap-5 items-center">
 
-                        {% if transaction.operation == 'deposit' %} 
+                        {% if transaction.operation == 'transaction' %} 
                             <div class="w-32 text-center py-3 bg-green-500 font-semibold">
                                 Deposit
                             </div>
                         {% endif %}
 
-
-                        {% if transaction.operation == 'withdraw' %}
-                            <div class="w-32 text-center py-3 bg-red-500 font-semibold">
-                                Withdraw
-                            </div>
-                        {% endif %}
-
-                        {% if transaction.operation != 'withdraw' && transaction.operation != 'deposit' %} 
+                        {% if transaction.operation == 'roulette' %} 
                             <div class="w-32 text-center py-3 bg-blue-500 font-semibold">
-                                Game
+                                Roulette
                             </div>
+                            <a href="/games/roulette?replay={{ transaction.id }}">
+                                <button class="button-action px-2">Replay</button>
+                            </a>
                         {% endif %}
 
-                        {% if transaction.id %} 
-                            <a href="/games/roulette?replay={{ transaction.id }}">
+                        {% if transaction.operation == 'horses' %} 
+                            <div class="w-32 text-center py-3 bg-blue-500 font-semibold">
+                                Horses
+                            </div>
+                            <a href="/games/horses?replay={{ transaction.id }}">
                                 <button class="button-action px-2">Replay</button>
                             </a>
                         {% endif %}
