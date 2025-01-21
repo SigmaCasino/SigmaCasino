@@ -100,6 +100,15 @@ public class Account extends HTMLTemplateRoute {
 
     @Override
     public Map<String, String> getNotificationDefinitions() {
-        return Map.of("balance", "Your balance is insufficient for this bet.");
+        return Map.of(
+            "balance",
+            "Your balance is insufficient for this bet.",
+            "password_changed",
+            "Password changed successfully.",
+            "payment",
+            "Payment successful. Your balance should be updated shortly.",
+            "payment_failed",
+            "Payment failed. Please contact our support."
+        );
     }
 }

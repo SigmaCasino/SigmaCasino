@@ -22,10 +22,9 @@ public class ResetPassword extends HTMLTemplateRoute {
     @Override
     public Map<String, String> getNotificationDefinitions() {
         return Map.of(
-            "invalid_user",
-            "Invalid user credentials",
-            "registered",
-            "User registered successfully - now use your info to log in"
+            "invalid_password", "The old password is invalid.",
+            "invalid_new_password", "The new password is invalid.",
+            "password_match", "The new passwords do not match."
         );
     }
 

@@ -3,6 +3,7 @@ const gameContainer = document.getElementById('gameContainer');
 const startButton = document.getElementById('startButton');
 const amountInput = document.getElementById("amount-input");
 const clearAmount = document.getElementById("clear-amount");
+const betInput = document.getElementById("bet-input");
 
 
 // horse racing variables
@@ -43,6 +44,7 @@ const removeSelected = () => {
 const selectHorse = (number) => {
     let button = document.getElementById(`button-${number}`);
     button.querySelector('.selected').classList.remove("opacity-0");
+    betInput.value = number;
 }
 
 // Create horse tracks

@@ -41,31 +41,38 @@ public class Roulette extends HTMLTemplateRoute {
      */
     @Override
     public Map<String, Object> populateContext(Request request, Response response) throws SQLException {
-        String roulette_id = request.queryParams("replay");
-
-        if (roulette_id != null) {
-            int horses_id_int = Integer.parseInt(roulette_id);
-            var statement = app.getDatabase().prepareStatement("SELECT * FROM roulette WHERE roulette_id = ?");
-            statement.setInt(1, horses_id_int);
-            var query_result = statement.executeQuery();
-            if (query_result.next()) {
-                String litera = query_result.getString("guess");
-                litera = switch (litera) {
-                    case "b" -> "black";
-                    case "r" -> "red";
-                    case "g" -> "green";
-                    default -> litera;
-                };
-                return Map.of(
-                    "date", query_result.getString("date"),
-                    "bet", query_result.getDouble("bet"),
-                    "guess", litera,
-                    "result", query_result.getInt("result")
-                );
-            } else {
-                response.redirect(path + "?error=wrong_replay_id");
-            }
+        String horses_id = request.queryParams("replay");
+        if (horses_id == null) {
+            return Map.of();
         }
+        int horses_id_int;
+        try {
+            horses_id_int = Integer.parseInt(request.queryParams("replay"));
+        } catch (NumberFormatException e) {
+            response.redirect(path + "?error=wrong_replay_id");
+            return Map.of();
+        }
+        
+        var statement = app.getDatabase().prepareStatement("SELECT * FROM roulette WHERE roulette_id = ?");
+        statement.setInt(1, horses_id_int);
+        var query_result = statement.executeQuery();
+        if (query_result.next()) {
+            String litera = query_result.getString("guess");
+            litera = switch (litera) {
+                case "b" -> "black";
+                case "r" -> "red";
+                case "g" -> "green";
+                default -> litera;
+            };
+            return Map.of(
+                "date", query_result.getString("date"),
+                "bet", query_result.getDouble("bet"),
+                "guess", litera,
+                "result", query_result.getInt("result")
+            );
+        }
+        
+        response.redirect(path + "?error=wrong_replay_id");
         return Map.of();
     }
 

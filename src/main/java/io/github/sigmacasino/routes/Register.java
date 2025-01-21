@@ -39,7 +39,9 @@ public class Register extends HTMLTemplateRoute {
             "password_length",
             "Password must be at least 8 characters",
             "user_exists",
-            "User with that username or email already exists"
+            "User with that username or email already exists",
+            "password_match",
+            "Passwords do not match"
         );
     }
 }

@@ -28,7 +28,9 @@ public abstract class GetRoute extends HTTPRoute {
      */
     @Override
     public final Object handle(Request request, Response response) throws Exception {
-        super.handle(request, response);
+        if ((boolean) super.handle(request, response)) {
+            return "Redirecting to login...";
+        }
         return handleGet(request, response);
     }
 

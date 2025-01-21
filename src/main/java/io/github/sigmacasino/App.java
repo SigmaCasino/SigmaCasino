@@ -64,7 +64,8 @@ public class App {
         new Tests(this),
         new UML(this),
         new ER(this),
-        new RiskAnalysis(this)
+        new RiskAnalysis(this),
+        new StripeWebhook(this)
     };
 
     /**

@@ -14,7 +14,7 @@ $ docker build . -t sigmacasino
 
 - Run with exposed ports:
 ```sh
-$ docker run -e POSTGRES_PASSWORD=<password> -e STRIPE_KEY=<key> -it -p 5432:5432 -p 6969:6969 sigmacasino
+$ docker run -e POSTGRES_PASSWORD=<password> -it -p 5432:5432 -p 6969:6969 sigmacasino
 ```
 
 - Go to http://localhost:6969/ in your browser to try the casino out.
@@ -23,6 +23,17 @@ $ docker run -e POSTGRES_PASSWORD=<password> -e STRIPE_KEY=<key> -it -p 5432:543
 ```sh
 $ psql -U sigmacasino -h localhost -p 5432
 ```
+
+- To test Stripe-based functionality, do the following:
+    - Forward Stripe webhook traffic to your computer:
+    ```sh
+    $ stripe listen --forward-to localhost:6969/webhook/stripe
+    ```
+    - Set more environment variables, preferably using `.env` file: `STRIPE_KEY`, `STRIPE_PRICE_ID`, `STRIPE_WEBHOOK_SECRET` (don't forget `POSTGRES_PASSWORD`).
+    - Start the container with a modified command:
+    ```sh
+    $ docker run --env-file .env -it -p 5432:5432 -p 6969:6969 sigmacasino
+    ```
 
 - You can also configure a Docker volume at `/sigmacasino/db` to make the database persistent.
 
